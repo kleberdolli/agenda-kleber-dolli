@@ -6,17 +6,17 @@
   <title>Contrato Musical – Kleber Dolli</title>
   <style>
     :root {
-      --ink: #172238;
-      --muted: #5c6575;
-      --line: #d8e0ec;
-      --paper: #fffdf8;
-      --deep: #101929;
-      --panel: #162235;
-      --blue: #245278;
-      --steel: #eef3f8;
-      --gold: #c8a465;
+      --ink: #1d1711;
+      --muted: #6f6254;
+      --line: #e3d3ba;
+      --paper: #fff9ee;
+      --deep: #090a0f;
+      --panel: #12141d;
+      --blue: #7b4e28;
+      --steel: #f3eadb;
+      --gold: #d7af52;
       --danger: #8f2f28;
-      --shadow: 0 24px 70px rgba(8, 15, 28, .28);
+      --shadow: 0 24px 70px rgba(0, 0, 0, .36);
     }
 
     * { box-sizing: border-box; }
@@ -27,8 +27,9 @@
       color: var(--ink);
       font-family: Arial, Helvetica, sans-serif;
       background:
-        linear-gradient(135deg, rgba(13, 20, 33, .96), rgba(34, 57, 82, .90) 46%, rgba(11, 16, 26, .98)),
-        url("assets/kleber-dolli-bg.jpeg") center top / 520px auto fixed no-repeat;
+        linear-gradient(90deg, rgba(9, 10, 15, .96), rgba(58, 36, 23, .88) 48%, rgba(9, 10, 15, .94)),
+        linear-gradient(0deg, #090a0f, rgba(9, 10, 15, .18) 44%),
+        url("assets/kleber-dolli-bg.jpeg") center 14% / cover fixed no-repeat;
     }
 
     body::before {
@@ -37,10 +38,10 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 16% 18%, rgba(200, 164, 101, .18), transparent 28%),
-        radial-gradient(circle at 82% 12%, rgba(76, 120, 156, .24), transparent 30%),
-        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(255,255,255,.035) 1px, transparent 1px);
+        radial-gradient(circle at 16% 18%, rgba(215, 175, 82, .16), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(151, 35, 25, .18), transparent 30%),
+        linear-gradient(90deg, rgba(247,244,237,.035) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(247,244,237,.035) 1px, transparent 1px);
       background-size: auto, auto, 58px 58px, 58px 58px;
     }
 
@@ -168,7 +169,7 @@
       top: 88px;
       overflow: hidden;
       border-radius: 18px;
-      background: rgba(16, 25, 41, .84);
+      background: rgba(18, 20, 29, .88);
       border: 1px solid rgba(255,255,255,.14);
       box-shadow: var(--shadow);
       color: white;
@@ -245,7 +246,7 @@
       color: white;
       padding: 34px 42px 30px;
       background:
-        linear-gradient(135deg, rgba(16, 25, 41, .96), rgba(36, 82, 120, .88)),
+        linear-gradient(135deg, rgba(18, 20, 29, .96), rgba(91, 55, 33, .88)),
         url("assets/kleber-dolli-bg.jpeg") right center / 360px auto no-repeat;
     }
 
@@ -253,7 +254,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(90deg, rgba(16,25,41,.98), rgba(16,25,41,.78), rgba(16,25,41,.42));
+      background: linear-gradient(90deg, rgba(18,20,29,.98), rgba(58,36,23,.78), rgba(18,20,29,.42));
     }
 
     .doc-head > * {
@@ -305,7 +306,7 @@
       width: 8px;
       height: 24px;
       border-radius: 99px;
-      background: linear-gradient(180deg, var(--blue), var(--gold));
+      background: linear-gradient(180deg, #7b4e28, var(--gold));
     }
 
     .grid {
@@ -353,7 +354,7 @@
     input:focus,
     textarea:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(36, 82, 120, .12);
+      box-shadow: 0 0 0 4px rgba(215, 175, 82, .16);
     }
 
     .contract-text {
