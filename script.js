@@ -125,6 +125,10 @@ bookingForm.addEventListener("submit", async (event) => {
   state.events.push(booking);
   saveState();
   const bookingNotification = await notifyTelegram("pre-reserva", booking);
+bookingForm.reset();
+formMessage.textContent = bookingNotification.ok
+  ? "Pré-reserva enviada. Ela já aparece como data em análise."
+  : `Pré-reserva salva, mas não foi possível notificar: ${bookingNotification.message}`;
   bookingForm.reset();
   formMessage.textContent = bookingNotification.ok
     ? "Pré-reserva enviada. Ela já aparece como data em análise."
