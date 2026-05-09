@@ -85,6 +85,8 @@ const requestList = document.querySelector("#requestList");
 const bookingForm = document.querySelector("#bookingForm");
 const quoteForm = document.querySelector("#quoteForm");
 const shareShowButton = document.querySelector("#shareShowButton");
+const musicToggle = document.querySelector("#musicToggle");
+const siteMusic = document.querySelector("#siteMusic");
 const formMessage = document.querySelector("#formMessage");
 const quoteMessage = document.querySelector("#quoteMessage");
 const adminLoginForm = document.querySelector("#adminLoginForm");
@@ -182,6 +184,7 @@ document.querySelector("#clearQuoteForm")?.addEventListener("click", clearQuoteF
 document.querySelector("#clearBookingForm")?.addEventListener("click", clearBookingFormHandler);
 document.querySelector("#adminLogout")?.addEventListener("click", adminLogout);
 shareShowButton?.addEventListener("click", shareShowLink);
+musicToggle?.addEventListener("click", toggleSiteMusic);
 adminLoginForm?.addEventListener("submit", handleAdminLogin);
 adminDateForm?.addEventListener("submit", handleAdminDateSave);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
@@ -210,6 +213,32 @@ async function shareShowLink() {
     shareShowButton.textContent = "Copie o link";
     window.setTimeout(() => {
       shareShowButton.textContent = "Indique Kleber Dolli";
+    }, 2200);
+  }
+}
+
+async function toggleSiteMusic() {
+  if (!siteMusic || !musicToggle) return;
+
+  try {
+    siteMusic.volume = 0.55;
+
+    if (siteMusic.paused) {
+      await siteMusic.play();
+      musicToggle.textContent = "Pausar música";
+      musicToggle.classList.add("is-playing");
+      musicToggle.setAttribute("aria-pressed", "true");
+      return;
+    }
+
+    siteMusic.pause();
+    musicToggle.textContent = "Tocar música";
+    musicToggle.classList.remove("is-playing");
+    musicToggle.setAttribute("aria-pressed", "false");
+  } catch {
+    musicToggle.textContent = "Toque novamente";
+    window.setTimeout(() => {
+      musicToggle.textContent = siteMusic.paused ? "Tocar música" : "Pausar música";
     }, 2200);
   }
 }
