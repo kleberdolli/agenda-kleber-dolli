@@ -1,4 +1,6 @@
 const storageKey = "agenda-musical-demo";
+const adminSessionKey = "agenda-musical-admin";
+const adminPassword = "junho2026";
 
 const initialEvents = [
   {
@@ -80,6 +82,10 @@ const bookingForm = document.querySelector("#bookingForm");
 const quoteForm = document.querySelector("#quoteForm");
 const formMessage = document.querySelector("#formMessage");
 const quoteMessage = document.querySelector("#quoteMessage");
+const adminLoginForm = document.querySelector("#adminLoginForm");
+const adminPanel = document.querySelector("#adminPanel");
+const adminMessage = document.querySelector("#adminMessage");
+const adminDateForm = document.querySelector("#adminDateForm");
 const contractInputs = [
   "contractClient",
   "contractDocument",
@@ -166,8 +172,76 @@ document.querySelector("#printContract")?.addEventListener("click", printContrac
 document.querySelector("#clearContract")?.addEventListener("click", clearContractForm);
 document.querySelector("#clearQuoteForm")?.addEventListener("click", clearQuoteFormHandler);
 document.querySelector("#clearBookingForm")?.addEventListener("click", clearBookingFormHandler);
+document.querySelector("#adminLogout")?.addEventListener("click", adminLogout);
+adminLoginForm?.addEventListener("submit", handleAdminLogin);
+adminDateForm?.addEventListener("submit", handleAdminDateSave);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
+
+function isAdminLogged() {
+  return localStorage.getItem(adminSessionKey) === "yes";
+}
+
+function renderAdminState() {
+  if (!adminLoginForm || !adminPanel) return;
+  const logged = isAdminLogged();
+  adminLoginForm.classList.toggle("hidden", logged);
+  adminPanel.classList.toggle("hidden", !logged);
+}
+
+function handleAdminLogin(event) {
+  event.preventDefault();
+  const password = document.querySelector("#adminPassword")?.value || "";
+
+  if (password !== adminPassword) {
+    if (adminMessage) adminMessage.textContent = "Senha incorreta.";
+    return;
+  }
+
+  localStorage.setItem(adminSessionKey, "yes");
+  if (adminMessage) adminMessage.textContent = "";
+  adminLoginForm.reset();
+  render();
+}
+
+function adminLogout() {
+  localStorage.removeItem(adminSessionKey);
+  render();
+}
+
+function handleAdminDateSave(event) {
+  event.preventDefault();
+
+  const date = document.querySelector("#adminDate").value;
+  const period = document.querySelector("#adminPeriod").value;
+  const status = document.querySelector("#adminStatus").value;
+
+  state.events = state.events.filter((item) => !(item.date === date && item.period === period));
+
+  if (status !== "available") {
+    const statusText = status === "confirmed" ? "Reserva confirmada" : "Data em análise";
+    const publicNote = document.querySelector("#adminNote").value.trim() ||
+      (status === "confirmed"
+        ? "Data fechada. Endereço completo tratado em particular."
+        : "Pré-reserva ativa. Aguardando confirmação da equipe.");
+
+    state.events.push({
+      id: createId(),
+      date,
+      period,
+      city: document.querySelector("#adminCity").value.trim() || "Cidade a confirmar",
+      venue: document.querySelector("#adminVenue").value.trim() || "Local reservado",
+      title: document.querySelector("#adminTitle").value.trim() || statusText,
+      status,
+      time: document.querySelector("#adminTime").value.trim() || periodLabels[period],
+      publicNote,
+    });
+  }
+
+  saveState();
+  adminDateForm.reset();
+  render();
+}
 function loadState() {
   const saved = localStorage.getItem(storageKey);
   if (!saved) return { events: [...initialEvents], quotes: [...initialQuotes] };
@@ -203,6 +277,7 @@ function render() {
     state.quotes
   );
   if (document.querySelector("#contractPreview")) renderContract();
+  renderAdminState();
 }
 
 function renderCounters(events) {
@@ -564,6 +639,7 @@ function clearContractForm() {
     input.value = "";
   });
   if (document.querySelector("#contractPreview")) renderContract();
+  renderAdminState();
 }
 
 function clearQuoteFormHandler() {

@@ -634,6 +634,52 @@ textarea:focus {
   gap: 16px;
 }
 
+
+.hidden {
+  display: none !important;
+}
+
+.admin-section {
+  background:
+    linear-gradient(180deg, rgba(215, 175, 82, 0.08), rgba(255, 255, 255, 0)),
+    #0b0d12;
+  border-top: 1px solid var(--line);
+}
+
+.admin-login {
+  display: grid;
+  grid-template-columns: minmax(220px, 420px) auto;
+  align-items: end;
+  gap: 14px;
+}
+
+.admin-panel {
+  display: grid;
+  gap: 22px;
+}
+
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid rgba(241, 214, 138, 0.28);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--gold-2);
+  background: rgba(215, 175, 82, 0.08);
+}
+
+.admin-date-form {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.admin-subheading {
+  margin: 8px 0 0;
+}
 .contract-section {
   background:
     linear-gradient(180deg, rgba(247, 242, 232, 0.1), rgba(255, 255, 255, 0)),
@@ -810,7 +856,8 @@ textarea:focus {
     flex-direction: column;
   }
 
-  .contract-form {
+  .contract-form,
+  .admin-login {
     grid-template-columns: 1fr;
   }
 
