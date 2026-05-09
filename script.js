@@ -162,13 +162,6 @@ quoteForm.addEventListener("submit", async (event) => {
   render();
 });
 
-document.querySelector("#resetDemo").addEventListener("click", () => {
-  state = { events: [...initialEvents], quotes: [...initialQuotes] };
-  saveState();
-  formMessage.textContent = "";
-  quoteMessage.textContent = "";
-  render();
-});
 
 document.querySelector("#downloadContract").addEventListener("click", downloadContractPDF);
 document.querySelector("#printContract").addEventListener("click", printContract);
@@ -323,6 +316,7 @@ function createPeriodSlot(event) {
 }
 
 function renderRequests(requests, quotes) {
+  if (!requestList) return;
   if (!requests.length && !quotes.length) {
     requestList.innerHTML =
       '<p class="empty-state">Nenhuma solicitação nova por enquanto.</p>';
