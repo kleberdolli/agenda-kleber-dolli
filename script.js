@@ -869,3 +869,22 @@ function toDateInputValue(date) {
 
 render();
 loadAgendaFromSupabase();
+
+// Background music
+const bgMusic = document.getElementById("bgMusic");
+const soundToggle = document.getElementById("soundToggle");
+
+if (soundToggle && bgMusic) {
+  soundToggle.addEventListener("click", () => {
+    if (bgMusic.paused) {
+      bgMusic.play().then(() => {
+        soundToggle.textContent = "🔇 Pausar música";
+        soundToggle.setAttribute("aria-pressed", "true");
+      }).catch(() => {});
+    } else {
+      bgMusic.pause();
+      soundToggle.textContent = "🎵 Ativar música";
+      soundToggle.setAttribute("aria-pressed", "false");
+    }
+  });
+}
