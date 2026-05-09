@@ -582,7 +582,7 @@ function clearBookingFormHandler() {
 async function toggleMusic() {
   const button = document.querySelector("#soundToggle");
 
-  if (!bgMusic) return;
+  if (!bgMusic || !button) return;
 
   if (musicEnabled) {
     bgMusic.pause();
@@ -592,15 +592,20 @@ async function toggleMusic() {
     return;
   }
 
-  bgMusic.volume = 0.28;
+  button.textContent = "Carregando música...";
+  bgMusic.volume = 0.32;
+  bgMusic.muted = false;
 
   try {
+    bgMusic.load();
     await bgMusic.play();
     musicEnabled = true;
     button.textContent = "Mutar música";
     button.setAttribute("aria-pressed", "true");
-  } catch {
-    button.textContent = "Adicione a música";
+  } catch (error) {
+    console.warn("Não foi possível tocar a música.", error);
+    musicEnabled = false;
+    button.textContent = "Tentar música novamente";
     button.setAttribute("aria-pressed", "false");
   }
 }
