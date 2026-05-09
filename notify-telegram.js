@@ -58,7 +58,8 @@ module.exports = async function handler(request, response) {
     }
 
     return response.status(200).json({ ok: true });
-  } catch {
+} catch (err) {
+  console.error("[notify-telegram] erro inesperado:", err);
     return response.status(500).json({ error: "Falha ao enviar notificação" });
   }
 };
