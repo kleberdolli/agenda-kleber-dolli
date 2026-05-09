@@ -133,7 +133,7 @@ textarea {
   background:
     linear-gradient(90deg, rgba(9, 10, 15, 0.96), rgba(9, 10, 15, 0.68) 48%, rgba(9, 10, 15, 0.24)),
     linear-gradient(0deg, var(--bg), rgba(9, 10, 15, 0.08) 42%),
-    url("assets/kleber-dolli-banner.jpeg") center 20% / cover;
+    url("assets/kleber-dolli-bg.jpeg") center 30% / cover;
 }
 
 .hero-content {
@@ -556,12 +556,12 @@ h2 {
 }
 
 .heading-note img {
-  width: 150px;
-  height: 78px;
+  width: 110px;
+  height: 110px;
   border: 2px solid rgba(241, 214, 138, 0.55);
   border-radius: 8px;
   object-fit: cover;
-  object-position: center;
+  object-position: center top;
 }
 
 .heading-note p {
