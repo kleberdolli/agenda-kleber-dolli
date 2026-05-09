@@ -568,6 +568,27 @@ h2 {
   margin: 0;
 }
 
+
+.telegram-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  color: #7dc8ff;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.telegram-note span {
+  display: inline-grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border-radius: 50%;
+  color: #07131d;
+  background: #7dc8ff;
+  font-size: 15px;
+}
 .booking-form {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
