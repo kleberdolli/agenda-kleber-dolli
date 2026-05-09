@@ -101,20 +101,6 @@ textarea {
   background: rgba(255, 255, 255, 0.08);
 }
 
-.sound-toggle {
-  position: absolute;
-  right: clamp(18px, 4vw, 56px);
-  bottom: 26px;
-  min-height: 42px;
-  border: 1px solid rgba(241, 214, 138, 0.45);
-  border-radius: 999px;
-  color: var(--gold-2);
-  background: rgba(9, 10, 15, 0.72);
-  padding: 0 16px;
-  cursor: pointer;
-  font-weight: 800;
-  backdrop-filter: blur(14px);
-}
 
 .hero {
   position: relative;
@@ -805,11 +791,6 @@ textarea:focus {
   .hero {
     min-height: 700px;
     padding-top: 72px;
-  }
-
-  .sound-toggle {
-    left: 20px;
-    right: auto;
   }
 
   .status-strip {

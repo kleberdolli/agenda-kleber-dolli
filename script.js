@@ -78,7 +78,6 @@ const eventGrid = document.querySelector("#eventGrid");
 const requestList = document.querySelector("#requestList");
 const bookingForm = document.querySelector("#bookingForm");
 const quoteForm = document.querySelector("#quoteForm");
-const bgMusic = document.querySelector("#bgMusic");
 const formMessage = document.querySelector("#formMessage");
 const quoteMessage = document.querySelector("#quoteMessage");
 const contractInputs = [
@@ -167,7 +166,6 @@ document.querySelector("#printContract")?.addEventListener("click", printContrac
 document.querySelector("#clearContract")?.addEventListener("click", clearContractForm);
 document.querySelector("#clearQuoteForm")?.addEventListener("click", clearQuoteFormHandler);
 document.querySelector("#clearBookingForm")?.addEventListener("click", clearBookingFormHandler);
-document.querySelector("#soundToggle")?.addEventListener("click", toggleMusic);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
 function loadState() {
@@ -578,32 +576,6 @@ function clearBookingFormHandler() {
   formMessage.textContent = "";
 }
 
-async function toggleMusic() {
-  const button = document.querySelector("#soundToggle");
-
-  if (!bgMusic || !button) return;
-
-  if (!bgMusic.paused) {
-    bgMusic.pause();
-    button.textContent = "Ativar música";
-    button.setAttribute("aria-pressed", "false");
-    return;
-  }
-
-  button.textContent = "Carregando música...";
-  bgMusic.volume = 0.32;
-  bgMusic.muted = false;
-
-  try {
-    await bgMusic.play();
-    button.textContent = "Mutar música";
-    button.setAttribute("aria-pressed", "true");
-  } catch (error) {
-    console.warn("Não foi possível tocar a música.", error);
-    button.textContent = "Tentar música novamente";
-    button.setAttribute("aria-pressed", "false");
-  }
-}
 
 function parseDate(value) {
   const [year, month, day] = value.split("-");
