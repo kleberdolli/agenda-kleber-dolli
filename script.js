@@ -188,9 +188,7 @@ contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input"
 
 
 async function shareShowLink() {
-  const shareUrl = window.location.origin && window.location.origin !== "null"
-    ? window.location.origin
-    : window.location.href.split("#")[0];
+  const shareUrl = "https://agenda-kleber-dolli.vercel.app/";
   const shareData = {
     title: "Indique o show de Kleber Dolli",
     text: "Indique o show de Kleber Dolli!",
@@ -206,12 +204,12 @@ async function shareShowLink() {
     await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
     shareShowButton.textContent = "Link copiado";
     window.setTimeout(() => {
-      shareShowButton.textContent = "Enviar link";
+      shareShowButton.textContent = "Indique Kleber Dolli";
     }, 2200);
   } catch {
     shareShowButton.textContent = "Copie o link";
     window.setTimeout(() => {
-      shareShowButton.textContent = "Enviar link";
+      shareShowButton.textContent = "Indique Kleber Dolli";
     }, 2200);
   }
 }
