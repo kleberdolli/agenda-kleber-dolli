@@ -152,11 +152,11 @@ quoteForm.addEventListener("submit", async (event) => {
 
   state.quotes.push(quote);
   saveState();
-  const notified = await notifyTelegram("orcamento", quote);
+  const notification = await notifyTelegram("orcamento", quote);
   quoteForm.reset();
-  quoteMessage.textContent = notified
+  quoteMessage.textContent = notification.ok
     ? "Solicitação de orçamento recebida e enviada para o Telegram."
-    : "Solicitação recebida. O aviso no Telegram será ativado quando o site estiver publicado no Vercel.";
+    : notification.message;
   render();
 });
 
@@ -436,7 +436,10 @@ function removeQuote(id) {
 
 async function notifyTelegram(type, payload) {
   if (window.location.protocol === "file:") {
-    return false;
+    return {
+      ok: false,
+      message: "Solicitação recebida. Para enviar ao Telegram, teste pelo site publicado no Vercel.",
+    };
   }
 
   try {
@@ -445,12 +448,21 @@ async function notifyTelegram(type, payload) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type, payload }),
     });
+    const data = await response.json().catch(() => ({}));
 
-    if (!response.ok) throw new Error("Telegram indisponível");
-    return true;
+    if (!response.ok) {
+      return {
+        ok: false,
+        message: data.error || "Não foi possível enviar a notificação para o Telegram.",
+      };
+    }
+
+    return { ok: true, message: "Enviado" };
   } catch {
-    console.info("Notificação do Telegram será ativada quando o projeto estiver no Vercel.");
-    return false;
+    return {
+      ok: false,
+      message: "Solicitação recebida, mas o Telegram não respondeu. Confira o deploy no Vercel.",
+    };
   }
 }
 
