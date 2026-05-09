@@ -1,6 +1,9 @@
 const storageKey = "agenda-musical-demo";
 const adminSessionKey = "agenda-musical-admin";
 const adminPassword = "junho2026";
+const supabaseUrl = "https://amsrqfqdpghenihjcgri.supabase.co";
+const supabaseAnonKey = "sb_publishable_NovDOohn4nA4eu8r8VMmXw_E_qXuaNb";
+const supabaseTable = "agenda_events";
 
 const initialEvents = [
   {
@@ -75,6 +78,7 @@ const periodLabels = {
 
 let state = loadState();
 let activeFilter = "all";
+let usingSupabase = false;
 
 const eventGrid = document.querySelector("#eventGrid");
 const requestList = document.querySelector("#requestList");
@@ -128,6 +132,7 @@ bookingForm.addEventListener("submit", async (event) => {
 
   state.events.push(booking);
   saveState();
+  await saveEventToSupabase(booking);
   const bookingNotification = await notifyTelegram("pre-reserva", booking);
   bookingForm.reset();
   formMessage.textContent = bookingNotification.ok
@@ -178,6 +183,111 @@ adminDateForm?.addEventListener("submit", handleAdminDateSave);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
 
+
+async function supabaseRequest(path, options = {}) {
+  const response = await fetch(`${supabaseUrl}/rest/v1/${path}`, {
+    ...options,
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${supabaseAnonKey}`,
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+      ...(options.headers || {}),
+    },
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || "Falha no Supabase");
+  }
+
+  if (response.status === 204) return null;
+  return response.json();
+}
+
+function fromSupabase(row) {
+  return {
+    id: row.id,
+    date: row.date,
+    period: row.period,
+    status: row.status,
+    title: row.title || (row.status === "confirmed" ? "Reserva confirmada" : "Data em análise"),
+    city: row.city || "Cidade a confirmar",
+    venue: row.venue || "Local reservado",
+    time: row.time || periodLabels[row.period],
+    publicNote: row.public_note || "",
+    requester: row.requester || "",
+    phone: row.phone || "",
+    notes: row.notes || "",
+  };
+}
+
+function toSupabase(event) {
+  return {
+    date: event.date,
+    period: event.period,
+    status: event.status,
+    title: event.title || null,
+    city: event.city || null,
+    venue: event.venue || null,
+    time: event.time || null,
+    public_note: event.publicNote || event.public_note || null,
+    requester: event.requester || null,
+    phone: event.phone || null,
+    notes: event.notes || null,
+    updated_at: new Date().toISOString(),
+  };
+}
+
+async function loadAgendaFromSupabase() {
+  try {
+    const rows = await supabaseRequest(`${supabaseTable}?select=*&date=gte.2026-06-01&date=lte.2026-06-30&order=date.asc,period.asc`, {
+      method: "GET",
+    });
+    usingSupabase = true;
+    state.events = rows.map(fromSupabase);
+    saveState();
+    render();
+  } catch (error) {
+    usingSupabase = false;
+    console.warn("Agenda online indisponível. Usando dados locais.", error);
+  }
+}
+
+async function saveEventToSupabase(event) {
+  try {
+    await supabaseRequest(`${supabaseTable}?on_conflict=date,period`, {
+      method: "POST",
+      headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+      body: JSON.stringify(toSupabase(event)),
+    });
+    usingSupabase = true;
+  } catch (error) {
+    console.warn("Não foi possível salvar no Supabase.", error);
+  }
+}
+
+async function deleteEventFromSupabase(date, period) {
+  try {
+    await supabaseRequest(`${supabaseTable}?date=eq.${encodeURIComponent(date)}&period=eq.${encodeURIComponent(period)}`, {
+      method: "DELETE",
+      headers: { Prefer: "return=minimal" },
+    });
+    usingSupabase = true;
+  } catch (error) {
+    console.warn("Não foi possível liberar a data no Supabase.", error);
+  }
+}
+
+async function saveAdminDateToSupabase(date, period, status) {
+  if (status === "available") {
+    await deleteEventFromSupabase(date, period);
+    return;
+  }
+
+  const event = state.events.find((item) => item.date === date && item.period === period);
+  if (event) await saveEventToSupabase(event);
+}
 function isAdminLogged() {
   return localStorage.getItem(adminSessionKey) === "yes";
 }
@@ -209,7 +319,7 @@ function adminLogout() {
   render();
 }
 
-function handleAdminDateSave(event) {
+async function handleAdminDateSave(event) {
   event.preventDefault();
 
   const date = document.querySelector("#adminDate").value;
@@ -239,6 +349,7 @@ function handleAdminDateSave(event) {
   }
 
   saveState();
+  await saveAdminDateToSupabase(date, period, status);
   adminDateForm.reset();
   render();
 }
@@ -688,3 +799,4 @@ function toDateInputValue(date) {
 }
 
 render();
+loadAgendaFromSupabase();
