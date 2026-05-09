@@ -133,7 +133,7 @@ textarea {
   background:
     linear-gradient(90deg, rgba(9, 10, 15, 0.96), rgba(9, 10, 15, 0.68) 48%, rgba(9, 10, 15, 0.24)),
     linear-gradient(0deg, var(--bg), rgba(9, 10, 15, 0.08) 42%),
-    url("assets/kleber-dolli-bg.jpeg") center 30% / cover;
+    url("assets/kleber-dolli-bg.jpeg") center 14% / cover;
 }
 
 .hero-content {
