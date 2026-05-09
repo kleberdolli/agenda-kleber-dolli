@@ -923,9 +923,11 @@ textarea:focus {
 
 @media (max-width: 680px) {
   .topbar {
-    position: static;
+    position: sticky;
     align-items: stretch;
     flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px 10px;
   }
 
   .brand {
@@ -975,10 +977,18 @@ textarea:focus {
     width: 100%;
     justify-content: flex-start;
     overflow-x: auto;
-    padding: 8px;
+    padding: 7px;
+    border-radius: 18px;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav a {
+    flex: 0 0 auto;
+    padding: 11px 15px;
     white-space: nowrap;
   }
 
