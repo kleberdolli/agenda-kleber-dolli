@@ -198,7 +198,8 @@ function createId() {
 function render() {
   const sortedEvents = [...state.events].sort((a, b) => a.date.localeCompare(b.date));
 
-  renderCounters(sortedEvents);
+  const calendarEvents = sortedEvents.filter((event) => isInJuneAgenda(event.date));
+  renderCounters(calendarEvents);
   renderEvents(sortedEvents);
   renderRequests(
     sortedEvents.filter((event) => event.status === "pending" && event.requester),
@@ -214,7 +215,16 @@ function renderCounters(events) {
 }
 
 function countByStatus(events, status) {
+  if (status === "available") {
+    const occupied = events.filter((event) => event.status !== "available").length;
+    return Math.max(60 - occupied, 0);
+  }
+
   return events.filter((event) => event.status === status).length;
+}
+
+function isInJuneAgenda(value) {
+  return /^2026-06-(0[1-9]|[12][0-9]|30)$/.test(value || "");
 }
 
 function renderEvents(events) {
@@ -237,12 +247,10 @@ function renderEvents(events) {
 }
 
 function buildCalendarDays(events) {
-  const start = startOfToday();
   const days = [];
 
-  for (let index = 0; index < 30; index += 1) {
-    const date = new Date(start);
-    date.setDate(start.getDate() + index);
+  for (let dayNumber = 1; dayNumber <= 30; dayNumber += 1) {
+    const date = new Date(2026, 5, dayNumber);
     const dateKey = toDateInputValue(date);
     const slots = ["tarde", "noite"].map((period) => {
       const event = events.find((item) => item.date === dateKey && item.period === period);
@@ -623,10 +631,6 @@ function formatWeekday(value) {
   return date.toLocaleDateString("pt-BR", { weekday: "short" }).replace(".", "");
 }
 
-function startOfToday() {
-  const today = new Date();
-  return new Date(today.getFullYear(), today.getMonth(), today.getDate());
-}
 
 function toDateInputValue(date) {
   const year = date.getFullYear();
