@@ -163,6 +163,31 @@ h1 {
   margin-bottom: 22px;
 }
 
+.junino-title {
+  display: inline-block;
+  color: #ffe2a0;
+  text-shadow:
+    0 2px 0 #9f1717,
+    0 6px 22px rgba(159, 23, 23, 0.52);
+  background:
+    linear-gradient(90deg, #ffe2a0, #ffffff, #ffd05c),
+    repeating-linear-gradient(135deg, #b81717 0 9px, #f0c24f 9px 18px, #146f55 18px 27px);
+  background-clip: text;
+  -webkit-background-clip: text;
+  position: relative;
+}
+
+.junino-title::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: -8px;
+  height: 6px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(90deg, #b81717 0 16px, #f0c24f 16px 32px, #146f55 32px 48px);
+}
+
 h2 {
   font-size: clamp(28px, 4vw, 44px);
   line-height: 1.05;
