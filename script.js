@@ -73,7 +73,6 @@ const periodLabels = {
 
 let state = loadState();
 let activeFilter = "all";
-let musicEnabled = false;
 
 const eventGrid = document.querySelector("#eventGrid");
 const requestList = document.querySelector("#requestList");
@@ -584,9 +583,8 @@ async function toggleMusic() {
 
   if (!bgMusic || !button) return;
 
-  if (musicEnabled) {
+  if (!bgMusic.paused) {
     bgMusic.pause();
-    musicEnabled = false;
     button.textContent = "Ativar música";
     button.setAttribute("aria-pressed", "false");
     return;
@@ -597,14 +595,11 @@ async function toggleMusic() {
   bgMusic.muted = false;
 
   try {
-    bgMusic.load();
     await bgMusic.play();
-    musicEnabled = true;
     button.textContent = "Mutar música";
     button.setAttribute("aria-pressed", "true");
   } catch (error) {
     console.warn("Não foi possível tocar a música.", error);
-    musicEnabled = false;
     button.textContent = "Tentar música novamente";
     button.setAttribute("aria-pressed", "false");
   }
