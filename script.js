@@ -1,6 +1,6 @@
 const storageKey = "agenda-musical-demo";
 const adminSessionKey = "agenda-musical-admin";
-const adminPassword = "junho2026";
+const adminPassword = "Doll1Pu9";
 const supabaseUrl = "https://amsrqfqdpghenihjcgri.supabase.co";
 const supabaseAnonKey = "sb_publishable_NovDOohn4nA4eu8r8VMmXw_E_qXuaNb";
 const supabaseTable = "agenda_events";
