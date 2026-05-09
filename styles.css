@@ -934,9 +934,24 @@ textarea:focus {
   }
 
   .topbar-actions {
-    order: 2;
-    width: 100%;
+    position: fixed;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    z-index: 80;
+    order: 4;
+    width: auto;
     flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8px;
+    border: 1px solid rgba(241, 214, 138, 0.18);
+    border-radius: 16px;
+    background: rgba(9, 10, 15, 0.9);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+      0 16px 42px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(215, 175, 82, 0.18);
+    backdrop-filter: blur(16px);
   }
 
   .music-button,
@@ -945,8 +960,18 @@ textarea:focus {
     width: 100%;
   }
 
+  .music-button {
+    order: 2;
+    min-height: 52px;
+  }
+
+  .share-show-button {
+    order: 1;
+    min-height: 52px;
+  }
+
   .nav {
-    order: 3;
+    order: 2;
     width: 100%;
     justify-content: flex-start;
     overflow-x: auto;
