@@ -1,9 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contrato Musical – Kleber Dolli</title>
+  <title>Contrato Musical - Kleber Dolli</title>
   <style>
     :root {
       --ink: #1d1711;
@@ -71,6 +71,8 @@
       gap: 12px;
       color: white;
       min-width: 0;
+      flex: 1 1 auto;
+      flex-wrap: wrap;
     }
 
     .mark {
@@ -110,8 +112,10 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       min-height: 46px;
       margin-left: clamp(8px, 1.5vw, 18px);
+      flex: 0 0 auto;
       color: #f1d68a;
       font-size: 15px;
       font-weight: 900;
@@ -469,6 +473,8 @@
 
       .status {
         min-width: 0;
+      flex: 1 1 auto;
+      flex-wrap: wrap;
       }
 
       .doc-head,
@@ -556,7 +562,7 @@
           <strong>Contrato Musical Online</strong>
           <span>Campos em branco para preenchimento e impressão</span>
         </div>
-        <a class="back-link" href="index.html">← Voltar à agenda</a>
+        <a class="back-link" href="index.html?v=novo"><span aria-hidden="true">&larr;</span> Voltar &agrave; agenda</a>
       </div>
 
       <div class="actions">
@@ -772,3 +778,7 @@
   </script>
 </body>
 </html>
+
+
+
+
