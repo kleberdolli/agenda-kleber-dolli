@@ -133,7 +133,7 @@ textarea {
   background:
     linear-gradient(90deg, rgba(9, 10, 15, 0.96), rgba(9, 10, 15, 0.68) 48%, rgba(9, 10, 15, 0.24)),
     linear-gradient(0deg, var(--bg), rgba(9, 10, 15, 0.08) 42%),
-    url("assets/kleber-dolli-bg.jpeg") center 36% / cover;
+    url("assets/kleber-dolli-banner.jpeg") center 20% / cover;
 }
 
 .hero-content {
@@ -594,6 +594,11 @@ textarea {
   outline: none;
 }
 
+select option {
+  background: #1a1d28;
+  color: #f7f4ed;
+}
+
 textarea {
   resize: vertical;
 }
@@ -690,6 +695,46 @@ textarea:focus {
   border-radius: 8px;
   color: var(--muted);
   padding: 28px;
+}
+
+.contract-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media print {
+  .topbar,
+  .hero,
+  .status-strip,
+  #agenda,
+  #orcamento,
+  #solicitar,
+  #admin,
+  .contract-form,
+  .footer,
+  .contract-preview h3 {
+    display: none !important;
+  }
+
+  #contrato {
+    padding: 0;
+  }
+
+  .contract-layout {
+    display: block;
+  }
+
+  .contract-preview {
+    border: none;
+    box-shadow: none;
+    background: white;
+    color: black;
+  }
+
+  .contract-preview pre {
+    color: black;
+  }
 }
 
 .footer {

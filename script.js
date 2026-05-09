@@ -170,7 +170,11 @@ document.querySelector("#resetDemo").addEventListener("click", () => {
   render();
 });
 
-document.querySelector("#downloadContract").addEventListener("click", downloadContract);
+document.querySelector("#downloadContract").addEventListener("click", downloadContractPDF);
+document.querySelector("#printContract").addEventListener("click", printContract);
+document.querySelector("#clearContract").addEventListener("click", clearContractForm);
+document.querySelector("#clearQuoteForm").addEventListener("click", clearQuoteFormHandler);
+document.querySelector("#clearBookingForm").addEventListener("click", clearBookingFormHandler);
 document.querySelector("#soundToggle").addEventListener("click", toggleMusic);
 contractInputs.forEach((input) => input.addEventListener("input", renderContract));
 
@@ -504,16 +508,71 @@ function renderContract() {
   document.querySelector("#contractPreview").textContent = getContractText();
 }
 
-function downloadContract() {
-  const blob = new Blob([getContractText()], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "contrato-musical-preenchido.txt";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
+async function downloadContractPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const margin = 20;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const contentWidth = pageWidth - margin * 2;
+
+  let yOffset = margin;
+
+  try {
+    const imgData = await loadImageAsBase64("assets/kleber-dolli-banner.jpeg");
+    doc.addImage(imgData, "JPEG", margin, yOffset, 38, 20);
+    yOffset += 26;
+  } catch {
+    yOffset += 4;
+  }
+
+  doc.setFontSize(13);
+  doc.setFont("helvetica", "bold");
+  doc.text("CONTRATO DE APRESENTAÇÃO MUSICAL", pageWidth / 2, yOffset, { align: "center" });
+  yOffset += 10;
+
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  const lines = doc.splitTextToSize(getContractText().replace(/^CONTRATO DE APRESENTAÇÃO MUSICAL\n\n/, ""), contentWidth);
+  doc.text(lines, margin, yOffset);
+
+  doc.save("contrato-musical.pdf");
+}
+
+async function loadImageAsBase64(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      canvas.getContext("2d").drawImage(img, 0, 0);
+      resolve(canvas.toDataURL("image/jpeg"));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+function printContract() {
+  window.print();
+}
+
+function clearContractForm() {
+  contractInputs.forEach((input) => {
+    input.value = "";
+  });
+  renderContract();
+}
+
+function clearQuoteFormHandler() {
+  quoteForm.reset();
+  quoteMessage.textContent = "";
+}
+
+function clearBookingFormHandler() {
+  bookingForm.reset();
+  formMessage.textContent = "";
 }
 
 async function toggleMusic() {
