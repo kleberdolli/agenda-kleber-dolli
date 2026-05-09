@@ -556,10 +556,12 @@ h2 {
 }
 
 .heading-note img {
-  width: 120px;
+  width: 150px;
   height: auto;
   border: 2px solid rgba(241, 214, 138, 0.55);
   border-radius: 8px;
+  background: #10131b;
+  padding: 4px;
 }
 
 .heading-note p {
@@ -816,7 +818,7 @@ textarea:focus {
   }
 
   .heading-note img {
-    width: 100%;
-    height: 130px;
+    width: min(260px, 100%);
+    height: auto;
   }
 }
