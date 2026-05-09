@@ -117,14 +117,6 @@ textarea {
   transform: translateY(-1px);
 }
 
-.topbar-actions {
-  display: flex;
-  align-items: center;
-  flex: 0 0 auto;
-  gap: 10px;
-}
-
-.music-button,
 .share-show-button {
   flex: 0 0 auto;
   min-height: 46px;
@@ -136,26 +128,6 @@ textarea {
   transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 }
 
-.music-button {
-  border: 1px solid rgba(241, 214, 138, 0.38);
-  color: #17120a;
-  background: linear-gradient(135deg, var(--gold-2), var(--gold));
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.12) inset,
-    0 0 26px rgba(241, 214, 138, 0.26),
-    0 10px 28px rgba(215, 175, 82, 0.16);
-}
-
-.music-button.is-playing {
-  color: #fff8df;
-  background: linear-gradient(135deg, rgba(159, 23, 23, 0.94), rgba(215, 175, 82, 0.86));
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.14) inset,
-    0 0 30px rgba(241, 214, 138, 0.42),
-    0 10px 28px rgba(159, 23, 23, 0.22);
-}
-
-.music-button:hover,
 .share-show-button:hover {
   filter: brightness(1.08);
   transform: translateY(-1px);
@@ -935,41 +907,9 @@ textarea:focus {
     order: 1;
   }
 
-  .topbar-actions {
-    position: fixed;
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    z-index: 80;
-    order: 4;
-    width: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 8px;
-    border: 1px solid rgba(241, 214, 138, 0.18);
-    border-radius: 16px;
-    background: rgba(9, 10, 15, 0.9);
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-      0 16px 42px rgba(0, 0, 0, 0.5),
-      0 0 30px rgba(215, 175, 82, 0.18);
-    backdrop-filter: blur(16px);
-  }
-
-  .music-button,
   .share-show-button {
-    min-width: 0;
+    position: static;
     width: 100%;
-  }
-
-  .music-button {
-    order: 2;
-    min-height: 52px;
-  }
-
-  .share-show-button {
-    order: 1;
-    min-height: 52px;
   }
 
   .nav {
