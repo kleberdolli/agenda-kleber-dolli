@@ -556,12 +556,12 @@ h2 {
 }
 
 .heading-note img {
-  width: 110px;
-  height: 110px;
+  width: 130px;
+  height: 130px;
   border: 2px solid rgba(241, 214, 138, 0.55);
   border-radius: 8px;
   object-fit: cover;
-  object-position: center top;
+  object-position: 50% 15%;
 }
 
 .heading-note p {
