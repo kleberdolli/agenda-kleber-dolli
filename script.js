@@ -84,6 +84,7 @@ const eventGrid = document.querySelector("#eventGrid");
 const requestList = document.querySelector("#requestList");
 const bookingForm = document.querySelector("#bookingForm");
 const quoteForm = document.querySelector("#quoteForm");
+const shareShowButton = document.querySelector("#shareShowButton");
 const formMessage = document.querySelector("#formMessage");
 const quoteMessage = document.querySelector("#quoteMessage");
 const adminLoginForm = document.querySelector("#adminLoginForm");
@@ -132,11 +133,13 @@ bookingForm.addEventListener("submit", async (event) => {
 
   state.events.push(booking);
   saveState();
-  await saveEventToSupabase(booking);
+  const savedOnline = await saveEventToSupabase(booking);
   const bookingNotification = await notifyTelegram("pre-reserva", booking);
   bookingForm.reset();
   formMessage.textContent = bookingNotification.ok
-    ? "Pré-reserva enviada. Ela já aparece como data em análise."
+    ? savedOnline
+      ? "Pré-reserva enviada. Ela já aparece como data em análise."
+      : "Pré-reserva registrada neste navegador, mas não consegui salvar online."
     : `Pré-reserva salva, mas não foi possível notificar: ${bookingNotification.message}`;
   activeFilter = "all";
   document.querySelectorAll(".filter").forEach((item) => {
@@ -178,10 +181,40 @@ document.querySelector("#clearContract")?.addEventListener("click", clearContrac
 document.querySelector("#clearQuoteForm")?.addEventListener("click", clearQuoteFormHandler);
 document.querySelector("#clearBookingForm")?.addEventListener("click", clearBookingFormHandler);
 document.querySelector("#adminLogout")?.addEventListener("click", adminLogout);
+shareShowButton?.addEventListener("click", shareShowLink);
 adminLoginForm?.addEventListener("submit", handleAdminLogin);
 adminDateForm?.addEventListener("submit", handleAdminDateSave);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
+
+async function shareShowLink() {
+  const shareUrl = window.location.origin && window.location.origin !== "null"
+    ? window.location.origin
+    : window.location.href.split("#")[0];
+  const shareData = {
+    title: "Indique o show de Kleber Dolli",
+    text: "Indique o show de Kleber Dolli!",
+    url: shareUrl,
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+      return;
+    }
+
+    await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+    shareShowButton.textContent = "Link copiado";
+    window.setTimeout(() => {
+      shareShowButton.textContent = "Enviar link";
+    }, 2200);
+  } catch {
+    shareShowButton.textContent = "Copie o link";
+    window.setTimeout(() => {
+      shareShowButton.textContent = "Enviar link";
+    }, 2200);
+  }
+}
 
 
 async function supabaseRequest(path, options = {}) {
@@ -256,14 +289,37 @@ async function loadAgendaFromSupabase() {
 
 async function saveEventToSupabase(event) {
   try {
-    await supabaseRequest(`${supabaseTable}?on_conflict=date,period`, {
-      method: "POST",
-      headers: { Prefer: "resolution=merge-duplicates,return=representation" },
-      body: JSON.stringify(toSupabase(event)),
-    });
+    const payload = toSupabase(event);
+
+    if (event.status === "confirmed") {
+      await supabaseRequest(`${supabaseTable}?on_conflict=date,period`, {
+        method: "POST",
+        headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+        body: JSON.stringify({ ...payload, status: "pending" }),
+      });
+
+      await supabaseRequest(
+        `${supabaseTable}?date=eq.${encodeURIComponent(event.date)}&period=eq.${encodeURIComponent(event.period)}`,
+        {
+          method: "PATCH",
+          headers: { Prefer: "return=representation" },
+          body: JSON.stringify(payload),
+        }
+      );
+    } else {
+      await supabaseRequest(`${supabaseTable}?on_conflict=date,period`, {
+        method: "POST",
+        headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+        body: JSON.stringify(payload),
+      });
+    }
+
     usingSupabase = true;
+    return true;
   } catch (error) {
+    usingSupabase = false;
     console.warn("Não foi possível salvar no Supabase.", error);
+    return false;
   }
 }
 
@@ -274,19 +330,22 @@ async function deleteEventFromSupabase(date, period) {
       headers: { Prefer: "return=minimal" },
     });
     usingSupabase = true;
+    return true;
   } catch (error) {
+    usingSupabase = false;
     console.warn("Não foi possível liberar a data no Supabase.", error);
+    return false;
   }
 }
 
 async function saveAdminDateToSupabase(date, period, status) {
   if (status === "available") {
-    await deleteEventFromSupabase(date, period);
-    return;
+    return deleteEventFromSupabase(date, period);
   }
 
   const event = state.events.find((item) => item.date === date && item.period === period);
-  if (event) await saveEventToSupabase(event);
+  if (!event) return false;
+  return saveEventToSupabase(event);
 }
 function isAdminLogged() {
   return localStorage.getItem(adminSessionKey) === "yes";
@@ -349,9 +408,15 @@ async function handleAdminDateSave(event) {
   }
 
   saveState();
-  await saveAdminDateToSupabase(date, period, status);
+  const savedOnline = await saveAdminDateToSupabase(date, period, status);
   adminDateForm.reset();
   render();
+
+  if (adminMessage) {
+    adminMessage.textContent = savedOnline
+      ? "Agenda salva online. Ao recarregar, essa alteração deve continuar aparecendo."
+      : "Salvei neste navegador, mas não consegui gravar online. Confira as regras do Supabase se sumir ao recarregar.";
+  }
 }
 function loadState() {
   const saved = localStorage.getItem(storageKey);
@@ -574,7 +639,7 @@ function renderRequests(requests, quotes) {
   });
 }
 
-function approveRequest(id) {
+async function approveRequest(id) {
   state.events = state.events.map((event) => {
     if (event.id !== id) return event;
 
@@ -587,16 +652,20 @@ function approveRequest(id) {
     };
   });
   saveState();
+  const approved = state.events.find((event) => event.id === id);
+  if (approved) await saveEventToSupabase(approved);
   render();
 }
 
-function removeRequest(id) {
+async function removeRequest(id) {
+  const removed = state.events.find((event) => event.id === id);
   state.events = state.events.filter((event) => event.id !== id);
   saveState();
+  if (removed) await deleteEventFromSupabase(removed.date, removed.period);
   render();
 }
 
-function createBookingFromQuote(id) {
+async function createBookingFromQuote(id) {
   const quote = state.quotes.find((item) => item.id === id);
   if (!quote) return;
 
@@ -614,8 +683,10 @@ function createBookingFromQuote(id) {
     phone: quote.phone,
     notes: `${quote.duration}. ${quote.notes}`.trim(),
   });
+  const booking = state.events[state.events.length - 1];
   state.quotes = state.quotes.filter((item) => item.id !== id);
   saveState();
+  if (booking) await saveEventToSupabase(booking);
   render();
 }
 
