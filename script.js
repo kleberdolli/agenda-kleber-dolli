@@ -584,8 +584,9 @@ async function toggleMusic() {
 
   if (!bgMusic || !button) return;
 
-  if (musicEnabled) {
+  if (musicEnabled || !bgMusic.paused) {
     bgMusic.pause();
+    bgMusic.currentTime = 0;
     musicEnabled = false;
     button.textContent = "Ativar música";
     button.setAttribute("aria-pressed", "false");
