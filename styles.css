@@ -152,6 +152,11 @@ textarea {
     0 12px 32px rgba(0, 91, 255, 0.32);
 }
 
+.topbar-actions,
+.music-button {
+  display: none !important;
+}
+
 
 .hero {
   position: relative;
@@ -952,6 +957,9 @@ textarea:focus {
 
   .footer {
     flex-direction: column;
+    gap: 6px;
+    padding: 18px 14px;
+    font-size: 13px;
   }
 
   .contract-form,
