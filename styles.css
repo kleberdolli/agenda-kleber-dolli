@@ -901,20 +901,39 @@ textarea:focus {
 @media (max-width: 680px) {
   .topbar {
     position: sticky;
-    align-items: stretch;
     flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px 14px 8px;
+  }
+
+  .topbar > .brand,
+  .topbar > .share-show-button {
+    display: flex;
+    flex-direction: row;
+  }
+
+  /* linha 1: brand + botão lado a lado */
+  .topbar-row-1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 10px;
-    padding: 12px 14px 10px;
   }
 
   .brand {
-    position: static;
-    order: 1;
+    order: 0;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .share-show-button {
-    position: static;
-    width: 100%;
+    order: 0;
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 38px;
+    font-size: 12px;
+    padding: 0 12px;
   }
 
   .nav {
@@ -922,8 +941,8 @@ textarea:focus {
     width: 100%;
     justify-content: flex-start;
     overflow-x: auto;
-    padding: 7px;
-    border-radius: 18px;
+    padding: 6px;
+    border-radius: 14px;
     scrollbar-width: none;
   }
 
@@ -933,7 +952,8 @@ textarea:focus {
 
   .nav a {
     flex: 0 0 auto;
-    padding: 11px 15px;
+    padding: 9px 13px;
+    font-size: 13px;
     white-space: nowrap;
   }
 
