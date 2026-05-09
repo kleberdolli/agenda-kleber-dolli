@@ -930,19 +930,23 @@ textarea:focus {
 
   .brand {
     position: static;
+    order: 1;
   }
 
   .topbar-actions {
+    order: 2;
     width: 100%;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .music-button,
   .share-show-button {
+    min-width: 0;
     width: 100%;
   }
 
   .nav {
+    order: 3;
     width: 100%;
     justify-content: flex-start;
     overflow-x: auto;
