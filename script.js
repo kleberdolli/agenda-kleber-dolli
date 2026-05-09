@@ -163,13 +163,13 @@ quoteForm.addEventListener("submit", async (event) => {
 });
 
 
-document.querySelector("#downloadContract").addEventListener("click", downloadContractPDF);
-document.querySelector("#printContract").addEventListener("click", printContract);
-document.querySelector("#clearContract").addEventListener("click", clearContractForm);
-document.querySelector("#clearQuoteForm").addEventListener("click", clearQuoteFormHandler);
-document.querySelector("#clearBookingForm").addEventListener("click", clearBookingFormHandler);
-document.querySelector("#soundToggle").addEventListener("click", toggleMusic);
-contractInputs.forEach((input) => input.addEventListener("input", renderContract));
+document.querySelector("#downloadContract")?.addEventListener("click", downloadContractPDF);
+document.querySelector("#printContract")?.addEventListener("click", printContract);
+document.querySelector("#clearContract")?.addEventListener("click", clearContractForm);
+document.querySelector("#clearQuoteForm")?.addEventListener("click", clearQuoteFormHandler);
+document.querySelector("#clearBookingForm")?.addEventListener("click", clearBookingFormHandler);
+document.querySelector("#soundToggle")?.addEventListener("click", toggleMusic);
+contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
 function loadState() {
   const saved = localStorage.getItem(storageKey);
