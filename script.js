@@ -204,7 +204,7 @@ function render() {
     sortedEvents.filter((event) => event.status === "pending" && event.requester),
     state.quotes
   );
-  renderContract();
+  if (document.querySelector("#contractPreview")) renderContract();
 }
 
 function renderCounters(events) {
@@ -499,7 +499,9 @@ Assinatura do artista/produção: _________________________`;
 }
 
 function renderContract() {
-  document.querySelector("#contractPreview").textContent = getContractText();
+  const preview = document.querySelector("#contractPreview");
+  if (!preview) return;
+  preview.textContent = getContractText();
 }
 
 async function downloadContractPDF() {
@@ -556,7 +558,7 @@ function clearContractForm() {
   contractInputs.forEach((input) => {
     input.value = "";
   });
-  renderContract();
+  if (document.querySelector("#contractPreview")) renderContract();
 }
 
 function clearQuoteFormHandler() {
