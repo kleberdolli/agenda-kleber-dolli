@@ -238,75 +238,11 @@
         <div class="section-heading compact">
           <div>
             <p class="eyebrow">Contrato</p>
-            <h2>Contrato musical preenchível</h2>
-          </div>
-          <div class="heading-note">
-            <img src="assets/kleber-dolli-banner.jpeg" alt="Logo Kleber Dolli" />
-            <p>
-              O cliente pode preencher os dados online e baixar uma versão em
-              texto para conferência ou impressão.
-            </p>
+            <h2>Contrato musical online</h2>
           </div>
         </div>
-
-        <div class="contract-layout">
-          <form id="contractForm" class="contract-form">
-            <label>
-              Contratante
-              <input id="contractClient" type="text" placeholder="Nome completo ou empresa" />
-            </label>
-            <label>
-              CPF/CNPJ
-              <input id="contractDocument" type="text" placeholder="Documento" />
-            </label>
-            <label>
-              Data do evento
-              <input id="contractDate" type="date" />
-            </label>
-            <label>
-              Período
-              <select id="contractPeriod">
-                <option value="">Selecione</option>
-                <option>À tarde</option>
-                <option>À noite</option>
-              </select>
-            </label>
-            <label>
-              Horário
-              <input id="contractTime" type="text" placeholder="Ex: 21h" />
-            </label>
-            <label>
-              Cidade e estado
-              <input id="contractCity" type="text" placeholder="Ex: Salvador - BA" />
-            </label>
-            <label>
-              Local resumido
-              <input id="contractVenue" type="text" placeholder="Ex: Espaço de Eventos" />
-            </label>
-            <label>
-              Valor combinado
-              <input id="contractValue" type="text" placeholder="Ex: R$ 2.500,00" />
-            </label>
-            <label>
-              Forma de pagamento
-              <input id="contractPayment" type="text" placeholder="Ex: 50% sinal e 50% no dia" />
-            </label>
-            <label class="wide">
-              Observações
-              <textarea id="contractNotes" rows="4" placeholder="Estrutura, passagem de som, hospedagem ou acordos extras."></textarea>
-            </label>
-            <div class="contract-actions wide">
-              <button class="button primary" type="button" id="downloadContract">Baixar PDF</button>
-              <button class="button ghost" type="button" id="printContract">Imprimir</button>
-              <button class="button ghost" type="button" id="clearContract">Limpar campos</button>
-            </div>
-          </form>
-
-          <article class="contract-preview">
-            <h3>Prévia do contrato</h3>
-            <pre id="contractPreview"></pre>
-          </article>
-        </div>
+        <p style="color: var(--muted); margin-bottom: 24px;">Preencha, salve, gere PDF ou imprima o contrato diretamente pelo navegador.</p>
+        <a class="button primary" href="contrato.html" target="_blank">Abrir contrato</a>
       </section>
     </main>
 
