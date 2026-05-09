@@ -124,9 +124,11 @@ bookingForm.addEventListener("submit", async (event) => {
 
   state.events.push(booking);
   saveState();
-  await notifyTelegram("pre-reserva", booking);
+  const bookingNotification = await notifyTelegram("pre-reserva", booking);
   bookingForm.reset();
-  formMessage.textContent = "Pré-reserva enviada. Ela já aparece como data em análise.";
+  formMessage.textContent = bookingNotification.ok
+    ? "Pré-reserva enviada. Ela já aparece como data em análise."
+    : `Pré-reserva salva, mas não foi possível notificar: ${bookingNotification.message}`;
   activeFilter = "all";
   document.querySelectorAll(".filter").forEach((item) => {
     item.classList.toggle("active", item.dataset.filter === "all");
