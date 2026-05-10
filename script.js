@@ -1,5 +1,6 @@
 const storageKey = "agenda-musical-demo";
 const adminSessionKey = "agenda-musical-admin";
+const adminPassword = "Doll1Pu9";
 
 let supabaseUrl = "";
 let supabaseAnonKey = "";
@@ -398,41 +399,19 @@ function renderAdminState() {
   adminPanel.classList.toggle("hidden", !logged);
 }
 
-async function handleAdminLogin(event) {
+function handleAdminLogin(event) {
   event.preventDefault();
   const password = document.querySelector("#adminPassword")?.value || "";
 
-  if (window.location.protocol === "file:") {
-    if (adminMessage) {
-      adminMessage.textContent =
-        "Abra o site pelo endereço publicado (Vercel) para validar o painel com segurança.";
-    }
+  if (password !== adminPassword) {
+    if (adminMessage) adminMessage.textContent = "Senha incorreta.";
     return;
   }
 
-  try {
-    const response = await fetch("/api/admin-login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      if (adminMessage) adminMessage.textContent = data.error || "Senha incorreta.";
-      return;
-    }
-
-    localStorage.setItem(adminSessionKey, "yes");
-    if (adminMessage) adminMessage.textContent = "";
-    adminLoginForm.reset();
-    render();
-  } catch {
-    if (adminMessage) {
-      adminMessage.textContent =
-        "Não foi possível validar a senha. Confira se o site está no ar e se ADMIN_PASSWORD está configurado.";
-    }
-  }
+  localStorage.setItem(adminSessionKey, "yes");
+  if (adminMessage) adminMessage.textContent = "";
+  adminLoginForm.reset();
+  render();
 }
 
 function adminLogout() {
