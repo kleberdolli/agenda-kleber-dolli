@@ -3,7 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Contrato musical online — Kleber Dolli e Fulô da Capitá. Preencha, salve e gere PDF.">
+  <meta name="theme-color" content="#090a0f">
   <title>Contrato Musical - Kleber Dolli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --ink: #1d1711;
@@ -25,7 +30,8 @@
       margin: 0;
       min-height: 100vh;
       color: var(--ink);
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
       background:
         linear-gradient(90deg, rgba(9, 10, 15, .96), rgba(58, 36, 23, .88) 48%, rgba(9, 10, 15, .94)),
         linear-gradient(0deg, #090a0f, rgba(9, 10, 15, .18) 44%),
@@ -360,7 +366,7 @@
       padding: 13px 14px;
       color: var(--ink);
       background: rgba(255,255,255,.92);
-      font: 500 15px/1.35 Arial, Helvetica, sans-serif;
+      font: 500 15px/1.35 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
       outline: none;
     }
 
@@ -385,6 +391,18 @@
 
     .contract-text p {
       margin: 0;
+    }
+
+    .contract-text--offset {
+      margin-top: 18px;
+    }
+
+    .grid--offset-sm {
+      margin-top: 18px;
+    }
+
+    .grid--offset-md {
+      margin-top: 24px;
     }
 
     .value-row {
@@ -635,7 +653,7 @@
                 <input name="duracaoExtenso" autocomplete="off">
               </label>
             </div>
-            <div class="contract-text" style="margin-top: 18px;">
+            <div class="contract-text contract-text--offset">
               <p>O CONTRATADO compromete-se a realizar apresentação musical ao vivo com duração informada nos campos acima, incluindo intervalo, na data, horário e local especificados neste contrato.</p>
               <p>O CONTRATADO não se responsabiliza por fatores externos que impeçam ou dificultem a realização do evento, exceto por falhas em seu próprio equipamento.</p>
               <p>Em caso de desistência por qualquer das partes após a assinatura deste instrumento, será aplicada multa equivalente a 50% do valor total do contrato.</p>
@@ -652,7 +670,7 @@
                 <input name="formaPagamento" autocomplete="off">
               </label>
             </div>
-            <div class="contract-text" style="margin-top: 18px;">
+            <div class="contract-text contract-text--offset">
               <p>A assinatura deste contrato requer o pagamento antecipado de 50% do valor total acordado. O saldo restante deverá ser quitado integralmente ao final da apresentação, antes da desmontagem do equipamento, salvo acordo diferente registrado neste documento.</p>
             </div>
           </div>
@@ -662,7 +680,7 @@
             <div class="contract-text">
               <p>O CONTRATANTE compromete-se a garantir condições adequadas para a realização do evento, incluindo fornecimento de energia elétrica estável, espaço físico adequado para instalação do equipamento e acesso ao local com antecedência mínima de 60 minutos para montagem.</p>
             </div>
-            <div class="grid single" style="margin-top: 18px;">
+            <div class="grid single grid--offset-sm">
               <label>Observações adicionais
                 <textarea name="observacoes"></textarea>
               </label>
@@ -682,7 +700,7 @@
                 <input name="assinaturaContratante" aria-label="Nome do contratante">
               </div>
             </div>
-            <div class="grid" style="margin-top: 24px;">
+            <div class="grid grid--offset-md">
               <label>Local e data
                 <input name="localData" autocomplete="off">
               </label>

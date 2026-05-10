@@ -1,9 +1,9 @@
 const storageKey = "agenda-musical-demo";
 const adminSessionKey = "agenda-musical-admin";
-const adminPassword = "Doll1Pu9";
-const supabaseUrl = "https://amsrqfqdpghenihjcgri.supabase.co";
-const supabaseAnonKey = "sb_publishable_NovDOohn4nA4eu8r8VMmXw_E_qXuaNb";
-const supabaseTable = "agenda_events";
+
+let supabaseUrl = "";
+let supabaseAnonKey = "";
+let supabaseTable = "agenda_events";
 
 const initialEvents = [
   {
@@ -215,7 +215,24 @@ async function shareShowLink() {
 }
 
 
+async function loadPublicConfig() {
+  if (window.location.protocol === "file:") return;
+  try {
+    const response = await fetch("/api/public-config");
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.supabaseUrl || !data.supabaseAnonKey) return;
+    supabaseUrl = data.supabaseUrl;
+    supabaseAnonKey = data.supabaseAnonKey;
+    supabaseTable = data.supabaseTable || supabaseTable;
+  } catch {
+    /* agenda local */
+  }
+}
+
 async function supabaseRequest(path, options = {}) {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error("Supabase não configurado");
+  }
   const response = await fetch(`${supabaseUrl}/rest/v1/${path}`, {
     ...options,
     headers: {
@@ -271,6 +288,10 @@ function toSupabase(event) {
 }
 
 async function loadAgendaFromSupabase() {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    usingSupabase = false;
+    return;
+  }
   try {
     const rows = await supabaseRequest(`${supabaseTable}?select=*&date=gte.2026-06-01&date=lte.2026-06-30&order=date.asc,period.asc`, {
       method: "GET",
@@ -286,6 +307,9 @@ async function loadAgendaFromSupabase() {
 }
 
 async function saveEventToSupabase(event) {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return false;
+  }
   try {
     const payload = toSupabase(event);
 
@@ -322,6 +346,9 @@ async function saveEventToSupabase(event) {
 }
 
 async function deleteEventFromSupabase(date, period) {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return false;
+  }
   try {
     await supabaseRequest(`${supabaseTable}?date=eq.${encodeURIComponent(date)}&period=eq.${encodeURIComponent(period)}`, {
       method: "DELETE",
@@ -356,19 +383,41 @@ function renderAdminState() {
   adminPanel.classList.toggle("hidden", !logged);
 }
 
-function handleAdminLogin(event) {
+async function handleAdminLogin(event) {
   event.preventDefault();
   const password = document.querySelector("#adminPassword")?.value || "";
 
-  if (password !== adminPassword) {
-    if (adminMessage) adminMessage.textContent = "Senha incorreta.";
+  if (window.location.protocol === "file:") {
+    if (adminMessage) {
+      adminMessage.textContent =
+        "Abra o site pelo endereço publicado (Vercel) para validar o painel com segurança.";
+    }
     return;
   }
 
-  localStorage.setItem(adminSessionKey, "yes");
-  if (adminMessage) adminMessage.textContent = "";
-  adminLoginForm.reset();
-  render();
+  try {
+    const response = await fetch("/api/admin-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      if (adminMessage) adminMessage.textContent = data.error || "Senha incorreta.";
+      return;
+    }
+
+    localStorage.setItem(adminSessionKey, "yes");
+    if (adminMessage) adminMessage.textContent = "";
+    adminLoginForm.reset();
+    render();
+  } catch {
+    if (adminMessage) {
+      adminMessage.textContent =
+        "Não foi possível validar a senha. Confira se o site está no ar e se ADMIN_PASSWORD está configurado.";
+    }
+  }
 }
 
 function adminLogout() {
@@ -867,8 +916,11 @@ function toDateInputValue(date) {
   return `${year}-${month}-${day}`;
 }
 
-render();
-loadAgendaFromSupabase();
+(async function bootstrap() {
+  await loadPublicConfig();
+  render();
+  loadAgendaFromSupabase();
+})();
 
 // Background music
 const bgMusic = document.getElementById("bgMusic");

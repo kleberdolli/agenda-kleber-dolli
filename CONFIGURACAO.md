@@ -28,3 +28,26 @@ Como conseguir:
 7. Faça um novo deploy.
 
 Depois disso, cada solicitação de orçamento enviada pelo site gera uma mensagem no Telegram com nome, WhatsApp, evento, data, período, cidade, duração e observações.
+
+## Agenda online (Supabase)
+
+O front-end obtém URL e chave anon pela rota `/api/public-config` (variáveis de ambiente no Vercel), para não versionar segredos no repositório. Cadastre:
+
+```txt
+SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_ANON_KEY=sua_chave_anon_publicavel
+```
+
+Opcional: `SUPABASE_TABLE` (padrão `agenda_events`).
+
+Mantenha políticas RLS no Supabase alinhadas ao uso público da chave anon.
+
+## Painel administrativo
+
+A senha do painel não fica mais no JavaScript. Configure no Vercel:
+
+```txt
+ADMIN_PASSWORD=sua_senha_forte
+```
+
+Sem essa variável, o login administrativo retorna erro de configuração.
