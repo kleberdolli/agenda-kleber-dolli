@@ -273,10 +273,16 @@
               <button type="button" class="button ghost small" id="adminExportBackup">
                 Baixar backup (.json)
               </button>
-              <button type="button" class="button ghost small" id="adminImportTrigger">
+              <!-- Input não pode estar com display:none no celular (Safari bloqueia). Toque abre o arquivo. -->
+              <label class="button ghost small admin-import-label">
                 Restaurar backup…
-              </button>
-              <input type="file" id="adminImportBackup" class="hidden" accept=".json,application/json" />
+                <input
+                  type="file"
+                  id="adminImportBackup"
+                  accept=".json,application/json"
+                  class="admin-import-file"
+                />
+              </label>
             </div>
             <p id="adminBackupMessage" class="admin-backup-message" role="status"></p>
           </div>

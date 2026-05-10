@@ -207,7 +207,9 @@ document.querySelector("#adminLogout")?.addEventListener("click", adminLogout);
 shareShowButton?.addEventListener("click", shareShowLink);
 adminLoginForm?.addEventListener("submit", handleAdminLogin);
 adminDateForm?.addEventListener("submit", handleAdminDateSave);
-adminExportBackup?.addEventListener("click", exportAgendaBackup);
+adminExportBackup?.addEventListener("click", () => {
+  void exportAgendaBackup();
+});
 adminImportBackup?.addEventListener("change", handleImportBackupChange);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
@@ -448,7 +450,7 @@ function setAdminBackupMessage(text) {
   if (adminBackupMessage) adminBackupMessage.textContent = text || "";
 }
 
-function exportAgendaBackup() {
+async function exportAgendaBackup() {
   if (!isAdminLogged()) return;
   const payload = {
     version: 1,
@@ -458,28 +460,45 @@ function exportAgendaBackup() {
     quotes: state.quotes,
   };
   const json = JSON.stringify(payload, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
   const day = new Date().toISOString().slice(0, 10);
   const filename = `agenda-backup-${day}.json`;
+  const file = new File([blob], filename, { type: "application/json" });
 
-  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  if (isIOS) {
-    // iOS não suporta download via anchor — abre em nova aba para o usuário salvar/compartilhar
-    const tab = window.open(url, "_blank");
-    if (tab) {
-      setAdminBackupMessage("Arquivo aberto em nova aba. Toque no ícone de compartilhar e salve no Files, Drive ou WhatsApp.");
-    } else {
-      // Popup bloqueado — fallback: copia o JSON para a área de transferência
-      navigator.clipboard.writeText(json).then(() => {
-        setAdminBackupMessage("Não foi possível abrir nova aba. Backup copiado para a área de transferência — cole num bloco de notas e salve como .json.");
-      }).catch(() => {
-        setAdminBackupMessage("Não foi possível baixar. Tente pelo computador.");
+  const isIOS =
+    /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: "Backup da agenda",
+        text: "Salve em Arquivos ou envie (WhatsApp, Drive, e-mail).",
+        files: [file],
       });
+      setAdminBackupMessage("Use “Salvar no Arquivos” ou envie o arquivo ao PC e depois “Restaurar backup”.");
+      return;
+    }
+  } catch (err) {
+    if (err && err.name === "AbortError") {
+      setAdminBackupMessage("Compartilhamento cancelado.");
+      return;
+    }
+  }
+
+  if (isIOS) {
+    try {
+      await navigator.clipboard.writeText(json);
+      setAdminBackupMessage(
+        `Backup copiado. Abra Notas → cole → ⋯ → Compartilhar → “Salvar em Arquivos” (nome: ${filename}).`
+      );
+    } catch {
+      setAdminBackupMessage("Não consegui salvar neste iPhone. Abra o Painel no computador e use Baixar backup.");
     }
     return;
   }
 
+  const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
@@ -487,7 +506,7 @@ function exportAgendaBackup() {
   document.body.appendChild(anchor);
   anchor.click();
   document.body.removeChild(anchor);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
   setAdminBackupMessage("Backup baixado. Envie o arquivo ao PC (Drive, WhatsApp, e-mail) e use Restaurar.");
 }
 
