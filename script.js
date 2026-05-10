@@ -80,6 +80,25 @@ const periodLabels = {
 let state = loadState();
 let activeFilter = "all";
 let usingSupabase = false;
+/** Evita que uma resposta tardia do Supabase sobrescreva um backup recém-restaurado. */
+let remoteAgendaGeneration = 0;
+
+function eventPeriodKey(event) {
+  return `${event.date}|${event.period}`;
+}
+
+/** Junta nuvem + o que está no navegador: para o mesmo dia/período, vale o local (backup/editado aqui). */
+function mergeRemoteAndLocal(remoteRows, localEvents) {
+  const map = new Map();
+  for (const row of remoteRows) {
+    const ev = fromSupabase(row);
+    map.set(eventPeriodKey(ev), ev);
+  }
+  for (const e of localEvents) {
+    map.set(eventPeriodKey(e), e);
+  }
+  return Array.from(map.values());
+}
 
 const eventGrid = document.querySelector("#eventGrid");
 const requestList = document.querySelector("#requestList");
@@ -300,10 +319,13 @@ async function loadAgendaFromSupabase() {
     usingSupabase = false;
     return;
   }
+  const gen = ++remoteAgendaGeneration;
   try {
     const rows = await supabaseRequest(`${supabaseTable}?select=*&date=gte.2026-06-01&date=lte.2026-06-30&order=date.asc,period.asc`, {
       method: "GET",
     });
+    if (gen !== remoteAgendaGeneration) return;
+
     if (!Array.isArray(rows) || rows.length === 0) {
       usingSupabase = false;
       console.warn(
@@ -313,10 +335,14 @@ async function loadAgendaFromSupabase() {
     }
 
     usingSupabase = true;
-    state.events = rows.map(fromSupabase);
+    const hasSavedLocal = !!localStorage.getItem(storageKey);
+    state.events = hasSavedLocal
+      ? mergeRemoteAndLocal(rows, state.events)
+      : rows.map(fromSupabase);
     saveState();
     render();
   } catch (error) {
+    if (gen !== remoteAgendaGeneration) return;
     usingSupabase = false;
     console.warn("Agenda online indisponível. Usando dados locais.", error);
   }
@@ -482,6 +508,7 @@ async function handleImportBackupChange(event) {
       return;
     }
 
+    remoteAgendaGeneration += 1;
     state = {
       events: normalized.events,
       quotes: normalized.quotes,
@@ -989,8 +1016,8 @@ function toDateInputValue(date) {
 
 (async function bootstrap() {
   await loadPublicConfig();
+  await loadAgendaFromSupabase();
   render();
-  loadAgendaFromSupabase();
 })();
 
 // Background music
