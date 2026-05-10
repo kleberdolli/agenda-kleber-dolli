@@ -136,65 +136,95 @@ document.querySelectorAll(".filter").forEach((button) => {
   });
 });
 
-bookingForm.addEventListener("submit", async (event) => {
+bookingForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const booking = {
     id: createId(),
-    date: document.querySelector("#dateInput").value,
-    period: document.querySelector("#periodInput").value,
-    city: document.querySelector("#cityInput").value.trim(),
+    date: document.querySelector("#dateInput")?.value,
+    period: document.querySelector("#periodInput")?.value,
+    city: document.querySelector("#cityInput")?.value.trim() || "",
     venue: "Local sob análise",
-    title: document.querySelector("#eventTypeInput").value,
+    title: document.querySelector("#eventTypeInput")?.value,
     status: "pending",
     time: "A confirmar",
     publicNote: "Solicitação recebida. Aguardando análise da equipe.",
-    requester: document.querySelector("#nameInput").value.trim(),
-    phone: document.querySelector("#phoneInput").value.trim(),
-    notes: document.querySelector("#notesInput").value.trim(),
+    requester: document.querySelector("#nameInput")?.value.trim() || "",
+    phone: document.querySelector("#phoneInput")?.value.trim() || "",
+    notes: document.querySelector("#notesInput")?.value.trim() || "",
   };
 
-  state.events.push(booking);
-  saveState();
-  const savedOnline = await saveEventToSupabase(booking);
-  const bookingNotification = await notifyTelegram("pre-reserva", booking);
-  bookingForm.reset();
-  formMessage.textContent = bookingNotification.ok
-    ? savedOnline
-      ? "Pré-reserva enviada. Ela já aparece como data em análise."
-      : "Pré-reserva registrada neste navegador, mas não consegui salvar online."
-    : `Pré-reserva salva, mas não foi possível notificar: ${bookingNotification.message}`;
-  activeFilter = "all";
-  document.querySelectorAll(".filter").forEach((item) => {
-    item.classList.toggle("active", item.dataset.filter === "all");
-  });
-  render();
+  try {
+    state.events.push(booking);
+    try {
+      saveState();
+    } catch (err) {
+      state.events.pop();
+      console.error(err);
+      if (formMessage) {
+        formMessage.textContent =
+          "Não foi possível gravar no navegador (armazenamento cheio ou bloqueado). Libere espaço ou desative modo restrito.";
+      }
+      return;
+    }
+
+    const savedOnline = await saveEventToSupabase(booking);
+    const bookingNotification = await notifyTelegram("pre-reserva", booking);
+    bookingForm.reset();
+    if (formMessage) {
+      formMessage.textContent = bookingNotification.ok
+        ? savedOnline
+          ? "Pré-reserva enviada. Ela já aparece como data em análise."
+          : "Pré-reserva registrada neste navegador, mas não consegui salvar online."
+        : `Pré-reserva salva neste aparelho, mas a notificação falhou: ${bookingNotification.message}`;
+    }
+    activeFilter = "all";
+    document.querySelectorAll(".filter").forEach((item) => {
+      item.classList.toggle("active", item.dataset.filter === "all");
+    });
+  } catch (err) {
+    console.error(err);
+    if (formMessage) {
+      formMessage.textContent =
+        "Ocorreu um erro ao enviar. Confira se a pré-reserva apareceu na lista; se não, tente de novo.";
+    }
+  } finally {
+    render();
+  }
 });
 
-quoteForm.addEventListener("submit", async (event) => {
+quoteForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const quote = {
     id: createId(),
-    name: document.querySelector("#quoteName").value.trim(),
-    phone: document.querySelector("#quotePhone").value.trim(),
-    city: document.querySelector("#quoteCity").value.trim(),
-    date: document.querySelector("#quoteDate").value,
-    period: document.querySelector("#quotePeriod").value,
-    type: document.querySelector("#quoteType").value,
-    duration: document.querySelector("#quoteDuration").value,
-    notes: document.querySelector("#quoteNotes").value.trim(),
+    name: document.querySelector("#quoteName")?.value.trim() || "",
+    phone: document.querySelector("#quotePhone")?.value.trim() || "",
+    city: document.querySelector("#quoteCity")?.value.trim() || "",
+    date: document.querySelector("#quoteDate")?.value,
+    period: document.querySelector("#quotePeriod")?.value,
+    type: document.querySelector("#quoteType")?.value,
+    duration: document.querySelector("#quoteDuration")?.value,
+    notes: document.querySelector("#quoteNotes")?.value.trim() || "",
     createdAt: new Date().toISOString(),
   };
 
-  state.quotes.push(quote);
-  saveState();
-  const notification = await notifyTelegram("orcamento", quote);
-  quoteForm.reset();
-  quoteMessage.textContent = notification.ok
-    ? "Solicitação de orçamento recebida e enviada para o Telegram."
-    : notification.message;
-  render();
+  try {
+    state.quotes.push(quote);
+    saveState();
+    const notification = await notifyTelegram("orcamento", quote);
+    quoteForm.reset();
+    if (quoteMessage) {
+      quoteMessage.textContent = notification.ok
+        ? "Solicitação de orçamento recebida e enviada para o Telegram."
+        : notification.message;
+    }
+  } catch (err) {
+    console.error(err);
+    if (quoteMessage) quoteMessage.textContent = "Erro ao enviar. Verifique se o pedido foi salvo na lista.";
+  } finally {
+    render();
+  }
 });
 
 
@@ -452,62 +482,90 @@ function setAdminBackupMessage(text) {
 
 async function exportAgendaBackup() {
   if (!isAdminLogged()) return;
-  const payload = {
-    version: 1,
-    exportedAt: new Date().toISOString(),
-    source: "agenda-kleber-dolli",
-    events: state.events,
-    quotes: state.quotes,
-  };
-  const json = JSON.stringify(payload, null, 2);
-  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
-  const day = new Date().toISOString().slice(0, 10);
-  const filename = `agenda-backup-${day}.json`;
-  const file = new File([blob], filename, { type: "application/json" });
+  setAdminBackupMessage("Gerando backup…");
 
   const isIOS =
     /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
   try {
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({
-        title: "Backup da agenda",
-        text: "Salve em Arquivos ou envie (WhatsApp, Drive, e-mail).",
-        files: [file],
-      });
-      setAdminBackupMessage("Use “Salvar no Arquivos” ou envie o arquivo ao PC e depois “Restaurar backup”.");
-      return;
-    }
-  } catch (err) {
-    if (err && err.name === "AbortError") {
-      setAdminBackupMessage("Compartilhamento cancelado.");
-      return;
-    }
-  }
+    const payload = {
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      source: "agenda-kleber-dolli",
+      events: state.events,
+      quotes: state.quotes,
+    };
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+    const day = new Date().toISOString().slice(0, 10);
+    const filename = `agenda-backup-${day}.json`;
 
-  if (isIOS) {
+    let shared = false;
+    try {
+      if (typeof File !== "undefined" && navigator.share) {
+        const file = new File([blob], filename, { type: "application/json", lastModified: Date.now() });
+        const can =
+          typeof navigator.canShare === "function" &&
+          navigator.canShare({ files: [file] });
+        if (can) {
+          await navigator.share({
+            title: "Backup da agenda Kleber Dolli",
+            text: "Salve em Arquivos ou envie ao computador (WhatsApp, e-mail, Drive).",
+            files: [file],
+          });
+          shared = true;
+        }
+      }
+    } catch (err) {
+      if (err && err.name === "AbortError") {
+        setAdminBackupMessage("Compartilhamento cancelado.");
+        return;
+      }
+    }
+
+    if (shared) {
+      setAdminBackupMessage("Pronto. Use “Salvar no Arquivos” ou envie o .json ao PC.");
+      return;
+    }
+
+    if (!isIOS) {
+      try {
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = filename;
+        anchor.rel = "noopener";
+        anchor.style.display = "none";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        setTimeout(() => URL.revokeObjectURL(url), 60_000);
+        setAdminBackupMessage("Backup baixado (ou na pasta de downloads). Envie o .json ao celular se precisar.");
+        return;
+      } catch {
+        /* clipboard abaixo */
+      }
+    }
+
     try {
       await navigator.clipboard.writeText(json);
       setAdminBackupMessage(
-        `Backup copiado. Abra Notas → cole → ⋯ → Compartilhar → “Salvar em Arquivos” (nome: ${filename}).`
+        isIOS
+          ? `Backup COPIADO (${json.length} caracteres). Notas → colar → ⋯ → Salvar em Arquivos como ${filename}`
+          : `Backup COPIADO. Salve um arquivo de texto como ${filename} ou envie ao PC.`
       );
     } catch {
-      setAdminBackupMessage("Não consegui salvar neste iPhone. Abra o Painel no computador e use Baixar backup.");
+      setAdminBackupMessage(
+        "Não foi possível baixar nem copiar. Abra este site no computador e use Baixar backup."
+      );
     }
-    return;
+  } catch (err) {
+    console.error(err);
+    setAdminBackupMessage(
+      err && err.message ? `Erro ao exportar: ${err.message}` : "Erro ao exportar. Tente no computador."
+    );
   }
-
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.rel = "noopener";
-  document.body.appendChild(anchor);
-  anchor.click();
-  document.body.removeChild(anchor);
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
-  setAdminBackupMessage("Backup baixado. Envie o arquivo ao PC (Drive, WhatsApp, e-mail) e use Restaurar.");
 }
 
 function normalizeImportedBackup(parsed) {
@@ -638,7 +696,12 @@ function loadState() {
 }
 
 function saveState() {
-  localStorage.setItem(storageKey, JSON.stringify(state));
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  } catch (err) {
+    console.error("saveState", err);
+    throw err;
+  }
 }
 
 function createId() {
@@ -661,9 +724,12 @@ function render() {
 }
 
 function renderCounters(events) {
-  document.querySelector("#confirmedCount").textContent = countByStatus(events, "confirmed");
-  document.querySelector("#availableCount").textContent = countByStatus(events, "available");
-  document.querySelector("#pendingCount").textContent = countByStatus(events, "pending");
+  const confirmedEl = document.querySelector("#confirmedCount");
+  const availableEl = document.querySelector("#availableCount");
+  const pendingEl = document.querySelector("#pendingCount");
+  if (confirmedEl) confirmedEl.textContent = countByStatus(events, "confirmed");
+  if (availableEl) availableEl.textContent = countByStatus(events, "available");
+  if (pendingEl) pendingEl.textContent = countByStatus(events, "pending");
 }
 
 function countByStatus(events, status) {
@@ -680,6 +746,7 @@ function isInJuneAgenda(value) {
 }
 
 function renderEvents(events) {
+  if (!eventGrid) return;
   const days = buildCalendarDays(events);
 
   if (!days.length) {
@@ -908,11 +975,16 @@ async function notifyTelegram(type, payload) {
     };
   }
 
+  const controller = new AbortController();
+  const timeoutMs = 12000;
+  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+
   try {
     const response = await fetch("/api/notify-telegram", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type, payload }),
+      signal: controller.signal,
     });
     const data = await response.json().catch(() => ({}));
 
@@ -924,11 +996,19 @@ async function notifyTelegram(type, payload) {
     }
 
     return { ok: true, message: "Enviado" };
-  } catch {
+  } catch (err) {
+    if (err && err.name === "AbortError") {
+      return {
+        ok: false,
+        message: "A notificação demorou demais, mas sua solicitação foi salva neste navegador.",
+      };
+    }
     return {
       ok: false,
       message: "Solicitação recebida, mas o Telegram não respondeu. Confira o deploy no Vercel.",
     };
+  } finally {
+    window.clearTimeout(timeoutId);
   }
 }
 
@@ -1034,8 +1114,8 @@ function clearQuoteFormHandler() {
 }
 
 function clearBookingFormHandler() {
-  bookingForm.reset();
-  formMessage.textContent = "";
+  bookingForm?.reset();
+  if (formMessage) formMessage.textContent = "";
 }
 
 
