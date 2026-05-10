@@ -343,9 +343,11 @@
 
     @media (max-width: 640px) {
       .toolbar {
-        position: static;
+        position: sticky;
+        top: 0;
         align-items: stretch;
         flex-direction: column;
+        padding-bottom: 14px;
       }
 
       .brand {
@@ -374,7 +376,7 @@
   <div class="page">
     <header class="toolbar">
       <a class="brand" href="index.html?v=novo" aria-label="Voltar para a agenda">
-        <span class="mark"><img src="assets/logo-kleber-dolli.png" alt="Kleber Dolli e Fulô da Capitá"></span>
+        <span class="mark"><img src="assets/logo-kleber-dolli.svg" alt="Kleber Dolli e Fulô da Capitá" loading="lazy" decoding="async"></span>
         <span>
           <strong>Fotos e Vídeos</strong>
           <span>Kleber Dolli e Fulô da Capitá</span>

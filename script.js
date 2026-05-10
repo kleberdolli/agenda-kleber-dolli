@@ -80,6 +80,7 @@ const periodLabels = {
 let state = loadState();
 let activeFilter = "all";
 let usingSupabase = false;
+let pendingImport = null;
 /** Evita que uma resposta tardia do Supabase sobrescreva um backup recém-restaurado. */
 let remoteAgendaGeneration = 0;
 
@@ -241,6 +242,17 @@ adminExportBackup?.addEventListener("click", () => {
   void exportAgendaBackup();
 });
 adminImportBackup?.addEventListener("change", handleImportBackupChange);
+document.querySelector("#adminConfirmImport")?.addEventListener("click", () => {
+  if (!pendingImport) return;
+  remoteAgendaGeneration += 1;
+  state = { events: pendingImport.events, quotes: pendingImport.quotes };
+  pendingImport = null;
+  saveState();
+  render();
+  document.querySelector("#adminConfirmImport")?.classList.add("hidden");
+  setAdminBackupMessage(`Backup restaurado com sucesso. ${state.events.length} datas carregadas.`);
+  document.querySelector("#eventGrid")?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
 
@@ -613,25 +625,14 @@ async function handleImportBackupChange(event) {
       return;
     }
 
-    const ok = window.confirm(
-      "Substituir a agenda deste aparelho pelo backup? Os dados atuais neste navegador serão trocados (faça um backup antes se precisar)."
-    );
-    if (!ok) {
-      input.value = "";
-      return;
-    }
-
-    remoteAgendaGeneration += 1;
-    state = {
-      events: normalized.events,
-      quotes: normalized.quotes,
-    };
-    saveState();
-    render();
+    // Armazena temporariamente e pede confirmação inline (window.confirm é bloqueado em mobile)
+    pendingImport = normalized;
+    input.value = "";
     setAdminBackupMessage(
-      `Backup restaurado (${normalized.events.length} datas). Confira abaixo. Se usar Supabase, regrave o que precisar online.`
+      `Arquivo lido: ${normalized.events.length} datas encontradas. Clique em CONFIRMAR para substituir a agenda atual.`
     );
-    document.querySelector("#eventGrid")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const confirmBtn = document.querySelector("#adminConfirmImport");
+    if (confirmBtn) confirmBtn.classList.remove("hidden");
   } catch (err) {
     const hint = err && err.message ? err.message : String(err);
     setAdminBackupMessage(`Não foi possível ler o arquivo: ${hint}`);
