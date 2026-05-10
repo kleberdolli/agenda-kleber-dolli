@@ -986,6 +986,37 @@ textarea:focus-visible {
 .admin-subheading {
   margin: 8px 0 0;
 }
+
+.admin-backup {
+  display: grid;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px dashed rgba(241, 214, 138, 0.28);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-backup-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-backup-message {
+  margin: 0;
+  min-height: 1.25em;
+  color: var(--gold-2);
+  font-size: 13px;
+  font-weight: 700;
+}
 .contract-section {
   background:
     linear-gradient(180deg, rgba(247, 242, 232, 0.1), rgba(255, 255, 255, 0)),

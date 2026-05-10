@@ -91,6 +91,10 @@ const adminLoginForm = document.querySelector("#adminLoginForm");
 const adminPanel = document.querySelector("#adminPanel");
 const adminMessage = document.querySelector("#adminMessage");
 const adminDateForm = document.querySelector("#adminDateForm");
+const adminExportBackup = document.querySelector("#adminExportBackup");
+const adminImportTrigger = document.querySelector("#adminImportTrigger");
+const adminImportBackup = document.querySelector("#adminImportBackup");
+const adminBackupMessage = document.querySelector("#adminBackupMessage");
 const contractInputs = [
   "contractClient",
   "contractDocument",
@@ -184,6 +188,9 @@ document.querySelector("#adminLogout")?.addEventListener("click", adminLogout);
 shareShowButton?.addEventListener("click", shareShowLink);
 adminLoginForm?.addEventListener("submit", handleAdminLogin);
 adminDateForm?.addEventListener("submit", handleAdminDateSave);
+adminExportBackup?.addEventListener("click", exportAgendaBackup);
+adminImportTrigger?.addEventListener("click", () => adminImportBackup?.click());
+adminImportBackup?.addEventListener("change", handleImportBackupChange);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
 
@@ -296,6 +303,14 @@ async function loadAgendaFromSupabase() {
     const rows = await supabaseRequest(`${supabaseTable}?select=*&date=gte.2026-06-01&date=lte.2026-06-30&order=date.asc,period.asc`, {
       method: "GET",
     });
+    if (!Array.isArray(rows) || rows.length === 0) {
+      usingSupabase = false;
+      console.warn(
+        "Supabase retornou vazio (possível env/RLS). Mantendo dados locais para não apagar sua agenda."
+      );
+      return;
+    }
+
     usingSupabase = true;
     state.events = rows.map(fromSupabase);
     saveState();
@@ -422,7 +437,84 @@ async function handleAdminLogin(event) {
 
 function adminLogout() {
   localStorage.removeItem(adminSessionKey);
+  if (adminBackupMessage) adminBackupMessage.textContent = "";
   render();
+}
+
+function setAdminBackupMessage(text) {
+  if (adminBackupMessage) adminBackupMessage.textContent = text || "";
+}
+
+function exportAgendaBackup() {
+  if (!isAdminLogged()) return;
+  const payload = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    source: "agenda-kleber-dolli",
+    events: state.events,
+    quotes: state.quotes,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  const day = new Date().toISOString().slice(0, 10);
+  anchor.href = url;
+  anchor.download = `agenda-backup-${day}.json`;
+  anchor.rel = "noopener";
+  anchor.click();
+  URL.revokeObjectURL(url);
+  setAdminBackupMessage("Backup baixado. Envie o arquivo ao PC (Drive, WhatsApp, e-mail) e use Restaurar.");
+}
+
+function normalizeImportedBackup(parsed) {
+  if (!parsed || typeof parsed !== "object") return null;
+  if (Array.isArray(parsed.events)) {
+    return {
+      events: parsed.events,
+      quotes: Array.isArray(parsed.quotes) ? parsed.quotes : [],
+    };
+  }
+  return null;
+}
+
+async function handleImportBackupChange(event) {
+  const input = event.target;
+  const file = input.files && input.files[0];
+  if (!file || !isAdminLogged()) {
+    if (input) input.value = "";
+    return;
+  }
+
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    const normalized = normalizeImportedBackup(parsed);
+    if (!normalized) {
+      setAdminBackupMessage("Arquivo inválido: precisa conter eventos (events).");
+      input.value = "";
+      return;
+    }
+
+    const ok = window.confirm(
+      "Substituir a agenda deste aparelho pelo backup? Os dados atuais neste navegador serão trocados (faça um backup antes se precisar)."
+    );
+    if (!ok) {
+      input.value = "";
+      return;
+    }
+
+    state = {
+      events: normalized.events,
+      quotes: normalized.quotes,
+    };
+    saveState();
+    render();
+    setAdminBackupMessage("Backup restaurado. Confira o calendário. Se usar Supabase, salve as alterações importantes de novo.");
+  } catch {
+    setAdminBackupMessage("Não foi possível ler o arquivo. Use um .json exportado por este site.");
+  }
+
+  input.value = "";
 }
 
 async function handleAdminDateSave(event) {

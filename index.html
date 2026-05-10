@@ -265,6 +265,22 @@
             <button id="adminLogout" class="button ghost small" type="button">Sair</button>
           </div>
 
+          <div class="admin-backup" role="region" aria-label="Backup da agenda">
+            <p class="admin-backup-note">
+              No <strong>celular</strong>: baixe o backup. No <strong>computador</strong>: restaure o arquivo para recuperar todas as datas sem digitar de novo.
+            </p>
+            <div class="admin-backup-actions">
+              <button type="button" class="button ghost small" id="adminExportBackup">
+                Baixar backup (.json)
+              </button>
+              <button type="button" class="button ghost small" id="adminImportTrigger">
+                Restaurar backup…
+              </button>
+              <input type="file" id="adminImportBackup" class="hidden" accept=".json,application/json" />
+            </div>
+            <p id="adminBackupMessage" class="admin-backup-message" role="status"></p>
+          </div>
+
           <form id="adminDateForm" class="booking-form admin-date-form">
             <label>
               Data
