@@ -112,7 +112,6 @@ const adminPanel = document.querySelector("#adminPanel");
 const adminMessage = document.querySelector("#adminMessage");
 const adminDateForm = document.querySelector("#adminDateForm");
 const adminExportBackup = document.querySelector("#adminExportBackup");
-const adminImportTrigger = document.querySelector("#adminImportTrigger");
 const adminImportBackup = document.querySelector("#adminImportBackup");
 const adminBackupMessage = document.querySelector("#adminBackupMessage");
 const contractInputs = [
@@ -209,7 +208,6 @@ shareShowButton?.addEventListener("click", shareShowLink);
 adminLoginForm?.addEventListener("submit", handleAdminLogin);
 adminDateForm?.addEventListener("submit", handleAdminDateSave);
 adminExportBackup?.addEventListener("click", exportAgendaBackup);
-adminImportTrigger?.addEventListener("click", () => adminImportBackup?.click());
 adminImportBackup?.addEventListener("change", handleImportBackupChange);
 contractInputs.filter(Boolean).forEach((input) => input.addEventListener("input", renderContract));
 
@@ -459,15 +457,37 @@ function exportAgendaBackup() {
     events: state.events,
     quotes: state.quotes,
   };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
   const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
   const day = new Date().toISOString().slice(0, 10);
+  const filename = `agenda-backup-${day}.json`;
+
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isIOS) {
+    // iOS não suporta download via anchor — abre em nova aba para o usuário salvar/compartilhar
+    const tab = window.open(url, "_blank");
+    if (tab) {
+      setAdminBackupMessage("Arquivo aberto em nova aba. Toque no ícone de compartilhar e salve no Files, Drive ou WhatsApp.");
+    } else {
+      // Popup bloqueado — fallback: copia o JSON para a área de transferência
+      navigator.clipboard.writeText(json).then(() => {
+        setAdminBackupMessage("Não foi possível abrir nova aba. Backup copiado para a área de transferência — cole num bloco de notas e salve como .json.");
+      }).catch(() => {
+        setAdminBackupMessage("Não foi possível baixar. Tente pelo computador.");
+      });
+    }
+    return;
+  }
+
+  const anchor = document.createElement("a");
   anchor.href = url;
-  anchor.download = `agenda-backup-${day}.json`;
+  anchor.download = filename;
   anchor.rel = "noopener";
+  document.body.appendChild(anchor);
   anchor.click();
-  URL.revokeObjectURL(url);
+  document.body.removeChild(anchor);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
   setAdminBackupMessage("Backup baixado. Envie o arquivo ao PC (Drive, WhatsApp, e-mail) e use Restaurar.");
 }
 
@@ -482,16 +502,32 @@ function normalizeImportedBackup(parsed) {
   return null;
 }
 
+async function readBackupFileAsText(file) {
+  if (typeof file.text === "function") {
+    return file.text();
+  }
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(reader.error || new Error("FileReader"));
+    reader.readAsText(file);
+  });
+}
+
 async function handleImportBackupChange(event) {
   const input = event.target;
   const file = input.files && input.files[0];
   if (!file || !isAdminLogged()) {
     if (input) input.value = "";
+    if (file && !isAdminLogged()) {
+      setAdminBackupMessage("Entre no painel de novo para restaurar o backup.");
+    }
     return;
   }
 
   try {
-    const text = await file.text();
+    const raw = await readBackupFileAsText(file);
+    const text = raw.replace(/^\uFEFF/, "").trim();
     const parsed = JSON.parse(text);
     const normalized = normalizeImportedBackup(parsed);
     if (!normalized) {
@@ -515,9 +551,13 @@ async function handleImportBackupChange(event) {
     };
     saveState();
     render();
-    setAdminBackupMessage("Backup restaurado. Confira o calendário. Se usar Supabase, salve as alterações importantes de novo.");
-  } catch {
-    setAdminBackupMessage("Não foi possível ler o arquivo. Use um .json exportado por este site.");
+    setAdminBackupMessage(
+      `Backup restaurado (${normalized.events.length} datas). Confira abaixo. Se usar Supabase, regrave o que precisar online.`
+    );
+    document.querySelector("#eventGrid")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (err) {
+    const hint = err && err.message ? err.message : String(err);
+    setAdminBackupMessage(`Não foi possível ler o arquivo: ${hint}`);
   }
 
   input.value = "";
