@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/assets/(.*)\\.mp3",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "audio/mpeg"
+        }
+      ]
+    }
+  ]
+}

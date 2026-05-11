@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Galeria de fotos e vídeos — Kleber Dolli e Fulô da Capitá.">
+  <meta name="theme-color" content="#090a0f">
+  <title>Fotos e Vídeos - Kleber Dolli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --surface: rgba(18, 20, 29, .88);
+      --line: rgba(241, 214, 138, .18);
+      --text: #f7f4ed;
+      --muted: #c8bdab;
+      --gold: #d7af52;
+      --gold-2: #f1d68a;
+      --red: #9f1717;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .42);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(90deg, rgba(9, 10, 15, .96), rgba(58, 36, 23, .86) 48%, rgba(9, 10, 15, .94)),
+        linear-gradient(0deg, #090a0f, rgba(9, 10, 15, .16) 44%),
+        url("assets/kleber-dolli-bg.jpeg") center 14% / cover fixed no-repeat;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(215, 175, 82, .16), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(151, 35, 25, .18), transparent 30%),
+        linear-gradient(90deg, rgba(247,244,237,.035) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(247,244,237,.035) 1px, transparent 1px);
+      background-size: auto, auto, 58px 58px, 58px 58px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 54px;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0 20px;
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      min-width: 0;
+      gap: 12px;
+    }
+
+    .mark {
+      width: 138px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 10px;
+      background: #3a2417;
+    }
+
+    .mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand strong,
+    .brand span {
+      display: block;
+    }
+
+    .brand strong {
+      font-size: 17px;
+    }
+
+    .brand span {
+      margin-top: 2px;
+      color: rgba(255,255,255,.72);
+      font-size: 13px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid rgba(241, 214, 138, .34);
+      border-radius: 999px;
+      color: var(--gold-2);
+      background: rgba(215, 175, 82, .08);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 0 28px rgba(215, 175, 82, .16);
+      font-size: 15px;
+      font-weight: 900;
+      text-shadow: 0 0 14px rgba(241, 214, 138, .32);
+      transition: background 160ms, box-shadow 160ms, color 160ms, transform 160ms;
+      white-space: nowrap;
+    }
+
+    .back-link:hover {
+      color: #17120a;
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.12) inset,
+        0 0 34px rgba(215, 175, 82, .28);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      min-height: 360px;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      position: relative;
+      margin: 8px 0 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background:
+        linear-gradient(90deg, rgba(9,10,15,.92), rgba(9,10,15,.42)),
+        url("assets/galeria/show-05.jpg") center 48% / cover no-repeat;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(215, 175, 82, .24), transparent 34%),
+        linear-gradient(0deg, rgba(9,10,15,.96), transparent 48%);
+    }
+
+    .hero-copy {
+      width: min(680px, 100%);
+      padding: clamp(28px, 5vw, 56px);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--gold-2);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(40px, 7vw, 74px);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .junino-title {
+      color: #ffe2a0;
+      text-shadow:
+        0 2px 0 var(--red),
+        0 6px 22px rgba(159, 23, 23, .52);
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin-bottom: 0;
+      color: #e2dac9;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.55;
+    }
+
+    .section {
+      padding: clamp(28px, 5vw, 56px) 0;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .section-note {
+      max-width: 380px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .photo-card {
+      display: block;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(241, 214, 138, .2);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.04) inset,
+        0 18px 40px rgba(0,0,0,.34),
+        0 0 32px rgba(215,175,82,.12);
+      transition: transform 180ms, box-shadow 180ms, border-color 180ms;
+    }
+
+    .photo-card:hover {
+      border-color: rgba(241, 214, 138, .52);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.08) inset,
+        0 22px 54px rgba(0,0,0,.42),
+        0 0 38px rgba(215,175,82,.26);
+      transform: translateY(-3px);
+    }
+
+    .photo-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .video-card {
+      min-height: 230px;
+      display: grid;
+      align-content: end;
+      overflow: hidden;
+      position: relative;
+      padding: 24px;
+      border: 1px solid rgba(241, 214, 138, .2);
+      border-radius: 10px;
+      background:
+        linear-gradient(0deg, rgba(9,10,15,.96), rgba(9,10,15,.35)),
+        url("assets/galeria/show-04.jpg") center / cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+
+    .video-card:nth-child(2) {
+      background-image:
+        linear-gradient(0deg, rgba(9,10,15,.96), rgba(9,10,15,.35)),
+        url("assets/galeria/show-06.jpg");
+    }
+
+    .video-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--gold-2);
+      font-size: 22px;
+    }
+
+    .video-card span {
+      color: rgba(255,255,255,.76);
+      line-height: 1.5;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 28px 0 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .toolbar {
+        position: sticky;
+        top: 0;
+        align-items: stretch;
+        flex-direction: column;
+        padding-bottom: 14px;
+      }
+
+      .brand {
+        align-items: flex-start;
+      }
+
+      .back-link {
+        width: 100%;
+      }
+
+      .hero {
+        min-height: 460px;
+      }
+
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="toolbar">
+      <a class="brand" href="index.html?v=novo" aria-label="Voltar para a agenda">
+        <span class="mark"><img src="assets/logo-kleber-dolli.svg" alt="Kleber Dolli e Fulô da Capitá" loading="lazy" decoding="async"></span>
+        <span>
+          <strong>Fotos e Vídeos</strong>
+          <span>Kleber Dolli e Fulô da Capitá</span>
+        </span>
+      </a>
+      <a class="back-link" href="index.html?v=novo">← Voltar à agenda</a>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="galleryTitle">
+        <div class="hero-copy">
+          <p class="eyebrow">Galeria</p>
+          <h1 id="galleryTitle">Kleber Dolli e <span class="junino-title">Fulô da Capitá</span></h1>
+          <p>Registros de palco, São João, eventos e encontros musicais com a energia do show ao vivo.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="photoTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Fotos</p>
+            <h2 id="photoTitle">Momentos do show</h2>
+          </div>
+          <p class="section-note"></p>
+        </div>
+
+        <div class="photo-grid">
+          <a class="photo-card" href="assets/galeria/show-01.jpg" target="_blank" rel="noopener">
+            <img src="assets/galeria/show-01.jpg" alt="Kleber Dolli tocando teclado em evento junino">
+          </a>
+          <a class="photo-card" href="assets/galeria/show-02.jpg" target="_blank" rel="noopener">
+            <img src="assets/galeria/show-02.jpg" alt="Apresentação de Kleber Dolli com público e percussão">
+          </a>
+          <a class="photo-card" href="assets/galeria/show-03.jpg" target="_blank" rel="noopener">
+            <img src="assets/galeria/show-03.jpg" alt="Kleber Dolli no palco com banda">
+          </a>
+          <a class="photo-card" href="assets/galeria/show-04.jpg" target="_blank" rel="noopener">
+            <img src="assets/galeria/show-04.jpg" alt="Kleber Dolli e músicos em apresentação junina">
+          </a>
+          <a class="photo-card" href="assets/galeria/show-05.jpg" target="_blank" rel="noopener">
+            <img src="assets/galeria/show-05.jpg" alt="Kleber Dolli e Fulô da Capitá em palco aberto">
+          </a>
+          <a class="photo-card" href="assets/galeria/show-06.jpg" target="_blank" rel="noopener">
+            <img src="assets/galeria/show-06.jpg" alt="Kleber Dolli em apresentação com violão e percussão">
+          </a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="videoTitle">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Vídeos</p>
+            <h2 id="videoTitle">Ao vivo no YouTube</h2>
+          </div>
+          <p class="section-note">Espaço reservado para os vídeos oficiais e trechos de apresentação.</p>
+        </div>
+
+        <div class="video-grid">
+          <article class="video-card">
+            <strong>Show ao vivo</strong>
+            <span>Link do YouTube</span>
+          </article>
+          <article class="video-card">
+            <strong>Fulô da Capitá</strong>
+            <span>Link do YouTube</span>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>Agenda On-Line Junho 2026</strong>
+      <span>Fotos, vídeos, agenda e contrato em uma central online.</span>
+    </footer>
+  </div>
+</body>
+</html>

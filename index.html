@@ -1,0 +1,369 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Agenda oficial de Kleber Dolli e Fulô da Capitá — junho de 2026: datas, orçamento, pré-reserva e contrato musical."
+    />
+    <meta name="theme-color" content="#090a0f" />
+    <title>Agenda do Artista — Kleber Dolli e Fulô da Capitá</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
+    <header class="topbar">
+      <div class="topbar-top">
+        <a class="brand" href="#inicio" aria-label="Ir para o início">
+          <span class="brand-mark">♪</span>
+          <span>
+            <strong>Agenda On-Line Junho 2026</strong>
+            <small>Shows, reservas e contratos</small>
+          </span>
+        </a>
+
+        <button class="share-show-button" id="shareShowButton" type="button">
+          Indique Kleber Dolli
+        </button>
+      </div>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#agenda">Agenda</a>
+        <a href="#orcamento">Orçamento</a>
+        <a href="#solicitar">Pré-reserva</a>
+        <a href="galeria.html?v=novo">Fotos e Vídeos</a>
+        <a href="contrato.html?v=novo">Contrato</a>
+        <a href="#admin">Painel</a>
+      </nav>
+    </header>
+
+    <main id="conteudo-principal">
+      <section id="inicio" class="hero">
+        <div class="hero-media" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Página oficial do artista</p>
+          <h1>Kleber Dolli e <span class="junino-title">Fulô da Capitá</span></h1>
+          <p class="hero-copy">
+            Agenda do mês de junho de 2026 com clima junino, datas livres,
+            orçamento, pré-reserva e contrato musical online.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#orcamento">Solicitar orçamento</a>
+            <a class="button ghost" href="#agenda">Ver agenda</a>
+          </div>
+          <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Ativar/desativar música">
+            🎵 Ativar música
+          </button>
+        </div>
+      </section>
+      <audio id="bgMusic" loop preload="metadata" playsinline>
+        <!-- Preferência: nome padrão sem espaços -->
+        <source src="assets/musica.mp3" type="audio/mpeg" />
+        <!-- Fallback: nome que pode vir do upload no Vercel -->
+        <source src="assets/Kleber%20Dolli.mp3" type="audio/mpeg" />
+      </audio>
+
+      <section class="status-strip" aria-label="Resumo da agenda">
+        <article>
+          <span id="confirmedCount">0</span>
+          <strong>confirmadas</strong>
+        </article>
+        <article>
+          <span id="availableCount">0</span>
+          <strong>disponíveis</strong>
+        </article>
+        <article>
+          <span id="pendingCount">0</span>
+          <strong>pré-reservas</strong>
+        </article>
+      </section>
+
+      <section id="agenda" class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Calendário público</p>
+            <h2>Datas do artista</h2>
+          </div>
+          <div class="filters" role="tablist" aria-label="Filtrar agenda">
+            <button class="filter active" type="button" data-filter="all">Tudo</button>
+            <button class="filter" type="button" data-filter="confirmed">Confirmadas</button>
+            <button class="filter" type="button" data-filter="available">Disponíveis</button>
+            <button class="filter" type="button" data-filter="pending">Pré-reserva</button>
+          </div>
+        </div>
+
+        <div id="eventGrid" class="event-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="orcamento" class="section quote-section">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Orçamento</p>
+            <h2>Solicite uma proposta</h2>
+            <p class="telegram-note"><span aria-hidden="true">✈</span> O artista receberá sua notificação imediatamente.</p>
+          </div>
+          <div class="heading-note">
+            <img src="assets/logo-kleber-dolli.svg" width="150" height="56" alt="Logotipo Kleber Dolli e Fulô da Capitá" loading="lazy" decoding="async" />
+            <p>
+              A solicitação de orçamento pode acontecer antes da pré-reserva,
+              sem bloquear a data automaticamente.
+            </p>
+          </div>
+        </div>
+
+        <form id="quoteForm" class="booking-form">
+          <label>
+            Nome
+            <input id="quoteName" type="text" placeholder="Nome do contratante" required />
+          </label>
+          <label>
+            WhatsApp
+            <input id="quotePhone" type="tel" placeholder="(00) 00000-0000" required />
+          </label>
+          <label>
+            Cidade e estado
+            <input id="quoteCity" type="text" placeholder="Ex: Salvador - BA" required />
+          </label>
+          <label>
+            Data provável
+            <input id="quoteDate" type="date" />
+          </label>
+          <label>
+            Período
+            <select id="quotePeriod" required>
+              <option value="">Selecione</option>
+              <option value="tarde">À tarde</option>
+              <option value="noite">À noite</option>
+            </select>
+          </label>
+          <label>
+            Tipo de evento
+            <select id="quoteType" required>
+              <option value="">Selecione</option>
+              <option>Show público</option>
+              <option>Evento particular</option>
+              <option>Casamento</option>
+              <option>Corporativo</option>
+              <option>Festival</option>
+            </select>
+          </label>
+          <label>
+            Duração desejada
+            <select id="quoteDuration" required>
+              <option value="">Selecione</option>
+              <option>1 hora</option>
+              <option>2 horas</option>
+              <option>3 horas</option>
+              <option>Mais de 3 horas</option>
+            </select>
+          </label>
+          <label class="wide">
+            Detalhes do evento
+            <textarea
+              id="quoteNotes"
+              rows="4"
+              placeholder="Conte sobre público esperado, estrutura, horário e formato do evento."
+            ></textarea>
+          </label>
+          <button class="button primary wide" type="submit">Enviar solicitação de orçamento</button>
+          <button class="button ghost wide" type="button" id="clearQuoteForm">Limpar formulário</button>
+          <p id="quoteMessage" class="form-message" role="status"></p>
+        </form>
+      </section>
+
+      <section id="solicitar" class="section request-band">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Solicitação</p>
+            <h2>Pré-reserva de data</h2>
+          </div>
+          <p>
+            O endereço completo só deve ser tratado em particular, depois da
+            aprovação da equipe.
+          </p>
+        </div>
+
+        <form id="bookingForm" class="booking-form">
+          <label>
+            Data desejada
+            <input id="dateInput" type="date" required />
+          </label>
+          <label>
+            Período
+            <select id="periodInput" required>
+              <option value="">Selecione</option>
+              <option value="tarde">À tarde</option>
+              <option value="noite">À noite</option>
+            </select>
+          </label>
+          <label>
+            Cidade e estado
+            <input id="cityInput" type="text" placeholder="Ex: Salvador - BA" required />
+          </label>
+          <label>
+            Tipo de evento
+            <select id="eventTypeInput" required>
+              <option value="">Selecione</option>
+              <option>Show público</option>
+              <option>Evento particular</option>
+              <option>Casamento</option>
+              <option>Corporativo</option>
+              <option>Festival</option>
+            </select>
+          </label>
+          <label>
+            Nome do solicitante
+            <input id="nameInput" type="text" placeholder="Seu nome" required />
+          </label>
+          <label>
+            WhatsApp
+            <input id="phoneInput" type="tel" placeholder="(00) 00000-0000" required />
+          </label>
+          <label class="wide">
+            Observações
+            <textarea
+              id="notesInput"
+              rows="4"
+              placeholder="Informe horário aproximado, estrutura ou detalhes importantes."
+            ></textarea>
+          </label>
+          <button class="button primary wide" type="submit">Enviar pré-reserva</button>
+          <button class="button ghost wide" type="button" id="clearBookingForm">Limpar formulário</button>
+          <p id="formMessage" class="form-message" role="status"></p>
+        </form>
+      </section>
+
+
+
+      <section id="admin" class="section admin-section">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Área restrita</p>
+            <h2>Painel da agenda</h2>
+          </div>
+          <p>
+            Entre para travar datas, liberar períodos e acompanhar solicitações.
+          </p>
+        </div>
+
+        <form id="adminLoginForm" class="admin-login">
+          <label>
+            Senha administrativa
+            <input id="adminPassword" type="password" placeholder="Digite a senha" autocomplete="current-password" />
+          </label>
+          <button class="button primary" type="submit">Entrar para editar</button>
+          <p id="adminMessage" class="form-message" role="status"></p>
+        </form>
+
+        <div id="adminPanel" class="admin-panel hidden">
+          <div class="admin-toolbar">
+            <strong>Modo edição ativo</strong>
+            <button id="adminLogout" class="button ghost small" type="button">Sair</button>
+          </div>
+
+          <div class="admin-backup" role="region" aria-label="Backup da agenda">
+            <p class="admin-backup-note">
+              No <strong>celular</strong>: baixe o backup. No <strong>computador</strong>: restaure o arquivo para recuperar todas as datas sem digitar de novo.
+            </p>
+            <div class="admin-backup-actions">
+              <button type="button" class="button ghost small" id="adminExportBackup">
+                Baixar backup (.json)
+              </button>
+              <!-- Input não pode estar com display:none no celular (Safari bloqueia). Toque abre o arquivo. -->
+              <label class="button ghost small admin-import-label">
+                Restaurar backup…
+                <input
+                  type="file"
+                  id="adminImportBackup"
+                  accept=".json,application/json"
+                  class="admin-import-file"
+                />
+              </label>
+            </div>
+            <button type="button" class="button primary small hidden" id="adminConfirmImport">
+              ✓ CONFIRMAR restauração
+            </button>
+            <p id="adminBackupMessage" class="admin-backup-message" role="status"></p>
+          </div>
+
+          <form id="adminDateForm" class="booking-form admin-date-form">
+            <label>
+              Data
+              <input id="adminDate" type="date" min="2026-06-01" max="2026-06-30" required />
+            </label>
+            <label>
+              Período
+              <select id="adminPeriod" required>
+                <option value="tarde">À tarde</option>
+                <option value="noite">À noite</option>
+              </select>
+            </label>
+            <label>
+              Status
+              <select id="adminStatus" required>
+                <option value="available">Disponível</option>
+                <option value="pending">Pré-reserva</option>
+                <option value="confirmed">Data fechada</option>
+              </select>
+            </label>
+            <label>
+              Tipo de evento
+              <input id="adminTitle" type="text" placeholder="Ex: São João, Aniversário" />
+            </label>
+            <label>
+              Cidade e estado
+              <input id="adminCity" type="text" placeholder="Ex: Salvador - BA" />
+            </label>
+            <label>
+              Local resumido
+              <input id="adminVenue" type="text" placeholder="Ex: Evento privado" />
+            </label>
+            <label>
+              Horário
+              <input id="adminTime" type="text" placeholder="Ex: 21h" />
+            </label>
+            <label class="wide">
+              Observação pública
+              <textarea id="adminNote" rows="3" placeholder="Mensagem exibida ao visitante."></textarea>
+            </label>
+            <button class="button primary wide" type="submit">Salvar data na agenda</button>
+          </form>
+
+          <div class="section-heading admin-subheading">
+            <div>
+              <p class="eyebrow">Solicitações</p>
+              <h2>Pré-reservas e orçamentos</h2>
+            </div>
+          </div>
+          <div id="requestList" class="request-list" aria-live="polite"></div>
+        </div>
+      </section>
+      <section id="contrato" class="section contract-section">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Contrato</p>
+            <h2>Contrato musical online</h2>
+          </div>
+        </div>
+        <p class="contract-intro">Preencha, salve, gere PDF ou imprima o contrato diretamente pelo navegador.</p>
+        <a class="button primary" href="contrato.html?v=novo" target="_blank">Abrir contrato</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <strong>Agenda On-Line Junho 2026</strong>
+      <span>Agenda, orçamento e contrato com privacidade nos dados sensíveis.</span>
+    </footer>
+
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
+
