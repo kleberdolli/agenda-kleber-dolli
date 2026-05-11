@@ -1217,6 +1217,7 @@ const soundToggle = document.getElementById("soundToggle");
 
 if (soundToggle && bgMusic) {
   const musicPrefKey = "agenda-musical-sound";
+  const musicCandidates = ["assets/musica.mp3", "assets/Kleber%20Dolli.mp3"];
 
   const setSoundUI = (playing) => {
     soundToggle.textContent = playing ? "🔇 Pausar música" : "🎵 Ativar música";
@@ -1232,8 +1233,9 @@ if (soundToggle && bgMusic) {
   };
 
   bgMusic.volume = 0.35;
+  bgMusic.muted = false;
   bgMusic.addEventListener("error", () => {
-    showSoundError("Falha ao carregar assets/musica.mp3 (arquivo ausente ou bloqueado).");
+    showSoundError("Falha ao carregar a música. Vou tentar outra fonte se existir.");
   });
 
   // Restaura preferência (somente após gesto do usuário o play é permitido).
@@ -1243,21 +1245,68 @@ if (soundToggle && bgMusic) {
     setSoundUI(false);
   }
 
+  async function pickWorkingMusicSrc() {
+    // Se o navegador já escolheu uma fonte válida, não mexe.
+    if (bgMusic.currentSrc) return bgMusic.currentSrc;
+
+    for (const candidate of musicCandidates) {
+      try {
+        const res = await fetch(candidate, { method: "HEAD", cache: "no-store" });
+        if (!res.ok) continue;
+        bgMusic.src = candidate;
+        return candidate;
+      } catch {
+        // tenta próximo
+      }
+    }
+    return "";
+  }
+
+  async function tryPlayMusic() {
+    const picked = await pickWorkingMusicSrc();
+    if (!picked) {
+      showSoundError("Não encontrei o arquivo de música no servidor (verifique o upload em assets/).");
+      return;
+    }
+
+    try {
+      // Ajuda em alguns celulares a “armar” o elemento antes do play.
+      bgMusic.load();
+    } catch {
+      /* ignore */
+    }
+
+    try {
+      await bgMusic.play();
+      localStorage.setItem(musicPrefKey, "on");
+      setSoundUI(true);
+    } catch (err) {
+      localStorage.setItem(musicPrefKey, "off");
+      const name = err?.name || "";
+      if (name === "NotAllowedError") {
+        showSoundError("O celular bloqueou o áudio. Toque no botão e aumente o volume/desative o modo silencioso.");
+        return;
+      }
+      showSoundError(err?.message || "Navegador bloqueou o áudio.");
+    }
+  }
+
   soundToggle.addEventListener("click", () => {
     if (bgMusic.paused) {
-      bgMusic.play()
-        .then(() => {
-          localStorage.setItem(musicPrefKey, "on");
-          setSoundUI(true);
-        })
-        .catch((err) => {
-          localStorage.setItem(musicPrefKey, "off");
-          showSoundError(err?.message || "Navegador bloqueou o áudio.");
-        });
+      void tryPlayMusic();
     } else {
       bgMusic.pause();
       localStorage.setItem(musicPrefKey, "off");
       setSoundUI(false);
     }
   });
+
+  // Se o usuário preferiu "on", tenta ligar no primeiro toque em qualquer lugar da página.
+  if (savedPref === "on") {
+    const firstGesture = () => {
+      document.removeEventListener("pointerdown", firstGesture, true);
+      void tryPlayMusic();
+    };
+    document.addEventListener("pointerdown", firstGesture, true);
+  }
 }
