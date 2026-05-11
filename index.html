@@ -64,7 +64,10 @@
         </div>
       </section>
       <audio id="bgMusic" loop preload="metadata" playsinline>
+        <!-- Preferência: nome padrão sem espaços -->
         <source src="assets/musica.mp3" type="audio/mpeg" />
+        <!-- Fallback: nome que pode vir do upload no Vercel -->
+        <source src="assets/Kleber%20Dolli.mp3" type="audio/mpeg" />
       </audio>
 
       <section class="status-strip" aria-label="Resumo da agenda">
