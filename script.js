@@ -1119,6 +1119,56 @@ function clearBookingFormHandler() {
   if (formMessage) formMessage.textContent = "";
 }
 
+function setupNavActiveSection() {
+  const nav = document.querySelector(".nav");
+  if (!nav) return;
+
+  const links = Array.from(nav.querySelectorAll("a[href^=\"#\"]"));
+  if (!links.length) return;
+
+  const linkById = new Map();
+  for (const link of links) {
+    const id = (link.getAttribute("href") || "").slice(1);
+    if (!id) continue;
+    linkById.set(id, link);
+  }
+
+  const sections = Array.from(linkById.keys())
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  if (!sections.length) return;
+
+  const setActive = (id) => {
+    for (const [, link] of linkById) {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
+    }
+    const active = linkById.get(id);
+    if (!active) return;
+    active.classList.add("is-active");
+    active.setAttribute("aria-current", "page");
+    active.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  // Hash inicial (quando abre já em #orcamento, por ex.)
+  const initial = (window.location.hash || "").slice(1);
+  if (initial && linkById.has(initial)) setActive(initial);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      // Pega o mais visível
+      const visible = entries
+        .filter((e) => e.isIntersecting)
+        .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
+      if (visible?.target?.id) setActive(visible.target.id);
+    },
+    { rootMargin: "-35% 0px -55% 0px", threshold: [0.2, 0.35, 0.5, 0.65] }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
+
 
 function parseDate(value) {
   const [year, month, day] = value.split("-");
@@ -1158,6 +1208,7 @@ function toDateInputValue(date) {
   await loadPublicConfig();
   await loadAgendaFromSupabase();
   render();
+  setupNavActiveSection();
 })();
 
 // Background music
@@ -1165,16 +1216,48 @@ const bgMusic = document.getElementById("bgMusic");
 const soundToggle = document.getElementById("soundToggle");
 
 if (soundToggle && bgMusic) {
+  const musicPrefKey = "agenda-musical-sound";
+
+  const setSoundUI = (playing) => {
+    soundToggle.textContent = playing ? "🔇 Pausar música" : "🎵 Ativar música";
+    soundToggle.setAttribute("aria-pressed", playing ? "true" : "false");
+  };
+
+  const showSoundError = (message) => {
+    setSoundUI(false);
+    // Reaproveita o texto do botão como feedback curto (sem alert).
+    soundToggle.textContent = "⚠️ Música indisponível";
+    window.setTimeout(() => setSoundUI(false), 2200);
+    console.warn("[music]", message);
+  };
+
+  bgMusic.volume = 0.35;
+  bgMusic.addEventListener("error", () => {
+    showSoundError("Falha ao carregar assets/musica.mp3 (arquivo ausente ou bloqueado).");
+  });
+
+  // Restaura preferência (somente após gesto do usuário o play é permitido).
+  const savedPref = localStorage.getItem(musicPrefKey);
+  if (savedPref === "on") {
+    // Deixa o botão "ligado", mas não tenta autoplay.
+    setSoundUI(false);
+  }
+
   soundToggle.addEventListener("click", () => {
     if (bgMusic.paused) {
-      bgMusic.play().then(() => {
-        soundToggle.textContent = "🔇 Pausar música";
-        soundToggle.setAttribute("aria-pressed", "true");
-      }).catch(() => {});
+      bgMusic.play()
+        .then(() => {
+          localStorage.setItem(musicPrefKey, "on");
+          setSoundUI(true);
+        })
+        .catch((err) => {
+          localStorage.setItem(musicPrefKey, "off");
+          showSoundError(err?.message || "Navegador bloqueou o áudio.");
+        });
     } else {
       bgMusic.pause();
-      soundToggle.textContent = "🎵 Ativar música";
-      soundToggle.setAttribute("aria-pressed", "false");
+      localStorage.setItem(musicPrefKey, "off");
+      setSoundUI(false);
     }
   });
 }
