@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Galeria de fotos e vídeos — Kleber Dolli.">
-  <meta name="theme-color" content="#090a0f">
+  <meta name="theme-color" content="#06070d">
   <title>Fotos e Vídeos - Kleber Dolli</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #090a0f;
+      --bg: #06070d;
       --surface: rgba(18, 20, 29, .88);
       --line: rgba(241, 214, 138, .18);
       --text: #f7f4ed;
@@ -29,25 +29,35 @@
     body {
       margin: 0;
       min-height: 100vh;
+      position: relative;
       color: var(--text);
       font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        linear-gradient(90deg, rgba(9, 10, 15, .96), rgba(58, 36, 23, .86) 48%, rgba(9, 10, 15, .94)),
-        linear-gradient(0deg, #090a0f, rgba(9, 10, 15, .16) 44%),
-        radial-gradient(ellipse 70% 80% at 50% 30%, rgba(58, 36, 23, 0.7), transparent 65%);
+      background-color: #06070d;
     }
 
     body::before {
       content: "";
       position: fixed;
       inset: 0;
+      z-index: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 16% 18%, rgba(215, 175, 82, .16), transparent 28%),
-        radial-gradient(circle at 82% 12%, rgba(151, 35, 25, .18), transparent 30%),
-        linear-gradient(90deg, rgba(247,244,237,.035) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(247,244,237,.035) 1px, transparent 1px);
-      background-size: auto, auto, 58px 58px, 58px 58px;
+        radial-gradient(ellipse 110% 55% at -5% -10%, rgba(124, 58, 237, 0.13), transparent 50%),
+        radial-gradient(ellipse 70% 50% at 105% 0%, rgba(201, 162, 39, 0.09), transparent 50%),
+        radial-gradient(ellipse 60% 40% at 50% 105%, rgba(159, 23, 23, 0.07), transparent 55%),
+        radial-gradient(ellipse 80% 60% at 100% 55%, rgba(124, 58, 237, 0.06), transparent 55%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(167, 139, 250, 0.020) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(167, 139, 250, 0.020) 1px, transparent 1px);
+      background-size: 64px 64px;
     }
 
     a {
@@ -252,9 +262,12 @@
     }
 
     .photo-card {
-      display: block;
+      display: grid;
+      grid-template-areas: "stack";
       overflow: hidden;
       position: relative;
+      margin: 0;
+      padding: 0;
       border: 1px solid rgba(241, 214, 138, .2);
       border-radius: 10px;
       background: var(--surface);
@@ -274,17 +287,8 @@
       transform: translateY(-3px);
     }
 
-    .photo-card img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      background: #1a1d28;
-    }
-
-    .photo-card img[src=""] ,
-    .photo-card img:not([src]) {
-      visibility: hidden;
+    .photo-card > * {
+      grid-area: stack;
     }
 
     .photo-placeholder {
@@ -295,6 +299,26 @@
       background: linear-gradient(135deg, #1a1d28, #12141d);
       color: rgba(215, 175, 82, 0.45);
       font-size: 42px;
+    }
+
+    .photo-card img {
+      display: none;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #1a1d28;
+      z-index: 1;
+    }
+
+    .photo-card img.photo-loaded {
+      display: block;
+    }
+
+    .photo-card:has(img.photo-loaded) .photo-placeholder {
+      visibility: hidden;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
     }
 
     .video-grid {
@@ -426,12 +450,30 @@
         </div>
 
         <div class="photo-grid">
-          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 1 — enviar imagem para assets/galeria/show-01.jpg">♪</span></span>
-          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 2 — enviar imagem para assets/galeria/show-02.jpg">♪</span></span>
-          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 3 — enviar imagem para assets/galeria/show-03.jpg">♪</span></span>
-          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 4 — enviar imagem para assets/galeria/show-04.jpg">♪</span></span>
-          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 5 — enviar imagem para assets/galeria/show-05.jpg">♪</span></span>
-          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 6 — enviar imagem para assets/galeria/show-06.jpg">♪</span></span>
+          <figure class="photo-card">
+            <span class="photo-placeholder" aria-hidden="true">♪</span>
+            <img src="assets/galeria/show-01.jpg" alt="Momento do show 1" loading="lazy" decoding="async" width="800" height="600">
+          </figure>
+          <figure class="photo-card">
+            <span class="photo-placeholder" aria-hidden="true">♪</span>
+            <img src="assets/galeria/show-02.jpg" alt="Momento do show 2" loading="lazy" decoding="async" width="800" height="600">
+          </figure>
+          <figure class="photo-card">
+            <span class="photo-placeholder" aria-hidden="true">♪</span>
+            <img src="assets/galeria/show-03.jpg" alt="Momento do show 3" loading="lazy" decoding="async" width="800" height="600">
+          </figure>
+          <figure class="photo-card">
+            <span class="photo-placeholder" aria-hidden="true">♪</span>
+            <img src="assets/galeria/show-04.jpg" alt="Momento do show 4" loading="lazy" decoding="async" width="800" height="600">
+          </figure>
+          <figure class="photo-card">
+            <span class="photo-placeholder" aria-hidden="true">♪</span>
+            <img src="assets/galeria/show-05.jpg" alt="Momento do show 5" loading="lazy" decoding="async" width="800" height="600">
+          </figure>
+          <figure class="photo-card">
+            <span class="photo-placeholder" aria-hidden="true">♪</span>
+            <img src="assets/galeria/show-06.jpg" alt="Momento do show 6" loading="lazy" decoding="async" width="800" height="600">
+          </figure>
         </div>
       </section>
 
@@ -462,5 +504,14 @@
       <span>Fotos, vídeos, agenda e contrato em uma central online.</span>
     </footer>
   </div>
+  <script>
+    document.querySelectorAll(".photo-card img").forEach(function (img) {
+      function markLoaded() {
+        if (img.naturalWidth > 0) img.classList.add("photo-loaded");
+      }
+      if (img.complete) markLoaded();
+      else img.addEventListener("load", markLoaded, { once: true });
+    });
+  </script>
 </body>
 </html>

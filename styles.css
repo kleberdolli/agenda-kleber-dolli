@@ -915,53 +915,6 @@ h2 {
   border-bottom: 1px solid var(--glass-border);
 }
 
-.quote-section {
-  background: linear-gradient(180deg, rgba(201, 162, 39, 0.08), rgba(0,0,0,0)), #100d08;
-  border-top: 1px solid var(--glass-border);
-}
-
-.heading-note {
-  display: grid;
-  grid-template-columns: 140px minmax(0, 1fr);
-  align-items: center;
-  gap: 14px;
-  width: min(520px, 100%);
-  color: var(--muted);
-  line-height: 1.6;
-}
-.heading-note img {
-  width: 140px;
-  max-width: 100%;
-  height: auto;
-  border: 1px solid rgba(167, 139, 250, 0.28);
-  border-radius: 10px;
-  background: rgba(124, 58, 237, 0.08);
-  padding: 4px;
-  filter: brightness(0.92);
-}
-.heading-note p { margin: 0; }
-
-.telegram-note {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 12px 0 0;
-  color: #9dd4ff;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-.telegram-note span {
-  display: inline-grid;
-  width: 26px;
-  height: 26px;
-  place-items: center;
-  border-radius: 50%;
-  color: #07131d;
-  background: #7dc8ff;
-  font-size: 14px;
-}
-
 /* ─────────────────────────────────────────────
    Formulários
 ────────────────────────────────────────────── */
@@ -1513,16 +1466,6 @@ textarea:focus-visible {
   margin-bottom: 20px;
 }
 
-/* Proposta formal — contexto */
-.quote-context {
-  margin: 12px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-  font-weight: 400;
-  max-width: 52ch;
-}
-
 /* ─────────────────────────────────────────────
    WhatsApp FAB — botão flutuante
 ────────────────────────────────────────────── */
@@ -1580,7 +1523,7 @@ textarea:focus-visible {
    Print
 ────────────────────────────────────────────── */
 @media print {
-  .topbar, .hero, .status-strip, #agenda, #orcamento, #solicitar, #admin,
+  .topbar, .hero, .status-strip, #agenda, #solicitar, #admin,
   .contract-form, .footer, .contract-preview h3 { display: none !important; }
   #contrato { padding: 0; }
   .contract-layout { display: block; }
@@ -1643,9 +1586,7 @@ textarea:focus-visible {
   .footer { flex-direction: column; gap: 6px; padding: 18px 14px; font-size: 13px; }
   .contract-form,
   .admin-login { grid-template-columns: 1fr; }
-  .event-grid,
-  .heading-note { grid-template-columns: 1fr; }
-  .heading-note img { width: min(240px, 100%); height: auto; }
+  .event-grid { grid-template-columns: 1fr; }
 
   .hero-copy { font-size: 15px; }
   .hero-actions { gap: 10px; }

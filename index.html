@@ -42,7 +42,6 @@
         <a href="#videos">Vídeos</a>
         <a href="#contato">Contato</a>
         <a href="#agenda">Agenda</a>
-        <a href="#orcamento">Proposta</a>
         <a href="galeria.html">Galeria</a>
         <a href="#admin">Painel</a>
       </nav>
@@ -224,9 +223,8 @@
             <p class="eyebrow">Fale com a produção</p>
             <h2>Vamos conversar</h2>
             <p>
-              A forma mais rápida de verificar disponibilidade, tirar dúvidas
-              e receber uma proposta é pelo botão flutuante do WhatsApp. Para contratos formais
-              e propostas institucionais, use o formulário de orçamento abaixo.
+              A forma mais rápida de verificar disponibilidade e tirar dúvidas
+              é pelo botão flutuante do WhatsApp ou pela pré-reserva de data mais abaixo.
             </p>
 
             <div class="social-links">
@@ -246,12 +244,6 @@
               <p class="contact-card-label">Resposta rápida</p>
               <h3>WhatsApp</h3>
               <p>Use o botão flutuante do site para falar com a produção com mais agilidade.</p>
-            </div>
-            <div class="contact-card">
-              <p class="contact-card-label">Proposta escrita</p>
-              <h3>Orçamento formal</h3>
-              <p>Para empresas, prefeituras e eventos que precisam de proposta por escrito.</p>
-              <a class="button ghost small" href="#orcamento">Pedir proposta</a>
             </div>
             <div class="contact-card">
               <p class="contact-card-label">Reservar data</p>
@@ -298,93 +290,6 @@
           </div>
           <div id="eventGrid" class="event-grid" aria-live="polite"></div>
         </div>
-      </section>
-
-      <!-- ??????????????????????????????????????????
-           PROPOSTA FORMAL (orçamento)
-      ?????????????????????????????????????????? -->
-      <section id="orcamento" class="section quote-section reveal">
-        <div class="section-heading compact">
-          <div>
-            <p class="eyebrow">Proposta formal</p>
-            <h2>Solicitar orçamento</h2>
-            <p class="quote-context">
-              Para empresas, prefeituras, eventos institucionais e contratos
-              que exigem proposta escrita e documentação formal.
-            </p>
-            <p class="telegram-note"><span aria-hidden="true">✓</span> Notificação enviada diretamente ao artista.</p>
-          </div>
-          <div class="heading-note">
-            <img src="assets/logo-kleber-dolli.svg" width="140" height="56" alt="Logotipo Kleber Dolli" loading="lazy" decoding="async" />
-            <p>
-              Preencha o formulário e receba uma proposta personalizada.
-              Para resposta rápida, use o botão flutuante do WhatsApp.
-            </p>
-          </div>
-        </div>
-
-        <form id="quoteForm" class="booking-form">
-          <label>
-            Nome / Empresa
-            <input id="quoteName" type="text" placeholder="Nome do contratante ou empresa" required />
-          </label>
-          <label>
-            WhatsApp
-            <input id="quotePhone" type="tel" placeholder="(00) 00000-0000" required />
-          </label>
-          <label>
-            Cidade e estado
-            <input id="quoteCity" type="text" placeholder="Ex: Salvador - BA" required />
-          </label>
-          <label>
-            Data provável
-            <input id="quoteDate" type="date" />
-          </label>
-          <label>
-            Período
-            <select id="quotePeriod" required>
-              <option value="">Selecione</option>
-              <option value="tarde">À tarde</option>
-              <option value="noite">À noite</option>
-            </select>
-          </label>
-          <label>
-            Tipo de evento
-            <select id="quoteType" required>
-              <option value="">Selecione</option>
-              <option>Show público</option>
-              <option>Evento particular</option>
-              <option>Casamento</option>
-              <option>Corporativo</option>
-              <option>Festival</option>
-              <option>Bar / Restaurante</option>
-              <option>Voz e violão</option>
-              <option>Trio</option>
-              <option>Evento institucional</option>
-            </select>
-          </label>
-          <label>
-            Duração desejada
-            <select id="quoteDuration" required>
-              <option value="">Selecione</option>
-              <option>1 hora</option>
-              <option>2 horas</option>
-              <option>3 horas</option>
-              <option>Mais de 3 horas</option>
-            </select>
-          </label>
-          <label class="wide">
-            Detalhes do evento
-            <textarea
-              id="quoteNotes"
-              rows="4"
-              placeholder="Público esperado, estrutura, horário e formato do evento."
-            ></textarea>
-          </label>
-          <button class="button primary wide" type="submit">Enviar solicitação de orçamento</button>
-          <button class="button ghost wide" type="button" id="clearQuoteForm">Limpar formulário</button>
-          <p id="quoteMessage" class="form-message" role="status"></p>
-        </form>
       </section>
 
       <!-- ??????????????????????????????????????????
@@ -548,7 +453,7 @@
           <div class="section-heading admin-subheading">
             <div>
               <p class="eyebrow">Solicitações</p>
-              <h2>Pré-reservas e orçamentos</h2>
+              <h2>Pré-reservas</h2>
             </div>
           </div>
           <div id="requestList" class="request-list" aria-live="polite"></div>
@@ -573,7 +478,7 @@
 
     <footer class="footer">
       <strong>Kleber Dolli – Músico Oficial</strong>
-      <span>Música ao vivo para cada ocasião. Contato, reservas e proposta online.</span>
+      <span>Música ao vivo para cada ocasião. Contato, reservas e contrato online.</span>
     </footer>
 
     <!-- WhatsApp FAB ? botão flutuante fixo -->

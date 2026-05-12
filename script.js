@@ -63,7 +63,7 @@ const initialEvents = [
   },
 ];
 
-const initialQuotes = [];
+
 
 const statusLabels = {
   confirmed: "Confirmado",
@@ -103,10 +103,8 @@ function mergeRemoteAndLocal(remoteRows, localEvents) {
 const eventGrid = document.querySelector("#eventGrid");
 const requestList = document.querySelector("#requestList");
 const bookingForm = document.querySelector("#bookingForm");
-const quoteForm = document.querySelector("#quoteForm");
 const shareShowButton = document.querySelector("#shareShowButton");
 const formMessage = document.querySelector("#formMessage");
-const quoteMessage = document.querySelector("#quoteMessage");
 const adminLoginForm = document.querySelector("#adminLoginForm");
 const adminPanel = document.querySelector("#adminPanel");
 const adminMessage = document.querySelector("#adminMessage");
@@ -193,45 +191,9 @@ bookingForm?.addEventListener("submit", async (event) => {
   }
 });
 
-quoteForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  const quote = {
-    id: createId(),
-    name: document.querySelector("#quoteName")?.value.trim() || "",
-    phone: document.querySelector("#quotePhone")?.value.trim() || "",
-    city: document.querySelector("#quoteCity")?.value.trim() || "",
-    date: document.querySelector("#quoteDate")?.value,
-    period: document.querySelector("#quotePeriod")?.value,
-    type: document.querySelector("#quoteType")?.value,
-    duration: document.querySelector("#quoteDuration")?.value,
-    notes: document.querySelector("#quoteNotes")?.value.trim() || "",
-    createdAt: new Date().toISOString(),
-  };
-
-  try {
-    state.quotes.push(quote);
-    saveState();
-    const notification = await notifyTelegram("orcamento", quote);
-    quoteForm.reset();
-    if (quoteMessage) {
-      quoteMessage.textContent = notification.ok
-        ? "Solicitação de orçamento recebida e enviada para o Telegram."
-        : notification.message;
-    }
-  } catch (err) {
-    console.error(err);
-    if (quoteMessage) quoteMessage.textContent = "Erro ao enviar. Verifique se o pedido foi salvo na lista.";
-  } finally {
-    render();
-  }
-});
-
-
 document.querySelector("#downloadContract")?.addEventListener("click", downloadContractPDF);
 document.querySelector("#printContract")?.addEventListener("click", printContract);
 document.querySelector("#clearContract")?.addEventListener("click", clearContractForm);
-document.querySelector("#clearQuoteForm")?.addEventListener("click", clearQuoteFormHandler);
 document.querySelector("#clearBookingForm")?.addEventListener("click", clearBookingFormHandler);
 document.querySelector("#adminLogout")?.addEventListener("click", adminLogout);
 shareShowButton?.addEventListener("click", shareShowLink);
@@ -244,7 +206,7 @@ adminImportBackup?.addEventListener("change", handleImportBackupChange);
 document.querySelector("#adminConfirmImport")?.addEventListener("click", () => {
   if (!pendingImport) return;
   remoteAgendaGeneration += 1;
-  state = { events: pendingImport.events, quotes: pendingImport.quotes };
+  state = { events: pendingImport.events };
   pendingImport = null;
   saveState();
   render();
@@ -527,7 +489,6 @@ async function exportAgendaBackup() {
       exportedAt: new Date().toISOString(),
       source: "agenda-kleber-dolli",
       events: state.events,
-      quotes: state.quotes,
     };
     const json = JSON.stringify(payload, null, 2);
     const blob = new Blob([json], { type: "application/json;charset=utf-8" });
@@ -606,7 +567,6 @@ function normalizeImportedBackup(parsed) {
   if (Array.isArray(parsed.events)) {
     return {
       events: parsed.events,
-      quotes: Array.isArray(parsed.quotes) ? parsed.quotes : [],
     };
   }
   return null;
@@ -704,16 +664,15 @@ async function handleAdminDateSave(event) {
 }
 function loadState() {
   const saved = localStorage.getItem(storageKey);
-  if (!saved) return { events: [...initialEvents], quotes: [...initialQuotes] };
+  if (!saved) return { events: [...initialEvents] };
 
   try {
     const parsed = JSON.parse(saved);
     return {
       events: parsed.events || [...initialEvents],
-      quotes: parsed.quotes || [...initialQuotes],
     };
   } catch {
-    return { events: [...initialEvents], quotes: [...initialQuotes] };
+    return { events: [...initialEvents] };
   }
 }
 
@@ -737,10 +696,7 @@ function render() {
   const calendarEvents = sortedEvents.filter((event) => isInJuneAgenda(event.date));
   renderCounters(calendarEvents);
   renderEvents(sortedEvents);
-  renderRequests(
-    sortedEvents.filter((event) => event.status === "pending" && event.requester),
-    state.quotes
-  );
+  renderRequests(sortedEvents.filter((event) => event.status === "pending" && event.requester));
   if (document.querySelector("#contractPreview")) renderContract();
   renderAdminState();
 }
@@ -819,7 +775,7 @@ function createAvailableSlot(date, period) {
     title: "Disponível",
     status: "available",
     time: periodLabels[period],
-    publicNote: "Livre para orçamento ou pré-reserva.",
+    publicNote: "Disponível para pré-reserva.",
   };
 }
 
@@ -864,9 +820,9 @@ function createPeriodSlot(event) {
   `;
 }
 
-function renderRequests(requests, quotes) {
+function renderRequests(requests) {
   if (!requestList) return;
-  if (!requests.length && !quotes.length) {
+  if (!requests.length) {
     requestList.innerHTML =
       '<p class="empty-state">Nenhuma solicitação nova por enquanto.</p>';
     return;
@@ -892,28 +848,7 @@ function renderRequests(requests, quotes) {
     })
     .join("");
 
-  const quoteCards = quotes
-    .map((quote) => {
-      const date = quote.date ? formatDate(quote.date) : "Data a definir";
-      return `
-        <article class="request-card">
-          <div>
-            <span class="badge available">Orçamento</span>
-            <h3>${quote.type} em ${quote.city}</h3>
-            <p>${date} • ${periodLabels[quote.period] || "Período a definir"} • ${quote.name} • ${quote.phone}</p>
-            <p>Duração: ${quote.duration}</p>
-            <p>${quote.notes || "Sem detalhes adicionais."}</p>
-          </div>
-          <div class="request-actions">
-            <button class="button primary" type="button" data-quote-book="${quote.id}">Criar pré-reserva</button>
-            <button class="button remove" type="button" data-quote-remove="${quote.id}">Remover</button>
-          </div>
-        </article>
-      `;
-    })
-    .join("");
-
-  requestList.innerHTML = requestCards + quoteCards;
+  requestList.innerHTML = requestCards;
 
   document.querySelectorAll("[data-approve]").forEach((button) => {
     button.addEventListener("click", () => approveRequest(button.dataset.approve));
@@ -921,14 +856,6 @@ function renderRequests(requests, quotes) {
 
   document.querySelectorAll("[data-remove]").forEach((button) => {
     button.addEventListener("click", () => removeRequest(button.dataset.remove));
-  });
-
-  document.querySelectorAll("[data-quote-book]").forEach((button) => {
-    button.addEventListener("click", () => createBookingFromQuote(button.dataset.quoteBook));
-  });
-
-  document.querySelectorAll("[data-quote-remove]").forEach((button) => {
-    button.addEventListener("click", () => removeQuote(button.dataset.quoteRemove));
   });
 }
 
@@ -955,37 +882,6 @@ async function removeRequest(id) {
   state.events = state.events.filter((event) => event.id !== id);
   saveState();
   if (removed) await deleteEventFromSupabase(removed.date, removed.period);
-  render();
-}
-
-async function createBookingFromQuote(id) {
-  const quote = state.quotes.find((item) => item.id === id);
-  if (!quote) return;
-
-  state.events.push({
-    id: createId(),
-    date: quote.date || new Date().toISOString().slice(0, 10),
-    period: quote.period,
-    city: quote.city,
-    venue: "Local sob análise",
-    title: quote.type,
-    status: "pending",
-    time: "A confirmar",
-    publicNote: "Solicitação recebida. Aguardando análise da equipe.",
-    requester: quote.name,
-    phone: quote.phone,
-    notes: `${quote.duration}. ${quote.notes}`.trim(),
-  });
-  const booking = state.events[state.events.length - 1];
-  state.quotes = state.quotes.filter((item) => item.id !== id);
-  saveState();
-  if (booking) await saveEventToSupabase(booking);
-  render();
-}
-
-function removeQuote(id) {
-  state.quotes = state.quotes.filter((quote) => quote.id !== id);
-  saveState();
   render();
 }
 
@@ -1130,11 +1026,6 @@ function clearContractForm() {
   renderAdminState();
 }
 
-function clearQuoteFormHandler() {
-  quoteForm?.reset();
-  if (quoteMessage) quoteMessage.textContent = "";
-}
-
 function clearBookingFormHandler() {
   bookingForm?.reset();
   if (formMessage) formMessage.textContent = "";
@@ -1172,7 +1063,7 @@ function setupNavActiveSection() {
     active.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   };
 
-  // Hash inicial (quando abre já em #orcamento, por ex.)
+  // Hash inicial (quando abre já em uma âncora, por ex.)
   const initial = (window.location.hash || "").slice(1);
   if (initial && linkById.has(initial)) setActive(initial);
 
