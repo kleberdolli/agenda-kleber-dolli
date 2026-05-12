@@ -4,6 +4,7 @@
     "node": "22.x"
   },
   "scripts": {
+    "dev": "npx --yes serve -l 3000",
     "deploy": "vercel --prod"
   },
   "devDependencies": {

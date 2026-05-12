@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Galeria de fotos e vídeos — Kleber Dolli e Fulô da Capitá.">
+  <meta name="description" content="Galeria de fotos e vídeos — Kleber Dolli.">
   <meta name="theme-color" content="#090a0f">
   <title>Fotos e Vídeos - Kleber Dolli</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,17 +69,22 @@
       z-index: 20;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 16px;
       padding: 12px 0 20px;
       backdrop-filter: blur(14px);
     }
 
     .brand {
-      display: inline-flex;
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       min-width: 0;
-      gap: 12px;
+      gap: 4px;
+      flex: 1 1 auto;
+      text-align: center;
     }
 
     .mark {
@@ -396,11 +401,8 @@
   <div class="page">
     <header class="toolbar">
       <a class="brand" href="index.html?v=novo" aria-label="Voltar para a agenda">
-        <span class="mark"><img src="assets/logo-kleber-dolli.svg" alt="Kleber Dolli e Fulô da Capitá" loading="lazy" decoding="async"></span>
-        <span>
-          <strong>Fotos e Vídeos</strong>
-          <span>Kleber Dolli e Fulô da Capitá</span>
-        </span>
+        <strong>Fotos e Vídeos</strong>
+        <span>Kleber Dolli</span>
       </a>
       <a class="back-link" href="index.html?v=novo">← Voltar à agenda</a>
     </header>
@@ -409,8 +411,8 @@
       <section class="hero" aria-labelledby="galleryTitle">
         <div class="hero-copy">
           <p class="eyebrow">Galeria</p>
-          <h1 id="galleryTitle">Kleber Dolli e <span class="junino-title">Fulô da Capitá</span></h1>
-          <p>Registros de palco, São João, eventos e encontros musicais com a energia do show ao vivo.</p>
+          <h1 id="galleryTitle">Kleber Dolli</h1>
+          <p>Registros de palco, eventos e encontros musicais com a energia do show ao vivo.</p>
         </div>
       </section>
 
@@ -448,7 +450,7 @@
             <span>Adicione o link do YouTube neste card em <code>galeria.html</code></span>
           </article>
           <article class="video-card">
-            <strong>Fulô da Capitá</strong>
+            <strong>Clipes e registros</strong>
             <span>Adicione o link do YouTube neste card em <code>galeria.html</code></span>
           </article>
         </div>
