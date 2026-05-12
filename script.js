@@ -1,6 +1,5 @@
 const storageKey = "agenda-musical-demo";
 const adminSessionKey = "agenda-musical-admin";
-const adminPassword = "Doll1Pu9";
 
 let supabaseUrl = "";
 let supabaseAnonKey = "";
@@ -467,19 +466,41 @@ function renderAdminState() {
   adminPanel.classList.toggle("hidden", !logged);
 }
 
-function handleAdminLogin(event) {
+async function handleAdminLogin(event) {
   event.preventDefault();
   const password = document.querySelector("#adminPassword")?.value || "";
 
-  if (password !== adminPassword) {
-    if (adminMessage) adminMessage.textContent = "Senha incorreta.";
+  if (window.location.protocol === "file:") {
+    if (adminMessage) adminMessage.textContent = "Login indisponível em arquivo local. Acesse o site publicado.";
     return;
   }
 
-  localStorage.setItem(adminSessionKey, "yes");
-  if (adminMessage) adminMessage.textContent = "";
-  adminLoginForm.reset();
-  render();
+  const submitBtn = adminLoginForm?.querySelector("button[type=submit]");
+  if (submitBtn) submitBtn.disabled = true;
+  if (adminMessage) adminMessage.textContent = "Verificando…";
+
+  try {
+    const response = await fetch("/api/admin-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password }),
+    });
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      if (adminMessage) adminMessage.textContent = data.error || "Senha incorreta.";
+      return;
+    }
+
+    localStorage.setItem(adminSessionKey, "yes");
+    if (adminMessage) adminMessage.textContent = "";
+    adminLoginForm.reset();
+    render();
+  } catch {
+    if (adminMessage) adminMessage.textContent = "Erro ao verificar senha. Tente novamente.";
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+  }
 }
 
 function adminLogout() {
@@ -1110,8 +1131,8 @@ function clearContractForm() {
 }
 
 function clearQuoteFormHandler() {
-  quoteForm.reset();
-  quoteMessage.textContent = "";
+  quoteForm?.reset();
+  if (quoteMessage) quoteMessage.textContent = "";
 }
 
 function clearBookingFormHandler() {

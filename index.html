@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Agenda oficial de Kleber Dolli e Fulô da Capitá — junho de 2026: datas, orçamento, pré-reserva e contrato musical."
+      content="Agenda oficial de shows de Kleber Dolli — música ao vivo para eventos especiais: shows, festas, casamentos, corporativos e apresentações personalizadas."
     />
-    <meta name="theme-color" content="#090a0f" />
-    <title>Agenda do Artista — Kleber Dolli e Fulô da Capitá</title>
+    <meta name="theme-color" content="#06070d" />
+    <title>Kleber Dolli — Agenda Oficial de Shows</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,18 +19,19 @@
   </head>
   <body>
     <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
+
     <header class="topbar">
       <div class="topbar-top">
         <a class="brand" href="#inicio" aria-label="Ir para o início">
           <span class="brand-mark">♪</span>
           <span>
-            <strong>Agenda On-Line Junho 2026</strong>
-            <small>Shows, reservas e contratos</small>
+            <strong>Kleber Dolli</strong>
+            <small>Agenda oficial de shows</small>
           </span>
         </a>
 
         <button class="share-show-button" id="shareShowButton" type="button">
-          Indique Kleber Dolli
+          Indicar show
         </button>
       </div>
 
@@ -38,39 +39,54 @@
         <a href="#agenda">Agenda</a>
         <a href="#orcamento">Orçamento</a>
         <a href="#solicitar">Pré-reserva</a>
-        <a href="galeria.html?v=novo">Fotos e Vídeos</a>
-        <a href="contrato.html?v=novo">Contrato</a>
+        <a href="galeria.html">Galeria</a>
+        <a href="contrato.html">Contrato</a>
         <a href="#admin">Painel</a>
       </nav>
     </header>
 
     <main id="conteudo-principal">
+
+      <!-- ── Hero imersivo ── -->
       <section id="inicio" class="hero">
+        <canvas id="heroCanvas" aria-hidden="true"></canvas>
         <div class="hero-media" aria-hidden="true"></div>
+        <div class="hero-orbs" aria-hidden="true">
+          <span class="orb orb-1"></span>
+          <span class="orb orb-2"></span>
+          <span class="orb orb-3"></span>
+        </div>
+
         <div class="hero-content">
-          <p class="eyebrow">Página oficial do artista</p>
-          <h1>Kleber Dolli e <span class="junino-title">Fulô da Capitá</span></h1>
+          <p class="eyebrow">Agenda oficial de shows</p>
+          <h1 class="hero-title">
+            <span class="artist-name">Kleber Dolli</span>
+          </h1>
           <p class="hero-copy">
-            Agenda do mês de junho de 2026 com clima junino, datas livres,
-            orçamento, pré-reserva e contrato musical online.
+            Música ao vivo para eventos, palcos e celebrações especiais.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#orcamento">Solicitar orçamento</a>
-            <a class="button ghost" href="#agenda">Ver agenda</a>
+            <a class="button primary" href="#agenda">Ver agenda</a>
+            <a class="button ghost" href="#orcamento">Solicitar orçamento</a>
           </div>
           <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Ativar/desativar música">
-            🎵 Ativar música
+            ♪ Ativar música
           </button>
         </div>
+
+        <div class="hero-scroll" aria-hidden="true">
+          <span>Role para explorar</span>
+          <span class="hero-scroll-arrow"></span>
+        </div>
       </section>
+
       <audio id="bgMusic" loop preload="metadata" playsinline>
-        <!-- Preferência: nome padrão sem espaços -->
         <source src="assets/musica.mp3" type="audio/mpeg" />
-        <!-- Fallback: nome que pode vir do upload no Vercel -->
         <source src="assets/Kleber%20Dolli.mp3" type="audio/mpeg" />
       </audio>
 
-      <section class="status-strip" aria-label="Resumo da agenda">
+      <!-- ── Contadores ── -->
+      <section class="status-strip reveal" aria-label="Resumo da agenda">
         <article>
           <span id="confirmedCount">0</span>
           <strong>confirmadas</strong>
@@ -85,11 +101,12 @@
         </article>
       </section>
 
-      <section id="agenda" class="section">
+      <!-- ── Agenda ── -->
+      <section id="agenda" class="section reveal">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Calendário público</p>
-            <h2>Datas do artista</h2>
+            <h2>Agenda de shows</h2>
           </div>
           <div class="filters" role="tablist" aria-label="Filtrar agenda">
             <button class="filter active" type="button" data-filter="all">Tudo</button>
@@ -102,18 +119,19 @@
         <div id="eventGrid" class="event-grid" aria-live="polite"></div>
       </section>
 
-      <section id="orcamento" class="section quote-section">
+      <!-- ── Orçamento ── -->
+      <section id="orcamento" class="section quote-section reveal">
         <div class="section-heading compact">
           <div>
             <p class="eyebrow">Orçamento</p>
             <h2>Solicite uma proposta</h2>
-            <p class="telegram-note"><span aria-hidden="true">✈</span> O artista receberá sua notificação imediatamente.</p>
+            <p class="telegram-note"><span aria-hidden="true">✈</span> Notificação enviada diretamente ao artista.</p>
           </div>
           <div class="heading-note">
-            <img src="assets/logo-kleber-dolli.svg" width="150" height="56" alt="Logotipo Kleber Dolli e Fulô da Capitá" loading="lazy" decoding="async" />
+            <img src="assets/logo-kleber-dolli.svg" width="140" height="56" alt="Logotipo Kleber Dolli" loading="lazy" decoding="async" />
             <p>
-              A solicitação de orçamento pode acontecer antes da pré-reserva,
-              sem bloquear a data automaticamente.
+              Peça um orçamento sem bloquear a data.
+              A equipe retorna com uma proposta personalizada para o seu evento.
             </p>
           </div>
         </div>
@@ -152,6 +170,9 @@
               <option>Casamento</option>
               <option>Corporativo</option>
               <option>Festival</option>
+              <option>Bar / Restaurante</option>
+              <option>Voz e violão</option>
+              <option>Trio</option>
             </select>
           </label>
           <label>
@@ -169,7 +190,7 @@
             <textarea
               id="quoteNotes"
               rows="4"
-              placeholder="Conte sobre público esperado, estrutura, horário e formato do evento."
+              placeholder="Público esperado, estrutura, horário e formato do evento."
             ></textarea>
           </label>
           <button class="button primary wide" type="submit">Enviar solicitação de orçamento</button>
@@ -178,15 +199,16 @@
         </form>
       </section>
 
-      <section id="solicitar" class="section request-band">
+      <!-- ── Pré-reserva ── -->
+      <section id="solicitar" class="section request-band reveal">
         <div class="section-heading compact">
           <div>
             <p class="eyebrow">Solicitação</p>
             <h2>Pré-reserva de data</h2>
           </div>
           <p>
-            O endereço completo só deve ser tratado em particular, depois da
-            aprovação da equipe.
+            Garanta sua data na agenda. O endereço completo e
+            detalhes sensíveis são tratados em particular após aprovação.
           </p>
         </div>
 
@@ -216,6 +238,9 @@
               <option>Casamento</option>
               <option>Corporativo</option>
               <option>Festival</option>
+              <option>Bar / Restaurante</option>
+              <option>Voz e violão</option>
+              <option>Trio</option>
             </select>
           </label>
           <label>
@@ -231,7 +256,7 @@
             <textarea
               id="notesInput"
               rows="4"
-              placeholder="Informe horário aproximado, estrutura ou detalhes importantes."
+              placeholder="Horário aproximado, estrutura ou detalhes importantes."
             ></textarea>
           </label>
           <button class="button primary wide" type="submit">Enviar pré-reserva</button>
@@ -240,16 +265,15 @@
         </form>
       </section>
 
-
-
-      <section id="admin" class="section admin-section">
+      <!-- ── Painel admin ── -->
+      <section id="admin" class="section admin-section reveal">
         <div class="section-heading compact">
           <div>
             <p class="eyebrow">Área restrita</p>
             <h2>Painel da agenda</h2>
           </div>
           <p>
-            Entre para travar datas, liberar períodos e acompanhar solicitações.
+            Entre para gerenciar datas, liberar períodos e acompanhar solicitações.
           </p>
         </div>
 
@@ -258,7 +282,7 @@
             Senha administrativa
             <input id="adminPassword" type="password" placeholder="Digite a senha" autocomplete="current-password" />
           </label>
-          <button class="button primary" type="submit">Entrar para editar</button>
+          <button class="button primary" type="submit">Entrar</button>
           <p id="adminMessage" class="form-message" role="status"></p>
         </form>
 
@@ -276,7 +300,6 @@
               <button type="button" class="button ghost small" id="adminExportBackup">
                 Baixar backup (.json)
               </button>
-              <!-- Input não pode estar com display:none no celular (Safari bloqueia). Toque abre o arquivo. -->
               <label class="button ghost small admin-import-label">
                 Restaurar backup…
                 <input
@@ -315,7 +338,7 @@
             </label>
             <label>
               Tipo de evento
-              <input id="adminTitle" type="text" placeholder="Ex: São João, Aniversário" />
+              <input id="adminTitle" type="text" placeholder="Ex: Show, Aniversário, Casamento" />
             </label>
             <label>
               Cidade e estado
@@ -345,7 +368,9 @@
           <div id="requestList" class="request-list" aria-live="polite"></div>
         </div>
       </section>
-      <section id="contrato" class="section contract-section">
+
+      <!-- ── Contrato ── -->
+      <section id="contrato" class="section contract-section reveal">
         <div class="section-heading compact">
           <div>
             <p class="eyebrow">Contrato</p>
@@ -353,17 +378,123 @@
           </div>
         </div>
         <p class="contract-intro">Preencha, salve, gere PDF ou imprima o contrato diretamente pelo navegador.</p>
-        <a class="button primary" href="contrato.html?v=novo" target="_blank">Abrir contrato</a>
+        <a class="button primary" href="contrato.html" target="_blank">Abrir contrato</a>
       </section>
+
     </main>
 
     <footer class="footer">
-      <strong>Agenda On-Line Junho 2026</strong>
-      <span>Agenda, orçamento e contrato com privacidade nos dados sensíveis.</span>
+      <strong>Kleber Dolli — Agenda Oficial</strong>
+      <span>Música ao vivo para cada ocasião. Orçamento, reservas e contrato online.</span>
     </footer>
 
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
+    <script>
+      /* ── Scroll reveal ── */
+      (function () {
+        const obs = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); } }),
+          { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+        );
+        document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+      })();
+
+      /* ── Canvas: poeira de palco + partículas luminosas ── */
+      (function () {
+        const canvas = document.getElementById("heroCanvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+
+        /* Paleta de cores: roxo, dourado, âmbar, branco quente */
+        const palette = [
+          [167, 139, 250],  /* roxo claro */
+          [124,  58, 237],  /* roxo profundo */
+          [201, 162,  39],  /* dourado */
+          [240, 215, 140],  /* âmbar claro */
+          [255, 255, 255],  /* branco */
+          [255, 200, 100],  /* laranja quente */
+        ];
+
+        let w, h, particles, raf;
+
+        function rand(a, b) { return Math.random() * (b - a) + a; }
+        function randInt(a, b) { return Math.floor(rand(a, b + 1)); }
+
+        function resize() {
+          w = canvas.width  = canvas.offsetWidth;
+          h = canvas.height = canvas.offsetHeight;
+        }
+
+        function makeParticle() {
+          const [r, g, b] = palette[randInt(0, palette.length - 1)];
+          const isSpark = Math.random() < 0.15; /* 15% são pontos maiores (sparks) */
+          return {
+            x:     rand(0, w),
+            y:     rand(0, h),
+            r:     isSpark ? rand(1.4, 3.2) : rand(0.4, 1.6),
+            vx:    rand(-0.14, 0.14),
+            vy:    rand(-0.28, -0.06),
+            alpha: rand(0.06, isSpark ? 0.55 : 0.38),
+            da:    rand(-0.004, 0.004),
+            cr: r, cg: g, cb: b,
+            spark: isSpark,
+          };
+        }
+
+        function build() {
+          /* Mais partículas em telas maiores, sem exagero */
+          const count = Math.min(Math.floor((w * h) / 9000), 100);
+          particles = Array.from({ length: count }, makeParticle);
+        }
+
+        function tick() {
+          ctx.clearRect(0, 0, w, h);
+
+          for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.alpha += p.da;
+            if (p.alpha < 0.04 || p.alpha > (p.spark ? 0.58 : 0.40)) p.da *= -1;
+
+            /* Wrap em todas as bordas */
+            if (p.y < -8)  p.y = h + 4;
+            if (p.x < -8)  p.x = w + 4;
+            if (p.x > w+8) p.x = -4;
+
+            if (p.spark) {
+              /* Sparks com halo suave */
+              const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3.5);
+              grd.addColorStop(0, `rgba(${p.cr},${p.cg},${p.cb},${p.alpha})`);
+              grd.addColorStop(1, `rgba(${p.cr},${p.cg},${p.cb},0)`);
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.r * 3.5, 0, Math.PI * 2);
+              ctx.fillStyle = grd;
+              ctx.fill();
+            } else {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              ctx.fillStyle = `rgba(${p.cr},${p.cg},${p.cb},${p.alpha})`;
+              ctx.fill();
+            }
+          }
+          raf = requestAnimationFrame(tick);
+        }
+
+        /* Pausa quando fora da viewport (economia de bateria) */
+        const io = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) { if (!raf) tick(); }
+          else { cancelAnimationFrame(raf); raf = null; }
+        }, { threshold: 0 });
+        io.observe(canvas);
+
+        const ro = new ResizeObserver(() => { resize(); build(); });
+        ro.observe(canvas.parentElement);
+
+        resize();
+        build();
+        tick();
+      })();
+    </script>
   </body>
 </html>
-

@@ -1,5 +1,12 @@
 {
+  "private": true,
   "engines": {
     "node": "22.x"
+  },
+  "scripts": {
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "vercel": "^42.3.0"
   }
 }

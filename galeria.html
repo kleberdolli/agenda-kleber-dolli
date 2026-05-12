@@ -34,7 +34,7 @@
       background:
         linear-gradient(90deg, rgba(9, 10, 15, .96), rgba(58, 36, 23, .86) 48%, rgba(9, 10, 15, .94)),
         linear-gradient(0deg, #090a0f, rgba(9, 10, 15, .16) 44%),
-        url("assets/kleber-dolli-bg.jpeg") center 14% / cover fixed no-repeat;
+        radial-gradient(ellipse 70% 80% at 50% 30%, rgba(58, 36, 23, 0.7), transparent 65%);
     }
 
     body::before {
@@ -155,7 +155,9 @@
       border-radius: 18px;
       background:
         linear-gradient(90deg, rgba(9,10,15,.92), rgba(9,10,15,.42)),
-        url("assets/galeria/show-05.jpg") center 48% / cover no-repeat;
+        radial-gradient(ellipse 100% 100% at 60% 30%, rgba(159, 23, 23, 0.45), transparent 60%),
+        radial-gradient(ellipse 80% 60% at 20% 70%, rgba(215, 175, 82, 0.22), transparent 50%),
+        #0f0c09;
       box-shadow: var(--shadow);
       isolation: isolate;
     }
@@ -272,6 +274,22 @@
       width: 100%;
       aspect-ratio: 4 / 3;
       object-fit: cover;
+      background: #1a1d28;
+    }
+
+    .photo-card img[src=""] ,
+    .photo-card img:not([src]) {
+      visibility: hidden;
+    }
+
+    .photo-placeholder {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, #1a1d28, #12141d);
+      color: rgba(215, 175, 82, 0.45);
+      font-size: 42px;
     }
 
     .video-grid {
@@ -291,14 +309,16 @@
       border-radius: 10px;
       background:
         linear-gradient(0deg, rgba(9,10,15,.96), rgba(9,10,15,.35)),
-        url("assets/galeria/show-04.jpg") center / cover no-repeat;
+        radial-gradient(ellipse 80% 80% at 50% 30%, rgba(159, 23, 23, 0.38), transparent 55%),
+        #0f0c09;
       box-shadow: var(--shadow);
     }
 
     .video-card:nth-child(2) {
-      background-image:
+      background:
         linear-gradient(0deg, rgba(9,10,15,.96), rgba(9,10,15,.35)),
-        url("assets/galeria/show-06.jpg");
+        radial-gradient(ellipse 80% 80% at 50% 30%, rgba(215, 175, 82, 0.22), transparent 55%),
+        #0f0c09;
     }
 
     .video-card strong {
@@ -404,24 +424,12 @@
         </div>
 
         <div class="photo-grid">
-          <a class="photo-card" href="assets/galeria/show-01.jpg" target="_blank" rel="noopener">
-            <img src="assets/galeria/show-01.jpg" alt="Kleber Dolli tocando teclado em evento junino">
-          </a>
-          <a class="photo-card" href="assets/galeria/show-02.jpg" target="_blank" rel="noopener">
-            <img src="assets/galeria/show-02.jpg" alt="Apresentação de Kleber Dolli com público e percussão">
-          </a>
-          <a class="photo-card" href="assets/galeria/show-03.jpg" target="_blank" rel="noopener">
-            <img src="assets/galeria/show-03.jpg" alt="Kleber Dolli no palco com banda">
-          </a>
-          <a class="photo-card" href="assets/galeria/show-04.jpg" target="_blank" rel="noopener">
-            <img src="assets/galeria/show-04.jpg" alt="Kleber Dolli e músicos em apresentação junina">
-          </a>
-          <a class="photo-card" href="assets/galeria/show-05.jpg" target="_blank" rel="noopener">
-            <img src="assets/galeria/show-05.jpg" alt="Kleber Dolli e Fulô da Capitá em palco aberto">
-          </a>
-          <a class="photo-card" href="assets/galeria/show-06.jpg" target="_blank" rel="noopener">
-            <img src="assets/galeria/show-06.jpg" alt="Kleber Dolli em apresentação com violão e percussão">
-          </a>
+          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 1 — enviar imagem para assets/galeria/show-01.jpg">♪</span></span>
+          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 2 — enviar imagem para assets/galeria/show-02.jpg">♪</span></span>
+          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 3 — enviar imagem para assets/galeria/show-03.jpg">♪</span></span>
+          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 4 — enviar imagem para assets/galeria/show-04.jpg">♪</span></span>
+          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 5 — enviar imagem para assets/galeria/show-05.jpg">♪</span></span>
+          <span class="photo-card"><span class="photo-placeholder" aria-label="Foto 6 — enviar imagem para assets/galeria/show-06.jpg">♪</span></span>
         </div>
       </section>
 
@@ -437,11 +445,11 @@
         <div class="video-grid">
           <article class="video-card">
             <strong>Show ao vivo</strong>
-            <span>Link do YouTube</span>
+            <span>Adicione o link do YouTube neste card em <code>galeria.html</code></span>
           </article>
           <article class="video-card">
             <strong>Fulô da Capitá</strong>
-            <span>Link do YouTube</span>
+            <span>Adicione o link do YouTube neste card em <code>galeria.html</code></span>
           </article>
         </div>
       </section>
