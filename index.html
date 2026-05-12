@@ -1,14 +1,14 @@
-Ôªø<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Agenda oficial de shows de Kleber Dolli ‚Äî m√∫sica ao vivo para eventos especiais: shows, festas, casamentos, corporativos e apresenta√ß√µes personalizadas."
+      content="Kleber Dolli ó m˙sico profissional disponÌvel para shows, eventos privados, casamentos, corporativos, bares e celebraÁıes em todo o Brasil."
     />
     <meta name="theme-color" content="#06070d" />
-    <title>Kleber Dolli ‚Äî Agenda Oficial de Shows</title>
+    <title>Kleber Dolli ó M˙sico ao Vivo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,36 +18,41 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#conteudo-principal">Pular para o conte√∫do</a>
+    <a class="skip-link" href="#conteudo-principal">Pular para o conte˙do</a>
 
+    <!-- ------------------------------------------
+         TOPBAR
+    ------------------------------------------ -->
     <header class="topbar">
       <div class="topbar-top">
-        <a class="brand" href="#inicio" aria-label="Ir para o in√≠cio">
-          <span class="brand-mark">‚ô™</span>
+        <a class="brand" href="#inicio" aria-label="Ir para o inÌcio">
+          <span class="brand-mark">?</span>
           <span>
             <strong>Kleber Dolli</strong>
-            <small>Agenda oficial de shows</small>
+            <small>M˙sico ao vivo</small>
           </span>
         </a>
-
         <button class="share-show-button" id="shareShowButton" type="button">
           Indicar show
         </button>
       </div>
 
-      <nav class="nav" aria-label="Navega√ß√£o principal">
+      <nav class="nav" aria-label="NavegaÁ„o principal">
+        <a href="#formatos">Formatos</a>
+        <a href="#videos">VÌdeos</a>
+        <a href="#contato">Contato</a>
         <a href="#agenda">Agenda</a>
-        <a href="#orcamento">Or√ßamento</a>
-        <a href="#solicitar">Pr√©-reserva</a>
+        <a href="#orcamento">Proposta</a>
         <a href="galeria.html">Galeria</a>
-        <a href="contrato.html">Contrato</a>
         <a href="#admin">Painel</a>
       </nav>
     </header>
 
     <main id="conteudo-principal">
 
-      <!-- ‚îÄ‚îÄ Hero imersivo ‚îÄ‚îÄ -->
+      <!-- ------------------------------------------
+           HERO
+      ------------------------------------------ -->
       <section id="inicio" class="hero">
         <canvas id="heroCanvas" aria-hidden="true"></canvas>
         <div class="hero-media" aria-hidden="true"></div>
@@ -63,14 +68,21 @@
             <span class="artist-name">Kleber Dolli</span>
           </h1>
           <p class="hero-copy">
-            M√∫sica ao vivo para eventos, palcos e celebra√ß√µes especiais.
+            M˙sica ao vivo para eventos, palcos e celebraÁıes especiais.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#agenda">Ver agenda</a>
-            <a class="button ghost" href="#orcamento">Solicitar or√ßamento</a>
+            <a class="button whatsapp-button" href="https://wa.me/5571991669274?text=Ol%C3%A1%2C+Kleber%21+Gostaria+de+saber+sobre+disponibilidade+e+valores+para+um+evento." target="_blank" rel="noopener">
+              <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.14c-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.84-3.06-.2-.31A8.27 8.27 0 013.8 11.91c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24s-3.69 8.23-8.23 8.23zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79 1.0-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-.12-.75-.67-1.25-1.49-1.4-1.74-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.41-.42-.56-.43-.14-.01-.31-.01-.47-.01-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+              Chamar no WhatsApp
+            </a>
+            <!-- Substituir pelo link real do canal -->
+            <a class="button ghost" href="#videos">Ver vÌdeos</a>
           </div>
-          <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Ativar/desativar m√∫sica">
-            ‚ô™ Ativar m√∫sica
+          <a class="button ghost" href="#agenda" style="margin-top:12px;font-size:13px;min-height:38px;padding:0 16px;opacity:.75;">
+            Consultar disponibilidade
+          </a>
+          <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Ativar/desativar m˙sica">
+            ? Ativar m˙sica
           </button>
         </div>
 
@@ -85,61 +97,265 @@
         <source src="assets/Kleber%20Dolli.mp3" type="audio/mpeg" />
       </audio>
 
-      <!-- ‚îÄ‚îÄ Contadores ‚îÄ‚îÄ -->
+      <!-- -- Contadores (discretos, abaixo do hero) -- -->
       <section class="status-strip reveal" aria-label="Resumo da agenda">
         <article>
           <span id="confirmedCount">0</span>
-          <strong>confirmadas</strong>
+          <strong>shows confirmados</strong>
         </article>
         <article>
           <span id="availableCount">0</span>
-          <strong>dispon√≠veis</strong>
+          <strong>datas disponÌveis</strong>
         </article>
         <article>
           <span id="pendingCount">0</span>
-          <strong>pr√©-reservas</strong>
+          <strong>em an·lise</strong>
         </article>
       </section>
 
-      <!-- ‚îÄ‚îÄ Agenda ‚îÄ‚îÄ -->
-      <section id="agenda" class="section reveal">
+      <!-- ------------------------------------------
+           FORMATOS DE APRESENTA«√O
+      ------------------------------------------ -->
+      <section id="formatos" class="section formatos-section reveal">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Calend√°rio p√∫blico</p>
-            <h2>Agenda de shows</h2>
+            <p class="eyebrow">Como posso ajudar</p>
+            <h2>Formatos de apresentaÁ„o</h2>
           </div>
-          <div class="filters" role="tablist" aria-label="Filtrar agenda">
-            <button class="filter active" type="button" data-filter="all">Tudo</button>
-            <button class="filter" type="button" data-filter="confirmed">Confirmadas</button>
-            <button class="filter" type="button" data-filter="available">Dispon√≠veis</button>
-            <button class="filter" type="button" data-filter="pending">Pr√©-reserva</button>
+          <p>Shows personalizados para cada ambiente e ocasi„o.</p>
+        </div>
+
+        <div class="formatos-grid">
+          <article class="formato-card reveal reveal-delay-1">
+            <span class="formato-icon">?</span>
+            <h3>Voz e Viol„o</h3>
+            <p>Intimista e elegante. Ideal para jantares, lounges e ambientes reservados de baixo volume.</p>
+          </article>
+          <article class="formato-card reveal reveal-delay-1">
+            <span class="formato-icon">?</span>
+            <h3>Dueto</h3>
+            <p>Duas vozes ou viol„o e percuss„o. Mais din‚mica e presenÁa para eventos mÈdios.</p>
+          </article>
+          <article class="formato-card reveal reveal-delay-2">
+            <span class="formato-icon">?</span>
+            <h3>Trio Ac˙stico</h3>
+            <p>FormaÁ„o ampliada com baixo, viol„o e percuss„o. Ideal para eventos de mÈdio porte.</p>
+          </article>
+          <article class="formato-card reveal reveal-delay-2">
+            <span class="formato-icon">?</span>
+            <h3>Show Completo</h3>
+            <p>Banda completa para palcos abertos, grandes celebraÁıes e eventos de destaque.</p>
+          </article>
+          <article class="formato-card reveal reveal-delay-1">
+            <span class="formato-icon">?</span>
+            <h3>Bares e Restaurantes</h3>
+            <p>ProgramaÁ„o recorrente com repertÛrio variado para casas de show e espaÁos gastronÙmicos.</p>
+          </article>
+          <article class="formato-card reveal reveal-delay-1">
+            <span class="formato-icon">?</span>
+            <h3>Eventos Privados</h3>
+            <p>Anivers·rios, casamentos e comemoraÁıes particulares com atendimento personalizado.</p>
+          </article>
+          <article class="formato-card reveal reveal-delay-2">
+            <span class="formato-icon">?</span>
+            <h3>Eventos Institucionais</h3>
+            <p>Empresas, prefeituras, congressos e eventos corporativos com proposta formal.</p>
+          </article>
+          <article class="formato-card reveal reveal-delay-2">
+            <span class="formato-icon">?</span>
+            <h3>Festas e CelebraÁıes</h3>
+            <p>S„o Jo„o, festas tem·ticas e celebraÁıes populares com energia e repertÛrio especial.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------
+           VÕDEOS
+      ------------------------------------------ -->
+      <section id="videos" class="section videos-section reveal">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Assista</p>
+            <h2>VÌdeos ao vivo</h2>
+          </div>
+          <!-- Substituir pelo link real do canal YouTube -->
+          <a class="button ghost small" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">
+            Ver canal completo ?
+          </a>
+        </div>
+
+        <div class="videos-grid">
+          <article class="video-card">
+            <div class="video-card-body">
+              <div class="video-play" aria-hidden="true">?</div>
+              <h3>ApresentaÁıes ao vivo</h3>
+              <p>Registros de shows, palcos e eventos especiais.</p>
+              <!-- Substituir pelo link real do vÌdeo -->
+              <a class="button primary small" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">
+                Assistir no YouTube
+              </a>
+            </div>
+          </article>
+          <article class="video-card">
+            <div class="video-card-body">
+              <div class="video-play" aria-hidden="true">?</div>
+              <h3>Clipes e registros</h3>
+              <p>M˙sicas autorais, covers e momentos do repertÛrio ao vivo.</p>
+              <!-- Substituir pelo link real do vÌdeo -->
+              <a class="button ghost small" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">
+                Ver no canal
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------
+           GALERIA
+      ------------------------------------------ -->
+      <section class="section galeria-section reveal">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Momentos</p>
+            <h2>Fotos e galeria</h2>
+          </div>
+          <a class="button ghost small" href="galeria.html">Ver galeria completa ?</a>
+        </div>
+
+        <div class="galeria-teaser" aria-hidden="true">
+          <span class="galeria-thumb">?</span>
+          <span class="galeria-thumb">?</span>
+          <span class="galeria-thumb">?</span>
+        </div>
+
+        <p style="color:var(--muted);font-size:13px;margin:0 0 20px;">
+          Envie fotos para a pasta <code style="color:var(--purple-2);background:rgba(124,58,237,.10);padding:2px 6px;border-radius:4px;">assets/galeria/</code> para preencher a galeria automaticamente.
+        </p>
+        <a class="button primary" href="galeria.html">Abrir galeria</a>
+      </section>
+
+      <!-- ------------------------------------------
+           CONTATO R¡PIDO
+      ------------------------------------------ -->
+      <section id="contato" class="section contact-section reveal">
+        <div class="contact-grid">
+          <div class="contact-main">
+            <p class="eyebrow">Fale com a produÁ„o</p>
+            <h2>Vamos conversar</h2>
+            <p>
+              A forma mais r·pida de verificar disponibilidade, tirar d˙vidas
+              e receber uma proposta È pelo WhatsApp. Para contratos formais
+              e propostas institucionais, use o formul·rio de orÁamento abaixo.
+            </p>
+            <a class="whatsapp-button" href="https://wa.me/5571991669274?text=Ol%C3%A1%2C+Kleber%21+Gostaria+de+saber+sobre+disponibilidade+e+valores+para+um+evento." target="_blank" rel="noopener">
+              <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.14c-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.84-3.06-.2-.31A8.27 8.27 0 013.8 11.91c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24s-3.69 8.23-8.23 8.23zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79 1-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-.12-.75-.67-1.25-1.49-1.4-1.74-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.41-.42-.56-.43-.14-.01-.31-.01-.47-.01-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+              Chamar no WhatsApp
+            </a>
+
+            <div class="social-links">
+              <!-- Substituir pelos links reais das redes -->
+              <a class="social-link youtube" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">
+                ? YouTube
+              </a>
+              <a class="social-link instagram" href="https://www.instagram.com/kleberdolli" target="_blank" rel="noopener">
+                ? Instagram
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-aside">
+            <div class="contact-card">
+              <p class="contact-card-label">Resposta r·pida</p>
+              <h3>WhatsApp</h3>
+              <p>Disponibilidade, valores e proposta em minutos.</p>
+              <a class="button primary small" href="https://wa.me/5571991669274?text=Ol%C3%A1%2C+Kleber%21+Gostaria+de+saber+sobre+disponibilidade+e+valores+para+um+evento." target="_blank" rel="noopener">
+                Abrir conversa
+              </a>
+            </div>
+            <div class="contact-card">
+              <p class="contact-card-label">Proposta escrita</p>
+              <h3>OrÁamento formal</h3>
+              <p>Para empresas, prefeituras e eventos que precisam de proposta por escrito.</p>
+              <a class="button ghost small" href="#orcamento">Pedir proposta</a>
+            </div>
+            <div class="contact-card">
+              <p class="contact-card-label">Reservar data</p>
+              <h3>PrÈ-reserva</h3>
+              <p>Garanta sua data na agenda sem custo de confirmaÁ„o antecipada.</p>
+              <a class="button ghost small" href="#solicitar">Solicitar data</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------
+           CONSULTAR DISPONIBILIDADE (agenda discreta)
+      ------------------------------------------ -->
+      <section id="agenda" class="section availability-section reveal">
+        <div class="section-heading compact">
+          <div>
+            <p class="eyebrow">Disponibilidade</p>
+            <h2>Consultar agenda</h2>
           </div>
         </div>
 
-        <div id="eventGrid" class="event-grid" aria-live="polite"></div>
+        <div class="avail-intro">
+          <div class="avail-intro-text">
+            <h3>Datas disponÌveis para junho de 2026</h3>
+            <p>Consulte a agenda completa ou entre em contato pelo WhatsApp para uma confirmaÁ„o r·pida.</p>
+          </div>
+          <div class="avail-actions">
+            <a class="whatsapp-button" href="https://wa.me/5571991669274?text=Ol%C3%A1%2C+Kleber%21+Gostaria+de+verificar+disponibilidade+para+um+evento." target="_blank" rel="noopener" style="min-height:44px;font-size:14px;padding:0 20px;">
+              <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.14c-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.84-3.06-.2-.31A8.27 8.27 0 013.8 11.91c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24s-3.69 8.23-8.23 8.23zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79 1-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-.12-.75-.67-1.25-1.49-1.4-1.74-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.41-.42-.56-.43-.14-.01-.31-.01-.47-.01-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></svg>
+              Consultar pelo WhatsApp
+            </a>
+            <button type="button" class="button ghost" id="toggleFullAgenda">
+              Ver agenda completa ?
+            </button>
+          </div>
+        </div>
+
+        <!-- Agenda completa ó expandida apenas quando solicitado -->
+        <div id="agendaFull" class="agenda-full hidden">
+          <div class="agenda-filters-row">
+            <div class="filters" role="tablist" aria-label="Filtrar agenda">
+              <button class="filter active" type="button" data-filter="all">Tudo</button>
+              <button class="filter" type="button" data-filter="confirmed">Confirmadas</button>
+              <button class="filter" type="button" data-filter="available">DisponÌveis</button>
+              <button class="filter" type="button" data-filter="pending">PrÈ-reserva</button>
+            </div>
+          </div>
+          <div id="eventGrid" class="event-grid" aria-live="polite"></div>
+        </div>
       </section>
 
-      <!-- ‚îÄ‚îÄ Or√ßamento ‚îÄ‚îÄ -->
+      <!-- ------------------------------------------
+           PROPOSTA FORMAL (orÁamento)
+      ------------------------------------------ -->
       <section id="orcamento" class="section quote-section reveal">
         <div class="section-heading compact">
           <div>
-            <p class="eyebrow">Or√ßamento</p>
-            <h2>Solicite uma proposta</h2>
-            <p class="telegram-note"><span aria-hidden="true">‚úà</span> Notifica√ß√£o enviada diretamente ao artista.</p>
+            <p class="eyebrow">Proposta formal</p>
+            <h2>Solicitar orÁamento</h2>
+            <p class="quote-context">
+              Para empresas, prefeituras, eventos institucionais e contratos
+              que exigem proposta escrita e documentaÁ„o formal.
+            </p>
+            <p class="telegram-note"><span aria-hidden="true">?</span> NotificaÁ„o enviada diretamente ao artista.</p>
           </div>
           <div class="heading-note">
             <img src="assets/logo-kleber-dolli.svg" width="140" height="56" alt="Logotipo Kleber Dolli" loading="lazy" decoding="async" />
             <p>
-              Pe√ßa um or√ßamento sem bloquear a data.
-              A equipe retorna com uma proposta personalizada para o seu evento.
+              Preencha o formul·rio e receba uma proposta personalizada.
+              Para resposta r·pida, use o WhatsApp.
             </p>
           </div>
         </div>
 
         <form id="quoteForm" class="booking-form">
           <label>
-            Nome
-            <input id="quoteName" type="text" placeholder="Nome do contratante" required />
+            Nome / Empresa
+            <input id="quoteName" type="text" placeholder="Nome do contratante ou empresa" required />
           </label>
           <label>
             WhatsApp
@@ -150,33 +366,34 @@
             <input id="quoteCity" type="text" placeholder="Ex: Salvador - BA" required />
           </label>
           <label>
-            Data prov√°vel
+            Data prov·vel
             <input id="quoteDate" type="date" />
           </label>
           <label>
-            Per√≠odo
+            PerÌodo
             <select id="quotePeriod" required>
               <option value="">Selecione</option>
-              <option value="tarde">√Ä tarde</option>
-              <option value="noite">√Ä noite</option>
+              <option value="tarde">¿ tarde</option>
+              <option value="noite">¿ noite</option>
             </select>
           </label>
           <label>
             Tipo de evento
             <select id="quoteType" required>
               <option value="">Selecione</option>
-              <option>Show p√∫blico</option>
+              <option>Show p˙blico</option>
               <option>Evento particular</option>
               <option>Casamento</option>
               <option>Corporativo</option>
               <option>Festival</option>
               <option>Bar / Restaurante</option>
-              <option>Voz e viol√£o</option>
+              <option>Voz e viol„o</option>
               <option>Trio</option>
+              <option>Evento institucional</option>
             </select>
           </label>
           <label>
-            Dura√ß√£o desejada
+            DuraÁ„o desejada
             <select id="quoteDuration" required>
               <option value="">Selecione</option>
               <option>1 hora</option>
@@ -190,25 +407,27 @@
             <textarea
               id="quoteNotes"
               rows="4"
-              placeholder="P√∫blico esperado, estrutura, hor√°rio e formato do evento."
+              placeholder="P˙blico esperado, estrutura, hor·rio e formato do evento."
             ></textarea>
           </label>
-          <button class="button primary wide" type="submit">Enviar solicita√ß√£o de or√ßamento</button>
-          <button class="button ghost wide" type="button" id="clearQuoteForm">Limpar formul√°rio</button>
+          <button class="button primary wide" type="submit">Enviar solicitaÁ„o de orÁamento</button>
+          <button class="button ghost wide" type="button" id="clearQuoteForm">Limpar formul·rio</button>
           <p id="quoteMessage" class="form-message" role="status"></p>
         </form>
       </section>
 
-      <!-- ‚îÄ‚îÄ Pr√©-reserva ‚îÄ‚îÄ -->
+      <!-- ------------------------------------------
+           PR…-RESERVA
+      ------------------------------------------ -->
       <section id="solicitar" class="section request-band reveal">
         <div class="section-heading compact">
           <div>
-            <p class="eyebrow">Solicita√ß√£o</p>
-            <h2>Pr√©-reserva de data</h2>
+            <p class="eyebrow">Reservar data</p>
+            <h2>PrÈ-reserva de data</h2>
           </div>
           <p>
-            Garanta sua data na agenda. O endere√ßo completo e
-            detalhes sens√≠veis s√£o tratados em particular ap√≥s aprova√ß√£o.
+            Garanta sua data sem custo inicial. O endereÁo completo e
+            detalhes sensÌveis s„o tratados em particular apÛs aprovaÁ„o.
           </p>
         </div>
 
@@ -218,11 +437,11 @@
             <input id="dateInput" type="date" required />
           </label>
           <label>
-            Per√≠odo
+            PerÌodo
             <select id="periodInput" required>
               <option value="">Selecione</option>
-              <option value="tarde">√Ä tarde</option>
-              <option value="noite">√Ä noite</option>
+              <option value="tarde">¿ tarde</option>
+              <option value="noite">¿ noite</option>
             </select>
           </label>
           <label>
@@ -233,14 +452,15 @@
             Tipo de evento
             <select id="eventTypeInput" required>
               <option value="">Selecione</option>
-              <option>Show p√∫blico</option>
+              <option>Show p˙blico</option>
               <option>Evento particular</option>
               <option>Casamento</option>
               <option>Corporativo</option>
               <option>Festival</option>
               <option>Bar / Restaurante</option>
-              <option>Voz e viol√£o</option>
+              <option>Voz e viol„o</option>
               <option>Trio</option>
+              <option>Evento institucional</option>
             </select>
           </label>
           <label>
@@ -252,29 +472,29 @@
             <input id="phoneInput" type="tel" placeholder="(00) 00000-0000" required />
           </label>
           <label class="wide">
-            Observa√ß√µes
+            ObservaÁıes
             <textarea
               id="notesInput"
               rows="4"
-              placeholder="Hor√°rio aproximado, estrutura ou detalhes importantes."
+              placeholder="Hor·rio aproximado, estrutura ou detalhes importantes."
             ></textarea>
           </label>
-          <button class="button primary wide" type="submit">Enviar pr√©-reserva</button>
-          <button class="button ghost wide" type="button" id="clearBookingForm">Limpar formul√°rio</button>
+          <button class="button primary wide" type="submit">Enviar prÈ-reserva</button>
+          <button class="button ghost wide" type="button" id="clearBookingForm">Limpar formul·rio</button>
           <p id="formMessage" class="form-message" role="status"></p>
         </form>
       </section>
 
-      <!-- ‚îÄ‚îÄ Painel admin ‚îÄ‚îÄ -->
+      <!-- ------------------------------------------
+           PAINEL ADMIN (·rea interna)
+      ------------------------------------------ -->
       <section id="admin" class="section admin-section reveal">
         <div class="section-heading compact">
           <div>
-            <p class="eyebrow">√Årea restrita</p>
+            <p class="eyebrow">¡rea restrita</p>
             <h2>Painel da agenda</h2>
           </div>
-          <p>
-            Entre para gerenciar datas, liberar per√≠odos e acompanhar solicita√ß√µes.
-          </p>
+          <p>Gerenciar datas, prÈ-reservas, backup e solicitaÁıes.</p>
         </div>
 
         <form id="adminLoginForm" class="admin-login">
@@ -288,7 +508,7 @@
 
         <div id="adminPanel" class="admin-panel hidden">
           <div class="admin-toolbar">
-            <strong>Modo edi√ß√£o ativo</strong>
+            <strong>Modo ediÁ„o ativo</strong>
             <button id="adminLogout" class="button ghost small" type="button">Sair</button>
           </div>
 
@@ -301,17 +521,12 @@
                 Baixar backup (.json)
               </button>
               <label class="button ghost small admin-import-label">
-                Restaurar backup‚Ä¶
-                <input
-                  type="file"
-                  id="adminImportBackup"
-                  accept=".json,application/json"
-                  class="admin-import-file"
-                />
+                Restaurar backupÖ
+                <input type="file" id="adminImportBackup" accept=".json,application/json" class="admin-import-file" />
               </label>
             </div>
             <button type="button" class="button primary small hidden" id="adminConfirmImport">
-              ‚úì CONFIRMAR restaura√ß√£o
+              ? CONFIRMAR restauraÁ„o
             </button>
             <p id="adminBackupMessage" class="admin-backup-message" role="status"></p>
           </div>
@@ -322,23 +537,23 @@
               <input id="adminDate" type="date" min="2026-06-01" max="2026-06-30" required />
             </label>
             <label>
-              Per√≠odo
+              PerÌodo
               <select id="adminPeriod" required>
-                <option value="tarde">√Ä tarde</option>
-                <option value="noite">√Ä noite</option>
+                <option value="tarde">¿ tarde</option>
+                <option value="noite">¿ noite</option>
               </select>
             </label>
             <label>
               Status
               <select id="adminStatus" required>
-                <option value="available">Dispon√≠vel</option>
-                <option value="pending">Pr√©-reserva</option>
+                <option value="available">DisponÌvel</option>
+                <option value="pending">PrÈ-reserva</option>
                 <option value="confirmed">Data fechada</option>
               </select>
             </label>
             <label>
               Tipo de evento
-              <input id="adminTitle" type="text" placeholder="Ex: Show, Anivers√°rio, Casamento" />
+              <input id="adminTitle" type="text" placeholder="Ex: Show, Anivers·rio, Casamento" />
             </label>
             <label>
               Cidade e estado
@@ -349,11 +564,11 @@
               <input id="adminVenue" type="text" placeholder="Ex: Evento privado" />
             </label>
             <label>
-              Hor√°rio
+              Hor·rio
               <input id="adminTime" type="text" placeholder="Ex: 21h" />
             </label>
             <label class="wide">
-              Observa√ß√£o p√∫blica
+              ObservaÁ„o p˙blica
               <textarea id="adminNote" rows="3" placeholder="Mensagem exibida ao visitante."></textarea>
             </label>
             <button class="button primary wide" type="submit">Salvar data na agenda</button>
@@ -361,15 +576,17 @@
 
           <div class="section-heading admin-subheading">
             <div>
-              <p class="eyebrow">Solicita√ß√µes</p>
-              <h2>Pr√©-reservas e or√ßamentos</h2>
+              <p class="eyebrow">SolicitaÁıes</p>
+              <h2>PrÈ-reservas e orÁamentos</h2>
             </div>
           </div>
           <div id="requestList" class="request-list" aria-live="polite"></div>
         </div>
       </section>
 
-      <!-- ‚îÄ‚îÄ Contrato ‚îÄ‚îÄ -->
+      <!-- ------------------------------------------
+           CONTRATO
+      ------------------------------------------ -->
       <section id="contrato" class="section contract-section reveal">
         <div class="section-heading compact">
           <div>
@@ -384,117 +601,175 @@
     </main>
 
     <footer class="footer">
-      <strong>Kleber Dolli ‚Äî Agenda Oficial</strong>
-      <span>M√∫sica ao vivo para cada ocasi√£o. Or√ßamento, reservas e contrato online.</span>
+      <strong>Kleber Dolli ó M˙sico Oficial</strong>
+      <span>M˙sica ao vivo para cada ocasi„o. Contato, reservas e proposta online.</span>
     </footer>
+
+    <!-- ------------------------------------------
+         WhatsApp FAB ó bot„o flutuante fixo------------------------------------------ -->
+    <a
+      class="whatsapp-fab"
+      href="https://wa.me/5571991669274?text=Ol%C3%A1%2C+Kleber%21+Gostaria+de+saber+sobre+disponibilidade+e+valores+para+um+evento."
+      target="_blank"
+      rel="noopener"
+      aria-label="Chamar Kleber Dolli no WhatsApp"
+    >
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.14c-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.84-3.06-.2-.31A8.27 8.27 0 013.8 11.91c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24s-3.69 8.23-8.23 8.23zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79 1-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-.12-.75-.67-1.25-1.49-1.4-1.74-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.41-.42-.56-.43-.14-.01-.31-.01-.47-.01-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/>
+      </svg>
+    </a>
 
     <script src="https://unpkg.com/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
     <script>
-      /* ‚îÄ‚îÄ Scroll reveal ‚îÄ‚îÄ */
+      /* -- Scroll reveal -- */
       (function () {
         const obs = new IntersectionObserver(
-          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); } }),
-          { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+          (entries) => entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); }
+          }),
+          { threshold: 0.07, rootMargin: "0px 0px -32px 0px" }
         );
         document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
       })();
 
-      /* ‚îÄ‚îÄ Canvas: poeira de palco + part√≠culas luminosas ‚îÄ‚îÄ */
+      /* -- Toggle agenda completa -- */
+      (function () {
+        const btn  = document.getElementById("toggleFullAgenda");
+        const full = document.getElementById("agendaFull");
+        if (!btn || !full) return;
+        btn.addEventListener("click", () => {
+          const opening = full.classList.contains("hidden");
+          full.classList.toggle("hidden");
+          btn.textContent = opening ? "Fechar agenda ?" : "Ver agenda completa ?";
+          if (opening) {
+            setTimeout(() => full.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+          }
+        });
+      })();
+
+      /* -- HeroParticles: poeira abstrata + inspiraÁ„o musical hÌbrida --
+         DistribuiÁ„o: 70% dots | 20% arcos abstratos | 10% notas musicais
+      -- */
       (function () {
         const canvas = document.getElementById("heroCanvas");
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
 
-        /* Paleta de cores: roxo, dourado, √¢mbar, branco quente */
-        const palette = [
-          [167, 139, 250],  /* roxo claro */
-          [124,  58, 237],  /* roxo profundo */
-          [201, 162,  39],  /* dourado */
-          [240, 215, 140],  /* √¢mbar claro */
-          [255, 255, 255],  /* branco */
-          [255, 200, 100],  /* laranja quente */
+        const PALETTE = [
+          [167, 139, 250],
+          [200, 180, 255],
+          [201, 162,  39],
+          [240, 215, 140],
+          [255, 245, 210],
+          [255, 200, 110],
+          [220, 200, 255],
         ];
+        const NOTE_CHARS = ["?", "?", "?", "?"];
 
-        let w, h, particles, raf;
-
-        function rand(a, b) { return Math.random() * (b - a) + a; }
-        function randInt(a, b) { return Math.floor(rand(a, b + 1)); }
+        let w, h, pool = [], raf;
+        const rand  = (a, b) => Math.random() * (b - a) + a;
+        const rInt  = (a, b) => Math.floor(rand(a, b + 1));
+        const color = ()     => PALETTE[rInt(0, PALETTE.length - 1)];
 
         function resize() {
           w = canvas.width  = canvas.offsetWidth;
           h = canvas.height = canvas.offsetHeight;
         }
 
-        function makeParticle() {
-          const [r, g, b] = palette[randInt(0, palette.length - 1)];
-          const isSpark = Math.random() < 0.15; /* 15% s√£o pontos maiores (sparks) */
-          return {
-            x:     rand(0, w),
-            y:     rand(0, h),
-            r:     isSpark ? rand(1.4, 3.2) : rand(0.4, 1.6),
-            vx:    rand(-0.14, 0.14),
-            vy:    rand(-0.28, -0.06),
-            alpha: rand(0.06, isSpark ? 0.55 : 0.38),
-            da:    rand(-0.004, 0.004),
-            cr: r, cg: g, cb: b,
-            spark: isSpark,
-          };
+        function makeDot() {
+          const isSpark = Math.random() < 0.14;
+          const [r, g, b] = color();
+          return { kind:"dot", x:rand(0,w), y:rand(0,h),
+            vx:rand(-0.13,0.13), vy:rand(-0.24,-0.05),
+            radius: isSpark ? rand(1.2,2.8) : rand(0.3,1.4), spark:isSpark,
+            alpha:rand(0.05, isSpark?0.50:0.35), aMax:isSpark?0.52:0.38, aMin:0.03,
+            da:rand(-0.004,0.004), r,g,b };
+        }
+
+        function makeArc() {
+          const [r, g, b] = color();
+          return { kind:"arc", x:rand(0,w), y:rand(0,h),
+            vx:rand(-0.09,0.09), vy:rand(-0.16,-0.03),
+            radius:rand(4,10), start:rand(0,Math.PI*2), sweep:rand(0.5,1.3),
+            dStart:rand(-0.006,0.006), lw:rand(0.5,1.1),
+            alpha:rand(0.03,0.13), aMax:0.16, aMin:0.02, da:rand(-0.003,0.003), r,g,b };
+        }
+
+        function makeNote() {
+          const [r, g, b] = color();
+          return { kind:"note", char:NOTE_CHARS[rInt(0,NOTE_CHARS.length-1)],
+            x:rand(0.1*w,0.9*w), y:rand(0.05*h,0.85*h),
+            vx:rand(-0.07,0.07), vy:rand(-0.14,-0.03),
+            size:rand(9,15), angle:rand(-0.35,0.35), dAngle:rand(-0.0008,0.0008),
+            alpha:rand(0.04,0.18), aMax:0.22, aMin:0.03, da:rand(-0.0025,0.0025), r,g,b };
         }
 
         function build() {
-          /* Mais part√≠culas em telas maiores, sem exagero */
-          const count = Math.min(Math.floor((w * h) / 9000), 100);
-          particles = Array.from({ length: count }, makeParticle);
+          const mobile = w < 680;
+          const total  = Math.min(Math.floor((w*h)/(mobile?14000:9500)), mobile?55:90);
+          const nDot  = Math.round(total*0.70);
+          const nArc  = Math.round(total*0.20);
+          const nNote = total - nDot - nArc;
+          pool = [...Array.from({length:nDot},makeDot), ...Array.from({length:nArc},makeArc), ...Array.from({length:nNote},makeNote)];
+        }
+
+        function drawDot(p) {
+          if (p.spark) {
+            const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.radius*4);
+            g.addColorStop(0,`rgba(${p.r},${p.g},${p.b},${p.alpha})`);
+            g.addColorStop(1,`rgba(${p.r},${p.g},${p.b},0)`);
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.radius*4,0,Math.PI*2); ctx.fillStyle=g;
+          } else {
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+            ctx.fillStyle=`rgba(${p.r},${p.g},${p.b},${p.alpha})`;
+          }
+          ctx.fill();
+        }
+        function drawArc(p) {
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.radius,p.start,p.start+p.sweep);
+          ctx.strokeStyle=`rgba(${p.r},${p.g},${p.b},${p.alpha})`;
+          ctx.lineWidth=p.lw; ctx.lineCap="round"; ctx.stroke();
+        }
+        function drawNote(p) {
+          ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle);
+          ctx.globalAlpha=p.alpha; ctx.fillStyle=`rgb(${p.r},${p.g},${p.b})`;
+          ctx.font=`${p.size}px 'Georgia','Times New Roman',serif`;
+          ctx.textAlign="center"; ctx.textBaseline="middle";
+          ctx.fillText(p.char,0,0); ctx.restore();
         }
 
         function tick() {
-          ctx.clearRect(0, 0, w, h);
-
-          for (const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
-            p.alpha += p.da;
-            if (p.alpha < 0.04 || p.alpha > (p.spark ? 0.58 : 0.40)) p.da *= -1;
-
-            /* Wrap em todas as bordas */
-            if (p.y < -8)  p.y = h + 4;
-            if (p.x < -8)  p.x = w + 4;
-            if (p.x > w+8) p.x = -4;
-
-            if (p.spark) {
-              /* Sparks com halo suave */
-              const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3.5);
-              grd.addColorStop(0, `rgba(${p.cr},${p.cg},${p.cb},${p.alpha})`);
-              grd.addColorStop(1, `rgba(${p.cr},${p.cg},${p.cb},0)`);
-              ctx.beginPath();
-              ctx.arc(p.x, p.y, p.r * 3.5, 0, Math.PI * 2);
-              ctx.fillStyle = grd;
-              ctx.fill();
-            } else {
-              ctx.beginPath();
-              ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-              ctx.fillStyle = `rgba(${p.cr},${p.cg},${p.cb},${p.alpha})`;
-              ctx.fill();
-            }
+          ctx.clearRect(0,0,w,h);
+          for (const p of pool) {
+            p.x+=p.vx; p.y+=p.vy;
+            p.alpha+=p.da;
+            if (p.alpha<=p.aMin||p.alpha>=p.aMax) p.da*=-1;
+            p.alpha=Math.max(p.aMin,Math.min(p.aMax,p.alpha));
+            if (p.kind==="arc")  p.start+=p.dStart;
+            if (p.kind==="note") p.angle+=p.dAngle;
+            const pad=24;
+            if (p.y<-pad)    p.y=h+pad*0.5;
+            if (p.x<-pad)    p.x=w+pad*0.5;
+            if (p.x>w+pad)   p.x=-pad*0.5;
+            if      (p.kind==="dot")  drawDot(p);
+            else if (p.kind==="arc")  drawArc(p);
+            else if (p.kind==="note") drawNote(p);
           }
-          raf = requestAnimationFrame(tick);
+          raf=requestAnimationFrame(tick);
         }
 
-        /* Pausa quando fora da viewport (economia de bateria) */
-        const io = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) { if (!raf) tick(); }
-          else { cancelAnimationFrame(raf); raf = null; }
-        }, { threshold: 0 });
-        io.observe(canvas);
+        const visObs=new IntersectionObserver((e)=>{
+          if(e[0].isIntersecting){if(!raf)tick();}
+          else{cancelAnimationFrame(raf);raf=null;}
+        },{threshold:0});
+        visObs.observe(canvas);
 
-        const ro = new ResizeObserver(() => { resize(); build(); });
-        ro.observe(canvas.parentElement);
-
-        resize();
-        build();
-        tick();
+        const sizeObs=new ResizeObserver(()=>{resize();build();});
+        sizeObs.observe(canvas.parentElement);
+        resize(); build(); tick();
       })();
     </script>
   </body>
 </html>
+
