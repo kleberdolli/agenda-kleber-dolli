@@ -76,6 +76,46 @@ const periodLabels = {
   noite: "À noite",
 };
 
+function getProductionWhatsAppDigits() {
+  const fab = document.querySelector(".whatsapp-fab");
+  const href = fab?.getAttribute("href") || "";
+  const match = href.match(/wa\.me\/(\d+)/i);
+  return match ? match[1] : "5571991669274";
+}
+
+/** Mensagem pré-preenchida para o mesmo número do botão flutuante (limite típico de URL ~2048). */
+function buildPreReservaWhatsAppUrl(booking) {
+  const dateLabel = booking.date ? formatDate(booking.date) : "—";
+  const period = periodLabels[booking.period] || booking.period || "—";
+  let notes = String(booking.notes || "").trim();
+  const maxNotes = 800;
+  if (notes.length > maxNotes) notes = `${notes.slice(0, maxNotes)}…`;
+
+  const header = "*Pré-reserva — Kleber Dolli (site)*\n\n";
+  const core = [
+    `*Nome:* ${booking.requester || "—"}`,
+    `*Meu WhatsApp:* ${booking.phone || "—"}`,
+    "",
+    `*Data desejada:* ${dateLabel}`,
+    `*Período:* ${period}`,
+    `*Cidade:* ${booking.city || "—"}`,
+    `*Tipo de evento:* ${booking.title || "—"}`,
+    "",
+    notes ? `*Observações:*\n${notes}\n` : "",
+    "_Enviado pelo formulário da agenda online._",
+  ].join("\n");
+
+  let text = header + core;
+  const digits = getProductionWhatsAppDigits();
+  const base = `https://wa.me/${digits}?text=`;
+  let url = `${base}${encodeURIComponent(text)}`;
+  if (url.length > 2040) {
+    text = `${header}${core.slice(0, Math.max(200, core.length - 400))}\n_(mensagem cortada)_`;
+    url = `${base}${encodeURIComponent(text)}`;
+  }
+  return url;
+}
+
 let state = loadState();
 let activeFilter = "all";
 let usingSupabase = false;
@@ -166,15 +206,20 @@ bookingForm?.addEventListener("submit", async (event) => {
       return;
     }
 
+    const waUrl = buildPreReservaWhatsAppUrl(booking);
+    const waTab = window.open(waUrl, "_blank", "noopener,noreferrer");
+
     const savedOnline = await saveEventToSupabase(booking);
-    const bookingNotification = await notifyTelegram("pre-reserva", booking);
+
     bookingForm.reset();
     if (formMessage) {
-      formMessage.textContent = bookingNotification.ok
-        ? savedOnline
-          ? "Pré-reserva enviada. Ela já aparece como data em análise."
-          : "Pré-reserva registrada neste navegador, mas não consegui salvar online."
-        : `Pré-reserva salva neste aparelho, mas a notificação falhou: ${bookingNotification.message}`;
+      const base = savedOnline
+        ? "Pré-reserva registrada na agenda."
+        : "Pré-reserva salva neste navegador (não gravei na nuvem).";
+      const waDone = waTab
+        ? " Envie no WhatsApp (aba nova)."
+        : " O navegador bloqueou a aba do WhatsApp: use o botão verde ao canto.";
+      formMessage.textContent = base + waDone;
     }
     activeFilter = "all";
     document.querySelectorAll(".filter").forEach((item) => {
@@ -883,51 +928,6 @@ async function removeRequest(id) {
   saveState();
   if (removed) await deleteEventFromSupabase(removed.date, removed.period);
   render();
-}
-
-async function notifyTelegram(type, payload) {
-  if (window.location.protocol === "file:") {
-    return {
-      ok: false,
-      message: "Solicitação recebida. Para enviar ao Telegram, teste pelo site publicado no Vercel.",
-    };
-  }
-
-  const controller = new AbortController();
-  const timeoutMs = 12000;
-  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const response = await fetch("/api/notify-telegram", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type, payload }),
-      signal: controller.signal,
-    });
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      return {
-        ok: false,
-        message: data.error || "Não foi possível enviar a notificação para o Telegram.",
-      };
-    }
-
-    return { ok: true, message: "Enviado" };
-  } catch (err) {
-    if (err && err.name === "AbortError") {
-      return {
-        ok: false,
-        message: "A notificação demorou demais, mas sua solicitação foi salva neste navegador.",
-      };
-    }
-    return {
-      ok: false,
-      message: "Solicitação recebida, mas o Telegram não respondeu. Confira o deploy no Vercel.",
-    };
-  } finally {
-    window.clearTimeout(timeoutId);
-  }
 }
 
 function getContractText() {

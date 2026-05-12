@@ -5,513 +5,150 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Galeria de fotos e vídeos — Kleber Dolli.">
   <meta name="theme-color" content="#06070d">
-  <title>Fotos e Vídeos - Kleber Dolli</title>
+  <title>Fotos e vídeos · Kleber Dolli</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #06070d;
-      --surface: rgba(18, 20, 29, .88);
-      --line: rgba(241, 214, 138, .18);
-      --text: #f7f4ed;
-      --muted: #c8bdab;
-      --gold: #d7af52;
-      --gold-2: #f1d68a;
-      --red: #9f1717;
-      --shadow: 0 24px 80px rgba(0, 0, 0, .42);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      position: relative;
-      color: var(--text);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background-color: #06070d;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 110% 55% at -5% -10%, rgba(124, 58, 237, 0.13), transparent 50%),
-        radial-gradient(ellipse 70% 50% at 105% 0%, rgba(201, 162, 39, 0.09), transparent 50%),
-        radial-gradient(ellipse 60% 40% at 50% 105%, rgba(159, 23, 23, 0.07), transparent 55%),
-        radial-gradient(ellipse 80% 60% at 100% 55%, rgba(124, 58, 237, 0.06), transparent 55%);
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(167, 139, 250, 0.020) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(167, 139, 250, 0.020) 1px, transparent 1px);
-      background-size: 64px 64px;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      position: relative;
-      z-index: 1;
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 24px 0 54px;
-    }
-
-    .toolbar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      padding: 12px 0 20px;
-      backdrop-filter: blur(14px);
-    }
-
-    .brand {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-width: 0;
-      gap: 4px;
-      flex: 1 1 auto;
-      text-align: center;
-    }
-
-    .mark {
-      width: 138px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      flex: 0 0 auto;
-      border: 1px solid rgba(255,255,255,.28);
-      border-radius: 10px;
-      background: #3a2417;
-    }
-
-    .mark img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .brand strong,
-    .brand span {
-      display: block;
-    }
-
-    .brand strong {
-      font-size: 17px;
-    }
-
-    .brand span {
-      margin-top: 2px;
-      color: rgba(255,255,255,.72);
-      font-size: 13px;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 20px;
-      border: 1px solid rgba(241, 214, 138, .34);
-      border-radius: 999px;
-      color: var(--gold-2);
-      background: rgba(215, 175, 82, .08);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.04) inset,
-        0 0 28px rgba(215, 175, 82, .16);
-      font-size: 15px;
-      font-weight: 900;
-      text-shadow: 0 0 14px rgba(241, 214, 138, .32);
-      transition: background 160ms, box-shadow 160ms, color 160ms, transform 160ms;
-      white-space: nowrap;
-    }
-
-    .back-link:hover {
-      color: #17120a;
-      background: linear-gradient(135deg, var(--gold-2), var(--gold));
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.12) inset,
-        0 0 34px rgba(215, 175, 82, .28);
-      transform: translateY(-1px);
-    }
-
-    .hero {
-      min-height: 360px;
-      display: grid;
-      align-items: end;
-      overflow: hidden;
-      position: relative;
-      margin: 8px 0 24px;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      background:
-        linear-gradient(90deg, rgba(9,10,15,.92), rgba(9,10,15,.42)),
-        radial-gradient(ellipse 100% 100% at 60% 30%, rgba(159, 23, 23, 0.45), transparent 60%),
-        radial-gradient(ellipse 80% 60% at 20% 70%, rgba(215, 175, 82, 0.22), transparent 50%),
-        #0f0c09;
-      box-shadow: var(--shadow);
-      isolation: isolate;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background:
-        radial-gradient(circle at 70% 20%, rgba(215, 175, 82, .24), transparent 34%),
-        linear-gradient(0deg, rgba(9,10,15,.96), transparent 48%);
-    }
-
-    .hero-copy {
-      width: min(680px, 100%);
-      padding: clamp(28px, 5vw, 56px);
-    }
-
-    .eyebrow {
-      margin: 0 0 12px;
-      color: var(--gold-2);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0;
-      text-transform: uppercase;
-    }
-
-    h1,
-    h2,
-    p {
-      margin-top: 0;
-    }
-
-    h1 {
-      margin-bottom: 18px;
-      font-size: clamp(40px, 7vw, 74px);
-      line-height: .98;
-      letter-spacing: 0;
-    }
-
-    .junino-title {
-      color: #ffe2a0;
-      text-shadow:
-        0 2px 0 var(--red),
-        0 6px 22px rgba(159, 23, 23, .52);
-    }
-
-    .hero p {
-      max-width: 600px;
-      margin-bottom: 0;
-      color: #e2dac9;
-      font-size: clamp(17px, 2vw, 21px);
-      line-height: 1.55;
-    }
-
-    .section {
-      padding: clamp(28px, 5vw, 56px) 0;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 24px;
-    }
-
-    h2 {
-      margin-bottom: 0;
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1.05;
-      letter-spacing: 0;
-    }
-
-    .section-note {
-      max-width: 380px;
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .photo-card {
-      display: grid;
-      grid-template-areas: "stack";
-      overflow: hidden;
-      position: relative;
-      margin: 0;
-      padding: 0;
-      border: 1px solid rgba(241, 214, 138, .2);
-      border-radius: 10px;
-      background: var(--surface);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.04) inset,
-        0 18px 40px rgba(0,0,0,.34),
-        0 0 32px rgba(215,175,82,.12);
-      transition: transform 180ms, box-shadow 180ms, border-color 180ms;
-    }
-
-    .photo-card:hover {
-      border-color: rgba(241, 214, 138, .52);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.08) inset,
-        0 22px 54px rgba(0,0,0,.42),
-        0 0 38px rgba(215,175,82,.26);
-      transform: translateY(-3px);
-    }
-
-    .photo-card > * {
-      grid-area: stack;
-    }
-
-    .photo-placeholder {
-      display: grid;
-      place-items: center;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      background: linear-gradient(135deg, #1a1d28, #12141d);
-      color: rgba(215, 175, 82, 0.45);
-      font-size: 42px;
-    }
-
-    .photo-card img {
-      display: none;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      background: #1a1d28;
-      z-index: 1;
-    }
-
-    .photo-card img.photo-loaded {
-      display: block;
-    }
-
-    .photo-card:has(img.photo-loaded) .photo-placeholder {
-      visibility: hidden;
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .video-card {
-      min-height: 230px;
-      display: grid;
-      align-content: end;
-      overflow: hidden;
-      position: relative;
-      padding: 24px;
-      border: 1px solid rgba(241, 214, 138, .2);
-      border-radius: 10px;
-      background:
-        linear-gradient(0deg, rgba(9,10,15,.96), rgba(9,10,15,.35)),
-        radial-gradient(ellipse 80% 80% at 50% 30%, rgba(159, 23, 23, 0.38), transparent 55%),
-        #0f0c09;
-      box-shadow: var(--shadow);
-    }
-
-    .video-card:nth-child(2) {
-      background:
-        linear-gradient(0deg, rgba(9,10,15,.96), rgba(9,10,15,.35)),
-        radial-gradient(ellipse 80% 80% at 50% 30%, rgba(215, 175, 82, 0.22), transparent 55%),
-        #0f0c09;
-    }
-
-    .video-card strong {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--gold-2);
-      font-size: 22px;
-    }
-
-    .video-card span {
-      color: rgba(255,255,255,.76);
-      line-height: 1.5;
-    }
-
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 28px 0 0;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-    }
-
-    .footer strong {
-      color: var(--text);
-    }
-
-    @media (max-width: 900px) {
-      .photo-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .video-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .section-heading {
-        align-items: start;
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .toolbar {
-        position: sticky;
-        top: 0;
-        align-items: stretch;
-        flex-direction: column;
-        padding-bottom: 14px;
-      }
-
-      .brand {
-        align-items: flex-start;
-      }
-
-      .back-link {
-        width: 100%;
-      }
-
-      .hero {
-        min-height: 460px;
-      }
-
-      .photo-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer {
-        flex-direction: column;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="page">
-    <header class="toolbar">
-      <a class="brand" href="index.html?v=novo" aria-label="Voltar para a agenda">
-        <strong>Fotos e Vídeos</strong>
-        <span>Kleber Dolli</span>
+  <a class="skip-link" href="#galeria-main">Pular para o conteúdo</a>
+
+  <header class="topbar">
+    <div class="topbar-top">
+      <a class="brand" href="index.html" aria-label="Voltar para a agenda">
+        <span class="brand-mark"><img src="assets/logo-kleber-dolli.svg" alt="" width="32" height="32" decoding="async"></span>
+        <span>
+          <strong>Kleber Dolli</strong>
+          <small>Fotos e vídeos</small>
+        </span>
       </a>
-      <a class="back-link" href="index.html?v=novo">← Voltar à agenda</a>
-    </header>
+      <a class="share-show-button" href="index.html">← Agenda</a>
+    </div>
+    <nav class="nav" aria-label="Navegação">
+      <a href="index.html">Início</a>
+      <a href="index.html#videos">Vídeos</a>
+      <a href="index.html#contato">Contato</a>
+      <a href="galeria.html" aria-current="page">Galeria</a>
+    </nav>
+  </header>
 
-    <main>
-      <section class="hero" aria-labelledby="galleryTitle">
-        <div class="hero-copy">
+  <main id="galeria-main">
+    <section class="section galeria-page-hero reveal">
+      <div class="section-heading">
+        <div>
           <p class="eyebrow">Galeria</p>
-          <h1 id="galleryTitle">Kleber Dolli</h1>
-          <p>Registros de palco, eventos e encontros musicais com a energia do show ao vivo.</p>
+          <h1 class="galeria-page-title">Palco, eventos e registros ao vivo</h1>
         </div>
-      </section>
+        <a class="button ghost small" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">Canal no YouTube</a>
+      </div>
+      <p class="gallery-lead">Fotos dos shows e links para vídeos no mesmo visual da agenda oficial.</p>
+    </section>
 
-      <section class="section" aria-labelledby="photoTitle">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Fotos</p>
-            <h2 id="photoTitle">Momentos do show</h2>
+    <section class="section galeria-section reveal" aria-labelledby="photoTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Fotos</p>
+          <h2 id="photoTitle">Momentos</h2>
+        </div>
+      </div>
+      <div class="galeria-page-grid">
+        <figure class="galeria-page-photo">
+          <span class="galeria-page-placeholder" aria-hidden="true">♪</span>
+          <img src="assets/galeria/show-01.jpg" alt="Momento do show 1" loading="lazy" decoding="async" width="800" height="600">
+        </figure>
+        <figure class="galeria-page-photo">
+          <span class="galeria-page-placeholder" aria-hidden="true">♪</span>
+          <img src="assets/galeria/show-02.jpg" alt="Momento do show 2" loading="lazy" decoding="async" width="800" height="600">
+        </figure>
+        <figure class="galeria-page-photo">
+          <span class="galeria-page-placeholder" aria-hidden="true">♪</span>
+          <img src="assets/galeria/show-03.jpg" alt="Momento do show 3" loading="lazy" decoding="async" width="800" height="600">
+        </figure>
+        <figure class="galeria-page-photo">
+          <span class="galeria-page-placeholder" aria-hidden="true">♪</span>
+          <img src="assets/galeria/show-04.jpg" alt="Momento do show 4" loading="lazy" decoding="async" width="800" height="600">
+        </figure>
+        <figure class="galeria-page-photo">
+          <span class="galeria-page-placeholder" aria-hidden="true">♪</span>
+          <img src="assets/galeria/show-05.jpg" alt="Momento do show 5" loading="lazy" decoding="async" width="800" height="600">
+        </figure>
+        <figure class="galeria-page-photo">
+          <span class="galeria-page-placeholder" aria-hidden="true">♪</span>
+          <img src="assets/galeria/show-06.jpg" alt="Momento do show 6" loading="lazy" decoding="async" width="800" height="600">
+        </figure>
+      </div>
+      <p class="galeria-page-hint">Imagens em <code>assets/galeria/</code> como <code>show-01.jpg</code> … <code>show-06.jpg</code> aparecem aqui automaticamente.</p>
+    </section>
+
+    <section class="section videos-section reveal" aria-labelledby="videoTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Assista</p>
+          <h2 id="videoTitle">Vídeos ao vivo</h2>
+        </div>
+        <a class="button ghost small" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">Ver canal completo</a>
+      </div>
+      <div class="videos-grid">
+        <article class="video-card">
+          <div class="video-card-body">
+            <div class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <h3>Apresentações ao vivo</h3>
+            <p>Registros de shows, palcos e eventos especiais.</p>
+            <a class="button primary small" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">Assistir no YouTube</a>
           </div>
-          <p class="section-note"></p>
-        </div>
-
-        <div class="photo-grid">
-          <figure class="photo-card">
-            <span class="photo-placeholder" aria-hidden="true">♪</span>
-            <img src="assets/galeria/show-01.jpg" alt="Momento do show 1" loading="lazy" decoding="async" width="800" height="600">
-          </figure>
-          <figure class="photo-card">
-            <span class="photo-placeholder" aria-hidden="true">♪</span>
-            <img src="assets/galeria/show-02.jpg" alt="Momento do show 2" loading="lazy" decoding="async" width="800" height="600">
-          </figure>
-          <figure class="photo-card">
-            <span class="photo-placeholder" aria-hidden="true">♪</span>
-            <img src="assets/galeria/show-03.jpg" alt="Momento do show 3" loading="lazy" decoding="async" width="800" height="600">
-          </figure>
-          <figure class="photo-card">
-            <span class="photo-placeholder" aria-hidden="true">♪</span>
-            <img src="assets/galeria/show-04.jpg" alt="Momento do show 4" loading="lazy" decoding="async" width="800" height="600">
-          </figure>
-          <figure class="photo-card">
-            <span class="photo-placeholder" aria-hidden="true">♪</span>
-            <img src="assets/galeria/show-05.jpg" alt="Momento do show 5" loading="lazy" decoding="async" width="800" height="600">
-          </figure>
-          <figure class="photo-card">
-            <span class="photo-placeholder" aria-hidden="true">♪</span>
-            <img src="assets/galeria/show-06.jpg" alt="Momento do show 6" loading="lazy" decoding="async" width="800" height="600">
-          </figure>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="videoTitle">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Vídeos</p>
-            <h2 id="videoTitle">Ao vivo no YouTube</h2>
+        </article>
+        <article class="video-card">
+          <div class="video-card-body">
+            <div class="video-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <h3>Clipes e registros</h3>
+            <p>Músicas autorais, covers e momentos do repertório ao vivo.</p>
+            <a class="button ghost small" href="https://www.youtube.com/@KleberDolli" target="_blank" rel="noopener">Ver no canal</a>
           </div>
-          <p class="section-note">Espaço reservado para os vídeos oficiais e trechos de apresentação.</p>
-        </div>
+        </article>
+      </div>
+    </section>
+  </main>
 
-        <div class="video-grid">
-          <article class="video-card">
-            <strong>Show ao vivo</strong>
-            <span>Adicione o link do YouTube neste card em <code>galeria.html</code></span>
-          </article>
-          <article class="video-card">
-            <strong>Clipes e registros</strong>
-            <span>Adicione o link do YouTube neste card em <code>galeria.html</code></span>
-          </article>
-        </div>
-      </section>
-    </main>
+  <footer class="footer">
+    <strong>Kleber Dolli – Músico Oficial</strong>
+    <span>Música ao vivo para cada ocasião. Contato, reservas e contrato online.</span>
+  </footer>
 
-    <footer class="footer">
-      <strong>Agenda On-Line Junho 2026</strong>
-      <span>Fotos, vídeos, agenda e contrato em uma central online.</span>
-    </footer>
-  </div>
+  <a
+    class="whatsapp-fab"
+    href="https://wa.me/5571991669274?text=Ol%C3%A1%2C+Kleber%21+Gostaria+de+saber+sobre+disponibilidade+e+valores+para+um+evento."
+    target="_blank"
+    rel="noopener"
+    aria-label="Chamar Kleber Dolli no WhatsApp"
+  >
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.14c-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.84-3.06-.2-.31A8.27 8.27 0 013.8 11.91c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.23 3.7 8.23 8.24s-3.69 8.23-8.23 8.23zm4.52-6.17c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79 1-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-.12-.75-.67-1.25-1.49-1.4-1.74-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.84-.2-.49-.41-.42-.56-.43-.14-.01-.31-.01-.47-.01-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/>
+    </svg>
+  </a>
+
   <script>
-    document.querySelectorAll(".photo-card img").forEach(function (img) {
-      function markLoaded() {
-        if (img.naturalWidth > 0) img.classList.add("photo-loaded");
-      }
-      if (img.complete) markLoaded();
-      else img.addEventListener("load", markLoaded, { once: true });
-    });
+    (function () {
+      document.querySelectorAll(".galeria-page-photo img").forEach(function (img) {
+        function markLoaded() {
+          if (img.naturalWidth > 0) img.classList.add("photo-loaded");
+        }
+        if (img.complete) markLoaded();
+        else img.addEventListener("load", markLoaded, { once: true });
+      });
+      var obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.07, rootMargin: "0px 0px -32px 0px" }
+      );
+      document.querySelectorAll(".reveal").forEach(function (el) { obs.observe(el); });
+    })();
   </script>
 </body>
 </html>

@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -55,6 +55,8 @@
       <section id="inicio" class="hero">
         <canvas id="heroCanvas" aria-hidden="true"></canvas>
         <div class="hero-media" aria-hidden="true"></div>
+        <div class="hero-vignette" aria-hidden="true"></div>
+        <div class="hero-grain" aria-hidden="true"></div>
         <div class="hero-orbs" aria-hidden="true">
           <span class="orb orb-1"></span>
           <span class="orb orb-2"></span>
@@ -62,22 +64,24 @@
         </div>
 
         <div class="hero-content">
-          <p class="eyebrow">Agenda oficial de shows</p>
-          <h1 class="hero-title">
-            <span class="artist-name">Kleber Dolli</span>
-          </h1>
-          <p class="hero-copy">
-            Música ao vivo para eventos, palcos e celebrações especiais.
-          </p>
-          <div class="hero-actions">
-            <a class="button ghost" href="#videos">Ver vídeos</a>
+          <div class="hero-content-parallax">
+            <p class="eyebrow">Agenda oficial de shows</p>
+            <h1 class="hero-title">
+              <span class="artist-name">Kleber Dolli</span>
+            </h1>
+            <p class="hero-copy">
+              Música ao vivo para eventos, palcos e celebrações especiais.
+            </p>
+            <div class="hero-actions">
+              <a class="button ghost" href="#videos">Ver vídeos</a>
+            </div>
+            <a class="button ghost hero-cta-secondary" href="#agenda">
+              Consultar disponibilidade
+            </a>
+            <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Ativar/desativar música">
+              <span aria-hidden="true">♪</span> Ativar música
+            </button>
           </div>
-          <a class="button ghost" href="#agenda" style="margin-top:12px;font-size:13px;min-height:38px;padding:0 16px;opacity:.75;">
-            Consultar disponibilidade
-          </a>
-          <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Ativar/desativar música">
-            <span aria-hidden="true">♪</span> Ativar música
-          </button>
         </div>
 
         <div class="hero-scroll" aria-hidden="true">
@@ -302,8 +306,8 @@
             <h2>Pré-reserva de data</h2>
           </div>
           <p>
-            Garanta sua data sem custo inicial. O endereço completo e
-            detalhes sensíveis são tratados em particular após aprovação.
+            Ao enviar, abrimos o WhatsApp já com uma mensagem com seus dados para a mesma conta do botão verde flutuante.
+            A pré-reserva continua sendo registrada na agenda do site para a produção acompanhar.
           </p>
         </div>
 
@@ -523,6 +527,47 @@
         });
       })();
 
+      /* Hero polish: parallax leve + topbar ao rolar */
+      (function () {
+        const hero = document.getElementById("inicio");
+        const topbar = document.querySelector(".topbar");
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const coarse = window.matchMedia("(pointer: coarse)").matches;
+
+        if (topbar && !reduce) {
+          function syncTopbar() {
+            topbar.classList.toggle("is-scrolled", window.scrollY > 16);
+          }
+          window.addEventListener("scroll", syncTopbar, { passive: true });
+          syncTopbar();
+        }
+
+        if (!hero || reduce || coarse) return;
+
+        let nx = 0;
+        let ny = 0;
+        let lx = 0;
+        let ly = 0;
+        hero.addEventListener("pointermove", (e) => {
+          const r = hero.getBoundingClientRect();
+          const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+          const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+          nx = Math.max(-1, Math.min(1, x));
+          ny = Math.max(-1, Math.min(1, y));
+        });
+        hero.addEventListener("pointerleave", () => {
+          nx = 0;
+          ny = 0;
+        });
+        (function drift() {
+          lx += (nx - lx) * 0.08;
+          ly += (ny - ly) * 0.08;
+          hero.style.setProperty("--mx", lx.toFixed(5));
+          hero.style.setProperty("--my", ly.toFixed(5));
+          requestAnimationFrame(drift);
+        })();
+      })();
+
       /* ?? HeroParticles ?? */
       (function () {
         const canvas = document.getElementById("heroCanvas");
@@ -551,7 +596,7 @@
         }
 
         function makeDot() {
-          const isSpark = Math.random() < 0.14;
+          const isSpark = Math.random() < 0.19;
           const [r, g, b] = color();
           return { kind:"dot", x:rand(0,w), y:rand(0,h),
             vx:rand(-0.13,0.13), vy:rand(-0.24,-0.05),
@@ -613,6 +658,7 @@
         }
 
         function tick() {
+          ctx.globalCompositeOperation = "screen";
           ctx.clearRect(0,0,w,h);
           for (const p of pool) {
             p.x+=p.vx; p.y+=p.vy;
