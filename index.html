@@ -7,7 +7,7 @@
       name="description"
       content="Kleber Dolli – músico profissional disponível para shows, eventos privados, casamentos, corporativos, bares e celebrações em todo o Brasil."
     />
-    <meta name="theme-color" content="#06070d" />
+    <meta name="theme-color" content="#f0efe9" />
     <title>Kleber Dolli – Músico ao Vivo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -213,7 +213,7 @@
         </div>
 
         <p style="color:var(--muted);font-size:13px;margin:0 0 20px;">
-          Envie fotos para a pasta <code style="color:var(--purple-2);background:rgba(124,58,237,.10);padding:2px 6px;border-radius:4px;">assets/galeria/</code> para preencher a galeria automaticamente.
+          Envie fotos para a pasta <code style="color:var(--text);background:var(--accent-blue);padding:2px 6px;border-radius:4px;border:1px solid var(--black);">assets/galeria/</code> para preencher a galeria automaticamente.
         </p>
         <a class="button primary" href="galeria.html">Abrir galeria</a>
       </section>
@@ -575,13 +575,13 @@
         const ctx = canvas.getContext("2d");
 
         const PALETTE = [
-          [167, 139, 250],
-          [200, 180, 255],
-          [201, 162,  39],
-          [240, 215, 140],
-          [255, 245, 210],
-          [255, 200, 110],
-          [220, 200, 255],
+          [ 74, 157, 110],
+          [106, 176, 138],
+          [ 74, 127, 165],
+          [106, 159, 190],
+          [196,  77,  77],
+          [180, 130, 130],
+          [ 80,  80,  80],
         ];
         const NOTE_CHARS = ["\u266A", "\u266B", "\u2669", "\u266C"];
 
@@ -658,7 +658,7 @@
         }
 
         function tick() {
-          ctx.globalCompositeOperation = "screen";
+          ctx.globalCompositeOperation = "multiply";
           ctx.clearRect(0,0,w,h);
           for (const p of pool) {
             p.x+=p.vx; p.y+=p.vy;
